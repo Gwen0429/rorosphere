@@ -119,6 +119,7 @@ export default function About() {
             margin-bottom: 24px;
             letter-spacing: 0.1em;
             text-align: center;
+            content: none; /* 先去除内容 */
           }
 
           section.content {
@@ -141,10 +142,6 @@ export default function About() {
           h1::before {
             content: 'ABOUT RORO';
             display: block;
-          }
-
-          h1 {
-            content: 'ABOUT ROROSPHERE';  /* 电脑版显示默认标题 */
           }
         }
       `}</style>
@@ -190,6 +187,7 @@ export default function About() {
     </>
   );
 }
+
 
 
 
