@@ -119,8 +119,8 @@ export default function About() {
             margin-bottom: 24px;
             letter-spacing: 0.1em;
             text-align: center;
-            content: none; /* 隐藏h1原始文本 */
-            display: none; /* 隐藏h1原始文本 */
+            content: none; /* 移除h1原始文本 */
+            display: none; /* 移除h1原始文本 */
           }
 
           section.content {
@@ -190,6 +190,7 @@ export default function About() {
     </>
   );
 }
+
 
 
 
