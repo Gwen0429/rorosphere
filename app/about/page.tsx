@@ -68,24 +68,19 @@ export default function About() {
           color: #6b6b6bdd;
           letter-spacing: 0.03em;
           margin-bottom: 40px;
+          white-space: pre-line;
         }
 
-        section.content p + p {
-          margin-top: 1.3em;
-        }
-
-        /* 署名 */
         .signature {
           font-family: 'Great Vibes', cursive;
           font-size: 2.2rem;
-          color: var(--champagne-gold);
+          color: #9B7AA0; /* 香槟紫 */
           text-align: right;
           margin-top: 80px;
           user-select: none;
           letter-spacing: 0.05em;
         }
 
-        /* 页脚风格与首页一致 */
         footer {
           margin-top: 80px;
           text-align: center;
@@ -97,17 +92,7 @@ export default function About() {
           position: relative;
         }
 
-        footer::after {
-          content: '⚜';
-          display: block;
-          font-size: 2.2rem;
-          color: var(--champagne-gold);
-          margin-top: 20px;
-          line-height: 1;
-          animation: none;
-        }
-
-        /* --- 响应式：移动端适配 --- */
+        /* 响应式移动端 */
         @media (max-width: 768px) {
           main {
             max-width: 100%;
@@ -145,9 +130,13 @@ export default function About() {
             font-size: 0.65rem;
           }
 
-          footer::after {
-            font-size: 1.6rem;
-            margin-top: 12px;
+          /* 只在移动端更改标题 */
+          h1::before {
+            content: 'ABOUT RORO';
+          }
+
+          h1:not(:before) {
+            content: 'ABOUT ROROSPHERE';
           }
         }
       `}</style>
@@ -161,7 +150,7 @@ export default function About() {
 
         <section className="content">
           <p>
-            ROROSPHERE is a pioneering platform that transcends traditional artistic collaboration.
+            RORO is a pioneering platform that transcends traditional artistic collaboration.
             We curate a selective team to create a living ecosystem where style and creativity merge.
           </p>
           <p>
@@ -173,7 +162,7 @@ export default function About() {
             fostering innovation that shapes culture.
           </p>
           <p>
-            Within ROROSPHERE, every creation breathes life into a realm of elegance and rebellion,
+            Within RORO, every creation breathes life into a realm of elegance and rebellion,
             where the spirit of artistry meets uncompromising passion.
             We invite those who dare to express their true selves and join a collective that values distinctiveness and vision.
           </p>
@@ -185,14 +174,16 @@ export default function About() {
 
         <div className="signature" aria-label="Signature">
           Yours sincerely,<br />
-          The ROROSPHERE Team
+          The RORO Team
         </div>
 
-        <footer>&copy; 2025 ROROSPHERE. All rights reserved.</footer>
+        <footer>&copy; 2025 RORO. All rights reserved.</footer>
       </main>
     </>
   );
 }
+
+
 
 
 

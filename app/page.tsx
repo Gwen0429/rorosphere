@@ -232,16 +232,6 @@ export default function Home() {
           position: relative;
         }
 
-        footer::after {
-          content: '⚜';
-          display: block;
-          font-size: 2.2rem;
-          color: var(--champagne-gold);
-          margin-top: 20px;
-          line-height: 1;
-          animation: none;
-        }
-
         /* 响应式适配 */
         @media (max-width: 768px) {
           main {
@@ -338,6 +328,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 

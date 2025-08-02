@@ -142,16 +142,6 @@ export default function NewsPage() {
           position: relative;
         }
 
-        footer::after {
-          content: '⚜';
-          display: block;
-          font-size: 2.2rem;
-          color: var(--champagne-gold);
-          margin-top: 20px;
-          line-height: 1;
-          animation: none;
-        }
-
         /* 移动端响应式优化 */
         @media (max-width: 768px) {
           main {
@@ -183,11 +173,6 @@ export default function NewsPage() {
           footer {
             margin-top: 80px;
             font-size: 0.65rem;
-          }
-
-          footer::after {
-            font-size: 1.6rem;
-            margin-top: 12px;
           }
         }
       `}</style>

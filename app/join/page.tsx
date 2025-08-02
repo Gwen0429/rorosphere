@@ -101,16 +101,6 @@ export default function JoinUs() {
           position: relative;
         }
 
-        footer::after {
-          content: '⚜';
-          display: block;
-          font-size: 2.2rem;
-          color: var(--champagne-gold);
-          margin-top: 20px;
-          line-height: 1;
-          animation: none;
-        }
-
         /* 响应式移动端 */
         @media (max-width: 768px) {
           main {
@@ -153,11 +143,6 @@ export default function JoinUs() {
             margin-top: 60px;
             font-size: 0.65rem;
           }
-
-          footer::after {
-            font-size: 1.6rem;
-            margin-top: 12px;
-          }
         }
       `}</style>
 
@@ -192,6 +177,7 @@ If your work speaks from within and seeks to connect, inspire, and transform —
     </>
   );
 }
+
 
 
 
