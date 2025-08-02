@@ -32,6 +32,13 @@ export default function Home() {
           --champagne-gold-alpha-soft: #D4AF7F66;
         }
 
+        /* 防撑破关键 */
+        *, *::before, *::after {
+          max-width: 100vw;
+          box-sizing: border-box;
+          word-break: break-word;
+        }
+
         html, body {
           margin: 0; padding: 0;
           background: #fff;
@@ -48,6 +55,7 @@ export default function Home() {
           align-items: center;
           position: relative;
           overflow: visible;
+          max-width: 100vw; /* 防撑破 */
         }
 
         .flower-cluster {
@@ -105,16 +113,19 @@ export default function Home() {
           width: 100%;
           justify-content: center;
           margin-bottom: 100px;
+          flex-wrap: wrap; /* 允许换行，防撑破 */
         }
 
         .section-item {
-          flex: 1;
+          flex: 1 1 280px; /* 允许缩小，最小280px */
           border-bottom: 3px solid var(--champagne-gold);
           padding-bottom: 25px;
           cursor: pointer;
           transition: box-shadow 0.3s ease, transform 0.3s ease;
           font-size: 1rem;
           transform: translateY(0);
+          box-sizing: border-box;
+          min-width: 0; /* 解决flex溢出 */
         }
 
         .section-item:hover,
@@ -143,6 +154,7 @@ export default function Home() {
           line-height: 1.6;
           color: #6b6b6bdd;
           user-select: none;
+          word-wrap: break-word;
         }
 
         /* 最新资讯区 - 香槟金色调 */
@@ -173,6 +185,7 @@ export default function Home() {
         ul.news-list li {
           border-bottom: 1px solid #eee;
           padding: 18px 0;
+          word-wrap: break-word;
         }
 
         ul.news-list li h3 {
@@ -180,6 +193,7 @@ export default function Home() {
           font-weight: 600;
           font-size: 1.3rem;
           color: #A8874E;
+          word-wrap: break-word;
         }
 
         /* 这里针对Link覆盖默认样式 */
@@ -199,6 +213,7 @@ export default function Home() {
           font-weight: 300;
           font-size: 1rem;
           color: #a4997fcc;
+          word-wrap: break-word;
         }
 
         ul.news-list li time {
@@ -227,7 +242,7 @@ export default function Home() {
           animation: none;
         }
 
-        /* ⬇️ 响应式适配部分 */
+        /* 响应式适配 */
         @media (max-width: 768px) {
           main {
             padding: 40px 16px 80px !important;
@@ -323,6 +338,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 
