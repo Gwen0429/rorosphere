@@ -1,0 +1,115 @@
+/* Navigation Bar 样式 */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.85); /* 香奈儿白 */
+  border-bottom: 1px solid rgba(212, 175, 127, 0.2); /* 香槟金 bottom line */
+  backdrop-filter: blur(10px);
+  font-family: 'Georgia', serif;  /* 确保只有导航栏使用此字体 */
+  transition: all 0.3s ease;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-links {
+  display: none;
+}
+
+.nav-link {
+  margin: 0 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000000;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+  font-family: 'Playfair Display', serif;  /* 强制导航栏字体为 Playfair Display */
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #D4AF7F; /* 香槟金 hover line */
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #D4AF7F;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.active {
+  font-weight: 600;
+  color: #D4AF7F;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 1.5rem;
+  top: 1.2rem;
+  cursor: pointer;
+  display: block;
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  color: #D4AF7F;
+}
+
+/* 移动端样式 */
+.mobile-menu {
+  background: white;
+  border-top: 1px solid #eee;
+  padding: 1rem;
+}
+
+.mobile-link {
+  display: block;
+  padding: 0.5rem 0;
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.mobile-link.active {
+  font-weight: 700;
+  color: #D4AF7F;
+}
+
+@media (min-width: 640px) {
+  .nav-links {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+}
+
+
+
+
