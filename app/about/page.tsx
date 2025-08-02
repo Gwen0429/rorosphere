@@ -106,6 +106,50 @@ export default function About() {
           line-height: 1;
           animation: none;
         }
+
+        /* --- 响应式：移动端适配 --- */
+        @media (max-width: 768px) {
+          main {
+            max-width: 100%;
+            margin: 40px 16px 80px;
+            padding: 24px 16px 40px;
+            border-width: 1.5px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px var(--champagne-gold-alpha-soft);
+          }
+
+          .invitation-header {
+            font-size: 2rem;
+            margin-bottom: 24px;
+          }
+
+          h1 {
+            font-size: 2.8rem;
+            margin-bottom: 24px;
+            letter-spacing: 0.1em;
+          }
+
+          section.content {
+            font-size: 1rem;
+            margin-bottom: 32px;
+            line-height: 1.5;
+          }
+
+          .signature {
+            font-size: 1.6rem;
+            margin-top: 48px;
+          }
+
+          footer {
+            margin-top: 60px;
+            font-size: 0.65rem;
+          }
+
+          footer::after {
+            font-size: 1.6rem;
+            margin-top: 12px;
+          }
+        }
       `}</style>
 
       <main>
@@ -149,5 +193,6 @@ export default function About() {
     </>
   );
 }
+
 
 

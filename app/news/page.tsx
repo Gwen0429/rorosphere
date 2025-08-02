@@ -57,7 +57,7 @@ export default function NewsPage() {
 
         h1 {
           font-size: 7rem;
-          margin: 0;
+          margin: 0 0 40px 0;
           font-weight: 700;
           letter-spacing: 0.18em;
           text-transform: uppercase;
@@ -67,7 +67,6 @@ export default function NewsPage() {
           text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 20px var(--champagne-gold-alpha-soft);
           position: relative;
           z-index: 2;
-          margin-bottom: 40px;
         }
 
         .news-list {
@@ -152,6 +151,45 @@ export default function NewsPage() {
           line-height: 1;
           animation: none;
         }
+
+        /* 移动端响应式优化 */
+        @media (max-width: 768px) {
+          main {
+            padding: 40px 20px 80px;
+          }
+
+          h1 {
+            font-size: 3.8rem;
+            margin-bottom: 30px;
+            letter-spacing: 0.12em;
+          }
+
+          .news-list li {
+            padding: 16px 0;
+          }
+
+          .news-list h3 {
+            font-size: 1.3rem;
+          }
+
+          .news-list p {
+            font-size: 1rem;
+          }
+
+          .news-list time {
+            font-size: 0.8rem;
+          }
+
+          footer {
+            margin-top: 80px;
+            font-size: 0.65rem;
+          }
+
+          footer::after {
+            font-size: 1.6rem;
+            margin-top: 12px;
+          }
+        }
       `}</style>
 
       <main>
@@ -176,6 +214,7 @@ export default function NewsPage() {
     </>
   );
 }
+
 
 
 
