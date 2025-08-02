@@ -59,6 +59,7 @@ export default function About() {
           font-style: italic;
           user-select: none;
           text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 20px var(--champagne-gold-alpha-soft);
+          position: relative;
         }
 
         section.content {
@@ -92,6 +93,11 @@ export default function About() {
           position: relative;
         }
 
+        /* 移除小尾巴 */
+        footer::after {
+          content: none;
+        }
+
         /* 响应式移动端 */
         @media (max-width: 768px) {
           main {
@@ -112,6 +118,7 @@ export default function About() {
             font-size: 2.8rem;
             margin-bottom: 24px;
             letter-spacing: 0.1em;
+            text-align: center;
           }
 
           section.content {
@@ -130,13 +137,14 @@ export default function About() {
             font-size: 0.65rem;
           }
 
-          /* 只在移动端更改标题 */
+          /* 移动端显示ABOUT RORO */
           h1::before {
             content: 'ABOUT RORO';
+            display: block;
           }
 
-          h1:not(:before) {
-            content: 'ABOUT ROROSPHERE';
+          h1 {
+            content: 'ABOUT ROROSPHERE';  /* 电脑版显示默认标题 */
           }
         }
       `}</style>
