@@ -119,7 +119,8 @@ export default function About() {
             margin-bottom: 24px;
             letter-spacing: 0.1em;
             text-align: center;
-            content: none; /* 先去除内容 */
+            content: none; /* 隐藏h1原始文本 */
+            display: none; /* 隐藏h1原始文本 */
           }
 
           section.content {
@@ -142,6 +143,8 @@ export default function About() {
           h1::before {
             content: 'ABOUT RORO';
             display: block;
+            font-size: 2.8rem; /* 设置适合的大小 */
+            text-align: center;
           }
         }
       `}</style>
@@ -187,6 +190,7 @@ export default function About() {
     </>
   );
 }
+
 
 
 
