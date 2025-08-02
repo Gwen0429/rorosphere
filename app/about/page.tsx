@@ -154,7 +154,7 @@ export default function About() {
           Dear Creative Visionaries,
         </div>
 
-        <h1>ABOUT ROROSPHERE</h1>
+        <h1>ABOUT RORO</h1>
 
         <section className="content">
           <p>
@@ -190,6 +190,7 @@ export default function About() {
     </>
   );
 }
+
 
 
 
