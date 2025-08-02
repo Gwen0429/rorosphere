@@ -226,6 +226,57 @@ export default function Home() {
           line-height: 1;
           animation: none;
         }
+
+        /* ⬇️ 响应式适配部分 */
+        @media (max-width: 768px) {
+          main {
+            padding: 40px 16px 80px !important;
+          }
+
+          h1 {
+            font-size: 3.5rem !important;
+            letter-spacing: 0.1em !important;
+            text-align: center !important;
+            padding: 0 10px !important;
+          }
+
+          .subtitle {
+            font-size: 1rem !important;
+            margin: 16px 0 40px !important;
+          }
+
+          .sections {
+            flex-direction: column !important;
+            gap: 30px !important;
+          }
+
+          .section-item {
+            text-align: center !important;
+            padding-bottom: 15px !important;
+            border-bottom: 2px solid var(--champagne-gold) !important;
+          }
+
+          .section-item h2 {
+            font-size: 1.6rem !important;
+          }
+
+          .news-title {
+            font-size: 1.8rem !important;
+            text-align: center !important;
+          }
+
+          ul.news-list li h3 {
+            font-size: 1rem !important;
+          }
+
+          ul.news-list li p {
+            font-size: 0.9rem !important;
+          }
+
+          footer {
+            font-size: 0.65rem !important;
+          }
+        }
       `}</style>
 
       <main>
@@ -272,6 +323,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 
