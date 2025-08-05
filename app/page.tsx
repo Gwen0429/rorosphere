@@ -82,14 +82,22 @@ export default function Home() {
 
         h1 {
           font-family: 'Playfair Display', serif;
-          font-size: 3.6rem;
+          font-size: 5rem;
+          margin: 0 0 48px 0;
+          font-weight: 700;
           letter-spacing: 0.2em;
+          text-transform: uppercase;
           color: var(--champagne-gold);
-          text-align: center;
-          margin: 0 0 40px;
-          z-index: 2;
+          font-style: italic;
+          text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 22px var(--champagne-gold-alpha-soft);
           position: relative;
+          z-index: 2;
           user-select: none;
+          word-break: break-word;
+          overflow-wrap: break-word;
+          padding: 0 10px;
+          max-width: 100%;
+          white-space: normal;
         }
 
         .subtitle {
@@ -251,9 +259,9 @@ export default function Home() {
           }
 
           h1 {
-            font-size: 2.2rem !important;
+            font-size: 3.6rem !important;
+            margin-bottom: 36px !important;
             letter-spacing: 0.12em !important;
-            margin-bottom: 24px !important;
           }
 
           .subtitle {
@@ -343,6 +351,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 
