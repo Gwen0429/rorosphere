@@ -25,36 +25,25 @@ export default function NavBar() {
   };
 
   const svgIcon = `
-    <svg width="28" height="28" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+    <svg width="48" height="48" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" class="rotating-svg">
       <defs>
-        <path id="softPetal" d="M0,-70 C28,-65 30,-25 12,-5 C25,10 15,40 0,60 C-15,40 -25,10 -12,-5 C-30,-25 -28,-65 0,-70 Z" />
-        <radialGradient id="darkGoldMetal" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" stop-color="#C9B37E" />
-          <stop offset="50%" stop-color="#8B734C" />
-          <stop offset="100%" stop-color="#4A3A1F" />
-        </radialGradient>
-        <filter id="innerGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feOffset dx="0" dy="0" />
-          <feGaussianBlur stdDeviation="3.5" result="glow" />
-          <feMerge>
-            <feMergeNode in="glow"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-        <radialGradient id="coreLight" cx="50%" cy="50%" r="100%">
-          <stop offset="0%" stop-color="#E0C58F" />
-          <stop offset="100%" stop-color="#3E2D12" />
+        <path id="sculptedPetal" d="M0,-70 C30,-62 32,-26 12,-6 C26,12 14,38 0,60 C-14,38 -26,12 -12,-6 C-32,-26 -30,-62 0,-70 Z"/>
+        <radialGradient id="goldRelief" cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="#FBE8C9"/>
+          <stop offset="60%" stop-color="#D4AF7F"/>
+          <stop offset="100%" stop-color="#B88A50"/>
         </radialGradient>
       </defs>
-      <g transform="translate(140,140)">
-        <use href="#softPetal" fill="url(#darkGoldMetal)" filter="url(#innerGlow)" transform="rotate(0)" />
-        <use href="#softPetal" fill="url(#darkGoldMetal)" filter="url(#innerGlow)" transform="rotate(60)" />
-        <use href="#softPetal" fill="url(#darkGoldMetal)" filter="url(#innerGlow)" transform="rotate(120)" />
-        <use href="#softPetal" fill="url(#darkGoldMetal)" filter="url(#innerGlow)" transform="rotate(180)" />
-        <use href="#softPetal" fill="url(#darkGoldMetal)" filter="url(#innerGlow)" transform="rotate(240)" />
-        <use href="#softPetal" fill="url(#darkGoldMetal)" filter="url(#innerGlow)" transform="rotate(300)" />
-        <circle cx="0" cy="0" r="18" fill="url(#coreLight)" />
+      <g transform="translate(140,140)" stroke="white" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" fill="url(#goldRelief)" opacity="0.9">
+        <use href="#sculptedPetal" transform="rotate(0)" />
+        <use href="#sculptedPetal" transform="rotate(60)" />
+        <use href="#sculptedPetal" transform="rotate(120)" />
+        <use href="#sculptedPetal" transform="rotate(180)" />
+        <use href="#sculptedPetal" transform="rotate(240)" />
+        <use href="#sculptedPetal" transform="rotate(300)" />
       </g>
+      <circle cx="140" cy="140" r="14" fill="black" stroke="white" stroke-width="2.4" />
+      <circle cx="140" cy="140" r="18" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="6"/>
     </svg>
   `;
 
@@ -71,8 +60,8 @@ export default function NavBar() {
               onClick={handleLinkClick}
             >
               {pathname === href ? (
-                <span
-                  className="svg-icon"
+                <div
+                  className="nav-icon-wrapper"
                   dangerouslySetInnerHTML={{ __html: svgIcon }}
                 />
               ) : (
@@ -127,6 +116,7 @@ export default function NavBar() {
     </nav>
   );
 }
+
 
 
 
