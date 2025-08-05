@@ -21,6 +21,9 @@ export default function ProgramsPage() {
           width: 100vw;
           overflow-x: hidden;
           box-sizing: border-box;
+          background: #fff;
+          color: #333;
+          font-family: 'Playfair Display', serif;
         }
 
         :root {
@@ -29,16 +32,10 @@ export default function ProgramsPage() {
           --champagne-gold-alpha-soft: #D4AF7F66;
         }
 
-        html, body {
-          background: #fff;
-          color: #333;
-          font-family: 'Playfair Display', serif;
-        }
-
         main {
           width: 90%;
           max-width: 900px;
-          margin: 80px auto 140px;
+          margin: 60px auto 140px; /* 上边距微调 */
           padding: 40px 16px 80px;
           display: flex;
           flex-direction: column;
@@ -70,7 +67,7 @@ export default function ProgramsPage() {
 
         h1 {
           font-size: 7rem;
-          margin: 0 0 40px 0;
+          margin: -20px 0 40px 0; /* 微调大标题上边距 */
           font-weight: 700;
           letter-spacing: 0.06em;
           text-transform: uppercase;
@@ -109,6 +106,8 @@ export default function ProgramsPage() {
           font-weight: 700;
           font-size: 1.6rem;
           color: #A8874E;
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
 
         ul.program-list h3 a {
@@ -116,8 +115,6 @@ export default function ProgramsPage() {
           text-decoration: none;
           cursor: pointer;
           transition: color 0.3s ease;
-          word-break: break-word;
-          overflow-wrap: break-word;
         }
 
         ul.program-list h3 a:hover,
@@ -163,6 +160,9 @@ export default function ProgramsPage() {
             font-size: 3.5rem;
             margin-bottom: 30px;
             letter-spacing: 0.05em;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: break-word;
           }
 
           ul.program-list li {
@@ -210,4 +210,5 @@ export default function ProgramsPage() {
     </>
   );
 }
+
 
