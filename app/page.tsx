@@ -39,7 +39,8 @@ export default function Home() {
         }
 
         html, body {
-          margin: 0; padding: 0;
+          margin: 0;
+          padding: 0;
           background: #fff;
           color: #333;
           font-family: 'Playfair Display', serif;
@@ -80,10 +81,6 @@ export default function Home() {
         }
 
         h1 {
-          display: none;
-        }
-
-        .main-title {
           font-family: 'Playfair Display', serif;
           font-size: 3.6rem;
           letter-spacing: 0.2em;
@@ -214,11 +211,27 @@ export default function Home() {
           font-weight: 300;
           font-size: 1rem;
           color: #a4997fcc;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         ul.news-list li time {
           font-size: 0.8rem;
           color: #b8a96caa;
+        }
+
+        .view-all-news {
+          text-align: center;
+          margin-top: 20px;
+        }
+
+        .view-all-news a {
+          color: var(--champagne-gold);
+          font-size: 0.9rem;
+          text-decoration: underline;
         }
 
         footer {
@@ -237,7 +250,7 @@ export default function Home() {
             padding: 40px 16px 80px !important;
           }
 
-          .main-title {
+          h1 {
             font-size: 2.2rem !important;
             letter-spacing: 0.12em !important;
             margin-bottom: 24px !important;
@@ -285,8 +298,7 @@ export default function Home() {
       <main>
         <div className="flower-cluster" aria-hidden="true"></div>
 
-        {/* 显示大标题 ROROSPHERE */}
-        <h1 className="main-title">ROROSPHERE</h1>
+        <h1>ROROSPHERE</h1>
 
         <p className="subtitle">
           Unlocking young potential through culture and expression.<br />
@@ -294,15 +306,15 @@ export default function Home() {
         </p>
 
         <section className="sections" aria-label="Key Features">
-          <div className="section-item" tabIndex={0}>
+          <div className="section-item" tabIndex={0} role="button" aria-label="Empower Potential">
             <h2>Empower Potential</h2>
             <p>Fostering creativity and confidence in young minds through culture and expression.</p>
           </div>
-          <div className="section-item" tabIndex={0}>
+          <div className="section-item" tabIndex={0} role="button" aria-label="Join the Movement">
             <h2>Join the Movement</h2>
             <p>A collaborative platform for families and youth to showcase unique talents and stories.</p>
           </div>
-          <div className="section-item" tabIndex={0}>
+          <div className="section-item" tabIndex={0} role="button" aria-label="Live RORO">
             <h2>Live RORO</h2>
             <p>Beyond creation — a lifestyle where taste meets growth and identity blossoms.</p>
           </div>
@@ -321,6 +333,9 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          <div className="view-all-news">
+            <Link href="/news">View All News →</Link>
+          </div>
         </section>
 
         <footer>&copy; 2025 ROROSPHERE. All rights reserved.</footer>
@@ -328,6 +343,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 
