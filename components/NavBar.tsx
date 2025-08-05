@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './NavBar.css';
 
 export default function NavBar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   const links = [
     { href: '/', label: 'Home' },
@@ -15,8 +16,13 @@ export default function NavBar() {
     { href: '/news', label: 'News' },
     { href: '/programs', label: 'Programs' },
     { href: '/collaborate', label: 'Collaborate' },
-    { href: '/talent', label: 'Talent' }, // 新增项
+    { href: '/talent', label: 'Talent' },
   ];
+
+  const handleLinkClick = () => {
+    setMobileOpen(false);
+    toggleButtonRef.current?.focus();
+  };
 
   return (
     <nav className="nav" role="navigation" aria-label="Primary navigation">
@@ -27,7 +33,8 @@ export default function NavBar() {
               key={href}
               href={href}
               className={`nav-link ${pathname === href ? 'active' : ''}`}
-              onClick={() => setMobileOpen(false)}
+              aria-current={pathname === href ? 'page' : undefined}
+              onClick={handleLinkClick}
             >
               {label}
             </Link>
@@ -35,11 +42,13 @@ export default function NavBar() {
         </div>
 
         <button
+          ref={toggleButtonRef}
           className="menu-toggle"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
+          aria-haspopup="true"
           type="button"
         >
           <svg
@@ -66,7 +75,8 @@ export default function NavBar() {
               key={href}
               href={href}
               className={`mobile-link ${pathname === href ? 'active' : ''}`}
-              onClick={() => setMobileOpen(false)}
+              aria-current={pathname === href ? 'page' : undefined}
+              onClick={handleLinkClick}
             >
               {label}
             </Link>
@@ -76,6 +86,7 @@ export default function NavBar() {
     </nav>
   );
 }
+
 
 
 

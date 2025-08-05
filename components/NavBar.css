@@ -5,9 +5,10 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.92); /* 轻微透明感，避免纯白 */
-  border-bottom: 1px solid rgba(212, 175, 127, 0.2); /* 香槟金底线 */
-  backdrop-filter: saturate(180%) blur(12px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid rgba(212, 175, 127, 0.25);
   font-family: 'Playfair Display', serif;
   transition: background-color 0.3s ease;
   user-select: none;
@@ -31,10 +32,10 @@
   margin: 0 1.8rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #000;
+  color: #2C3E50;
   text-decoration: none;
   position: relative;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .nav-link::after {
@@ -44,13 +45,14 @@
   left: 0;
   height: 2px;
   width: 0%;
-  background-color: #D4AF7F; /* 香槟金 */
+  background-color: #D4AF7F;
   transition: width 0.3s ease;
 }
 
 .nav-link:hover,
 .nav-link:focus-visible {
   color: #D4AF7F;
+  text-shadow: 0 0 6px #D4AF7Faa;
   outline: none;
 }
 
@@ -60,8 +62,9 @@
 }
 
 .nav-link.active {
-  font-weight: 600;
-  color: #D4AF7F;
+  font-weight: 700;
+  color: #B68E37;
+  text-shadow: 0 0 8px #B68E37cc;
 }
 
 .menu-toggle {
@@ -103,21 +106,23 @@
 .mobile-link {
   display: block;
   padding: 0.75rem 0;
-  color: #000;
+  color: #2C3E50;
   text-decoration: none;
   font-weight: 500;
   font-size: 1.1rem;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .mobile-link.active {
   font-weight: 700;
   color: #D4AF7F;
+  text-shadow: 0 0 6px #D4AF7Faa;
 }
 
 .mobile-link:hover,
 .mobile-link:focus-visible {
   color: #B68E37;
+  text-shadow: 0 0 8px #B68E37cc;
   outline: none;
 }
 
@@ -135,6 +140,7 @@
     display: none;
   }
 }
+
 
 
 

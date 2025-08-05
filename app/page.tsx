@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 
 const latestNews = [
   {
@@ -19,6 +20,10 @@ const latestNews = [
     link: '/news/2',
   },
 ];
+
+export const metadata = {
+  title: 'Home | ROROSPHERE',
+};
 
 export default function Home() {
   return (
@@ -80,17 +85,8 @@ export default function Home() {
         }
 
         h1 {
-          font-size: 8rem;
-          margin: 0;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          user-select: none;
-          color: var(--champagne-gold);
-          font-style: italic;
-          text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 20px var(--champagne-gold-alpha-soft);
-          position: relative;
-          z-index: 2;
+          /* 去掉h1的样式，因为用Logo替代 */
+          display: none;
         }
 
         .subtitle {
@@ -241,13 +237,6 @@ export default function Home() {
             padding: 40px 16px 80px !important;
           }
 
-          h1 {
-            font-size: 3.5rem !important;
-            letter-spacing: 0.1em !important;
-            text-align: center !important;
-            padding: 0 10px !important;
-          }
-
           .subtitle {
             font-size: 1rem !important;
             margin: 16px 0 40px !important;
@@ -290,7 +279,8 @@ export default function Home() {
       <main>
         <div className="flower-cluster" aria-hidden="true"></div>
 
-        <h1>ROROSPHERE</h1>
+        {/* 用 Logo 组件替代标题 */}
+        <Logo size={160} />
 
         <p className="subtitle">
           Unlocking young potential through culture and expression.<br />
@@ -332,6 +322,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 

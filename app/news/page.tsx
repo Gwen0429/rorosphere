@@ -72,6 +72,11 @@ export default function NewsPage() {
           position: relative;
           z-index: 1;
           user-select: none;
+          word-break: break-word;
+          overflow-wrap: break-word;
+          padding: 0 10px;
+          max-width: 100%;
+          white-space: normal;
         }
 
         ul.news-list {
@@ -196,6 +201,7 @@ export default function NewsPage() {
     </>
   );
 }
+
 
 
 
