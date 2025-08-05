@@ -10,19 +10,6 @@ export default function CollaboratePage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
 
-        /* 全局盒模型防撑屏 */
-        *, *::before, *::after {
-          box-sizing: border-box;
-        }
-
-        html, body {
-          margin: 0; 
-          padding: 0;
-          width: 100vw;
-          overflow-x: hidden;
-          box-sizing: border-box;
-        }
-
         :root {
           --champagne-gold: #D4AF7F;
           --champagne-gold-alpha: #D4AF7Faa;
@@ -30,16 +17,16 @@ export default function CollaboratePage() {
         }
 
         html, body {
+          margin: 0; padding: 0;
           background: #fff;
           color: #333;
           font-family: 'Playfair Display', serif;
+          overflow-x: hidden;
         }
 
         main {
-          width: 90%;
-          max-width: 900px;
-          margin: 80px auto 140px;
-          padding: 40px 16px 80px;
+          min-height: 100vh;
+          padding: 80px 40px 140px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -81,6 +68,7 @@ export default function CollaboratePage() {
           position: relative;
           z-index: 2;
           word-wrap: break-word;
+          white-space: normal;
           padding: 0 10px;
         }
 
@@ -116,8 +104,6 @@ export default function CollaboratePage() {
           text-decoration: none;
           cursor: pointer;
           transition: color 0.3s ease;
-          word-break: break-word;
-          overflow-wrap: break-word;
         }
 
         ul.collaborate-list h3 a:hover,
@@ -151,18 +137,20 @@ export default function CollaboratePage() {
           position: relative;
         }
 
-        /* 移动端响应式 */
+        /* 移动端响应式优化 */
         @media (max-width: 768px) {
           main {
-            width: 95%;
-            margin: 40px 16px 80px;
-            padding: 24px 12px 40px;
+            padding: 40px 20px 80px;
           }
 
           h1 {
-            font-size: 3.5rem;
+            font-size: 3.2rem !important;
             margin-bottom: 30px;
             letter-spacing: 0.05em;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            padding: 0 10px;
           }
 
           ul.collaborate-list li {
@@ -210,4 +198,5 @@ export default function CollaboratePage() {
     </>
   );
 }
+
 
