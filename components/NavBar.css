@@ -61,31 +61,21 @@
   width: 100%;
 }
 
-/* 激活态：替换为 SVG，去除文本、阴影，保证图标清晰 */
 .nav-link.active {
   font-weight: 700;
-  color: transparent;
-  text-shadow: none;
-  pointer-events: none;
-  position: relative;
+  color: #B68E37;
+  text-shadow: 0 0 8px #B68E37cc;
 }
 
-.nav-link.active::after {
-  content: none;
+/* 激活状态下 SVG 替换文本链接 */
+.nav-link.active span {
+  display: none;
 }
 
-/* SVG图标样式 */
-.svg-icon {
+.nav-link.active .svg-icon {
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  vertical-align: middle;
-  background: transparent;
-  pointer-events: none;
-  transform: translateY(2px);
 }
 
-/* 移动端菜单样式 */
 .menu-toggle {
   background: none;
   border: none;
@@ -115,7 +105,7 @@
   border-top: 1px solid #eee;
   padding: 1rem 2rem;
   position: fixed;
-  top: 64px;
+  top: 64px; /* NavBar 高度 */
   left: 0;
   right: 0;
   z-index: 999;
@@ -159,6 +149,15 @@
     display: none;
   }
 }
+
+/* SVG 图标样式（加大） */
+.svg-icon {
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  vertical-align: middle;
+}
+
 
 
 
