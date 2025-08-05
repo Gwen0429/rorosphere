@@ -6,15 +6,15 @@ import Link from 'next/link';
 const latestNews = [
   {
     id: 1,
-    title: 'ROROSPHERE Opens New Realm',
-    summary: 'Step into the exclusive world where style meets rebellion.',
+    title: 'Nurturing Young Creativity',
+    summary: 'Discover how ROROSPHERE empowers the next generation through art and culture.',
     date: '2025-08-01',
     link: '/news/1',
   },
   {
     id: 2,
-    title: 'Upcoming Collaboration Revealed',
-    summary: 'Legendary artists unite to craft unparalleled masterpieces.',
+    title: 'Family Collaboration Spotlight',
+    summary: 'Celebrating the stories of families creating together in the ROROSPHERE community.',
     date: '2025-08-01',
     link: '/news/2',
   },
@@ -32,7 +32,6 @@ export default function Home() {
           --champagne-gold-alpha-soft: #D4AF7F66;
         }
 
-        /* 防撑破关键 */
         *, *::before, *::after {
           max-width: 100vw;
           box-sizing: border-box;
@@ -55,7 +54,7 @@ export default function Home() {
           align-items: center;
           position: relative;
           overflow: visible;
-          max-width: 100vw; /* 防撑破 */
+          max-width: 100vw;
         }
 
         .flower-cluster {
@@ -72,6 +71,7 @@ export default function Home() {
           filter: drop-shadow(0 0 10px var(--champagne-gold-alpha-soft));
           border-radius: 50% / 40%;
           animation: gentle-sway 10s ease-in-out infinite alternate;
+          z-index: 1;
         }
 
         @keyframes gentle-sway {
@@ -103,9 +103,10 @@ export default function Home() {
           line-height: 1.5;
           color: #7a6a4fcc;
           font-family: 'Great Vibes', cursive;
+          position: relative;
+          z-index: 2;
         }
 
-        /* 微交互，轻微上移和光晕 */
         .sections {
           display: flex;
           gap: 50px;
@@ -113,11 +114,12 @@ export default function Home() {
           width: 100%;
           justify-content: center;
           margin-bottom: 100px;
-          flex-wrap: wrap; /* 允许换行，防撑破 */
+          flex-wrap: wrap;
+          z-index: 2;
         }
 
         .section-item {
-          flex: 1 1 280px; /* 允许缩小，最小280px */
+          flex: 1 1 280px;
           border-bottom: 3px solid var(--champagne-gold);
           padding-bottom: 25px;
           cursor: pointer;
@@ -125,7 +127,8 @@ export default function Home() {
           font-size: 1rem;
           transform: translateY(0);
           box-sizing: border-box;
-          min-width: 0; /* 解决flex溢出 */
+          min-width: 0;
+          outline-offset: 4px;
         }
 
         .section-item:hover,
@@ -157,12 +160,13 @@ export default function Home() {
           word-wrap: break-word;
         }
 
-        /* 最新资讯区 - 香槟金色调 */
         .news-section {
           max-width: 900px;
           width: 100%;
           color: var(--champagne-gold);
           font-family: 'Playfair Display', serif;
+          position: relative;
+          z-index: 2;
         }
 
         .news-title {
@@ -196,7 +200,6 @@ export default function Home() {
           word-wrap: break-word;
         }
 
-        /* 这里针对Link覆盖默认样式 */
         ul.news-list li h3 a {
           color: inherit;
           text-decoration: none;
@@ -204,7 +207,7 @@ export default function Home() {
         }
         ul.news-list li h3 a:hover,
         ul.news-list li h3 a:focus {
-          text-decoration: none; /* ✅ 已改，不再有横线 */
+          text-decoration: none;
           outline: none;
         }
 
@@ -221,7 +224,6 @@ export default function Home() {
           color: #b8a96caa;
         }
 
-        /* 页脚静态风格 */
         footer {
           margin-top: 110px;
           text-align: center;
@@ -230,6 +232,7 @@ export default function Home() {
           color: #999999aa;
           letter-spacing: 0.1em;
           position: relative;
+          z-index: 2;
         }
 
         /* 响应式适配 */
@@ -290,25 +293,26 @@ export default function Home() {
         <h1>ROROSPHERE</h1>
 
         <p className="subtitle">
-          Not just co-creation. <strong>ROROSPHERE</strong> is an exclusive lifestyle atmosphere shaped by select, expressive collaborations.
+          Unlocking young potential through culture and expression.<br />
+          Where families nurture creativity and identity.
         </p>
 
-        <section className="sections">
+        <section className="sections" aria-label="Key Features">
           <div className="section-item" tabIndex={0}>
-            <h2>Our Vision</h2>
-            <p>Setting a new standard for curated artistic collaboration — a selective team, a living ecosystem.</p>
+            <h2>Empower Potential</h2>
+            <p>Fostering creativity and confidence in young minds through culture and expression.</p>
           </div>
           <div className="section-item" tabIndex={0}>
-            <h2>Join Us</h2>
-            <p>Opportunities are earned. Submit your application and share your unique voice.</p>
+            <h2>Join the Movement</h2>
+            <p>A collaborative platform for families and youth to showcase unique talents and stories.</p>
           </div>
           <div className="section-item" tabIndex={0}>
-            <h2>Experience RORO</h2>
-            <p>More than creation, a lifestyle atmosphere. Explore and embody the ROROSPHERE spirit.</p>
+            <h2>Live RORO</h2>
+            <p>Beyond creation — a lifestyle where taste meets growth and identity blossoms.</p>
           </div>
         </section>
 
-        <section className="news-section">
+        <section className="news-section" aria-label="Latest News">
           <h2 className="news-title">Latest News</h2>
           <ul className="news-list">
             {latestNews.map(({ id, title, summary, date, link }) => (
@@ -328,6 +332,8 @@ export default function Home() {
     </>
   );
 }
+
+
 
 
 

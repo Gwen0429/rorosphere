@@ -1,15 +1,16 @@
-/* Navigation Bar 样式 */
+/* Navbar整体样式 */
 .nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 50;
-  background: rgba(255, 255, 255, 0.85); /* 香奈儿白 */
-  border-bottom: 1px solid rgba(212, 175, 127, 0.2); /* 香槟金 bottom line */
-  backdrop-filter: blur(10px);
-  font-family: 'Georgia', serif;  /* 确保只有导航栏使用此字体 */
-  transition: all 0.3s ease;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92); /* 轻微透明感，避免纯白 */
+  border-bottom: 1px solid rgba(212, 175, 127, 0.2); /* 香槟金底线 */
+  backdrop-filter: saturate(180%) blur(12px);
+  font-family: 'Playfair Display', serif;
+  transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 .nav-container {
@@ -19,6 +20,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .nav-links {
@@ -26,14 +28,13 @@
 }
 
 .nav-link {
-  margin: 0 2rem;
+  margin: 0 1.8rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #000000;
+  color: #000;
   text-decoration: none;
   position: relative;
   transition: color 0.3s ease;
-  font-family: 'Playfair Display', serif;  /* 强制导航栏字体为 Playfair Display */
 }
 
 .nav-link::after {
@@ -43,19 +44,22 @@
   left: 0;
   height: 2px;
   width: 0%;
-  background-color: #D4AF7F; /* 香槟金 hover line */
+  background-color: #D4AF7F; /* 香槟金 */
   transition: width 0.3s ease;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link:focus-visible {
   color: #D4AF7F;
+  outline: none;
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
   width: 100%;
 }
 
-.active {
+.nav-link.active {
   font-weight: 600;
   color: #D4AF7F;
 }
@@ -68,27 +72,42 @@
   top: 1.2rem;
   cursor: pointer;
   display: block;
+  padding: 0;
+  color: #D4AF7F;
+  transition: color 0.3s ease;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+  color: #B68E37;
+  outline: none;
 }
 
 .menu-icon {
   width: 24px;
   height: 24px;
-  color: #D4AF7F;
 }
 
-/* 移动端样式 */
 .mobile-menu {
-  background: white;
+  background: #fff;
   border-top: 1px solid #eee;
-  padding: 1rem;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 64px; /* NavBar 高度 */
+  left: 0;
+  right: 0;
+  z-index: 999;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .mobile-link {
   display: block;
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
   color: #000;
   text-decoration: none;
   font-weight: 500;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .mobile-link.active {
@@ -96,6 +115,13 @@
   color: #D4AF7F;
 }
 
+.mobile-link:hover,
+.mobile-link:focus-visible {
+  color: #B68E37;
+  outline: none;
+}
+
+/* 桌面端样式 */
 @media (min-width: 640px) {
   .nav-links {
     display: flex;
@@ -109,6 +135,10 @@
     display: none;
   }
 }
+
+
+
+
 
 
 

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import './NavBar.css'; // 确保样式文件正确引入
+import './NavBar.css';
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -11,13 +11,15 @@ export default function NavBar() {
 
   const links = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
+    { href: '/about', label: 'About Us' },
     { href: '/news', label: 'News' },
-    { href: '/join', label: 'Join Us' },
+    { href: '/programs', label: 'Programs' },
+    { href: '/collaborate', label: 'Collaborate' },
+    { href: '/talent', label: 'Talent' }, // 新增项
   ];
 
   return (
-    <nav className="nav">
+    <nav className="nav" role="navigation" aria-label="Primary navigation">
       <div className="nav-container">
         <div className="nav-links">
           {links.map(({ href, label }) => (
@@ -25,6 +27,7 @@ export default function NavBar() {
               key={href}
               href={href}
               className={`nav-link ${pathname === href ? 'active' : ''}`}
+              onClick={() => setMobileOpen(false)}
             >
               {label}
             </Link>
@@ -34,9 +37,19 @@ export default function NavBar() {
         <button
           className="menu-toggle"
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
+          type="button"
         >
-          <svg className="menu-icon" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <svg
+            className="menu-icon"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             {mobileOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             ) : (
@@ -47,7 +60,7 @@ export default function NavBar() {
       </div>
 
       {mobileOpen && (
-        <div className="mobile-menu">
+        <div className="mobile-menu" id="mobile-menu">
           {links.map(({ href, label }) => (
             <Link
               key={href}
@@ -63,6 +76,13 @@ export default function NavBar() {
     </nav>
   );
 }
+
+
+
+
+
+
+
 
 
 

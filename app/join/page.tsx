@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function JoinUs() {
+export default function Talent() {
   return (
     <>
       <style>{`
@@ -31,19 +31,18 @@ export default function JoinUs() {
           border-image-slice: 1;
           border-image-source: var(--invitation-border);
           border-radius: 16px;
-          box-shadow:
-            0 0 15px var(--champagne-gold-alpha-soft);
+          box-shadow: 0 0 15px var(--champagne-gold-alpha-soft);
           background: #fff;
           position: relative;
+          user-select: none;
         }
 
-        .invitation-header {
+        .header {
           font-family: 'Great Vibes', cursive;
           font-size: 2.8rem;
           color: var(--champagne-gold);
           text-align: center;
           margin-bottom: 36px;
-          user-select: none;
           letter-spacing: 0.06em;
         }
 
@@ -56,7 +55,6 @@ export default function JoinUs() {
           margin: 0 0 36px;
           letter-spacing: 0.15em;
           font-style: italic;
-          user-select: none;
           text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 20px var(--champagne-gold-alpha-soft);
         }
 
@@ -70,24 +68,38 @@ export default function JoinUs() {
           white-space: pre-line;
         }
 
+        ul.requirements {
+          list-style: none;
+          padding-left: 0;
+          margin-bottom: 40px;
+          color: #7a6a4fcc;
+          font-weight: 300;
+          font-size: 1.1rem;
+          letter-spacing: 0.04em;
+          user-select: text;
+        }
+
+        ul.requirements li {
+          margin-bottom: 12px;
+          padding-left: 1.2em;
+          position: relative;
+        }
+
+        ul.requirements li::before {
+          content: '•';
+          position: absolute;
+          left: 0;
+          color: var(--champagne-gold);
+          font-weight: 700;
+        }
+
         .signature {
           font-family: 'Great Vibes', cursive;
           font-size: 2.2rem;
           color: #9B7AA0; /* 香槟紫 */
           text-align: right;
           margin-top: 80px;
-          user-select: none;
           letter-spacing: 0.05em;
-        }
-
-        .contact {
-          font-weight: 300;
-          font-size: 0.9rem;
-          color: #a4997fdd;
-          margin-top: 40px;
-          text-align: center;
-          letter-spacing: 0.05em;
-          user-select: none;
         }
 
         footer {
@@ -97,11 +109,9 @@ export default function JoinUs() {
           font-weight: 300;
           color: #999999aa;
           letter-spacing: 0.1em;
-          user-select: none;
-          position: relative;
         }
 
-        /* 响应式移动端 */
+        /* 响应式 */
         @media (max-width: 768px) {
           main {
             max-width: 100%;
@@ -112,7 +122,7 @@ export default function JoinUs() {
             box-shadow: 0 0 10px var(--champagne-gold-alpha-soft);
           }
 
-          .invitation-header {
+          .header {
             font-size: 2rem;
             margin-bottom: 24px;
           }
@@ -129,14 +139,13 @@ export default function JoinUs() {
             line-height: 1.5;
           }
 
+          ul.requirements {
+            font-size: 1rem;
+          }
+
           .signature {
             font-size: 1.6rem;
             margin-top: 48px;
-          }
-
-          .contact {
-            font-size: 0.85rem;
-            margin-top: 32px;
           }
 
           footer {
@@ -147,29 +156,39 @@ export default function JoinUs() {
       `}</style>
 
       <main>
-        <div className="invitation-header" aria-label="Invitation opening">
-          You Are Cordially Invited
+        <div className="header" aria-label="Invitation to talent">
+          To Visionaries & Creators
         </div>
 
-        <h1>Join Us</h1>
+        <h1>Talent Recruitment</h1>
+
+        <section className="content" aria-label="Introduction">
+          {`At RORO, we seek those whose creativity is not just skill — but a living voice.
+
+We curate a selective collective of talents, inviting creators who dare to innovate, express, and inspire beyond convention.
+
+Our ecosystem is built on intentionality and authenticity, fostering an exclusive atmosphere where your artistry shapes culture.`}
+        </section>
+
+        <section aria-label="Talent requirements">
+          <ul className="requirements">
+            <li>Passion for creative expression and innovation</li>
+            <li>Commitment to collaboration within a selective community</li>
+            <li>Dedication to crafting work with originality and depth</li>
+            <li>Openness to new ideas and pushing artistic boundaries</li>
+            <li>Alignment with RORO’s ethos of elegance and rebellion</li>
+          </ul>
+        </section>
 
         <section className="content" aria-label="Invitation message">
-          {`To those who create with soul — ROROSPHERE opens its doors to you.
+          {`If you resonate with our vision and wish to become part of a visionary network, we welcome your application.
 
-This is not merely a platform. It is a space where vision breathes, where individuality is honored, and where elegance meets bold truth.
-
-If your work speaks from within and seeks to connect, inspire, and transform — we welcome you.
-
-“To create is to reveal. ROROSPHERE exists for those who are unafraid to show who they are, and to craft with intention. Join us in shaping something timeless.”`}
+Together, we will build not only extraordinary creations but a timeless legacy.`}
         </section>
 
         <div className="signature" aria-label="Signature">
-          With Grace,<br />
+          With Respect,<br />
           Gwen · Chief Creator of ROROSPHERE
-        </div>
-
-        <div className="contact" aria-label="Contact information">
-          RSVP / Contact: <a href="mailto:goodmanjingwenzhou@icloud.com" style={{color: 'var(--champagne-gold)', textDecoration: 'none'}} target="_blank" rel="noopener noreferrer">goodmanjingwenzhou@icloud.com</a>
         </div>
 
         <footer>&copy; 2025 ROROSPHERE. All rights reserved.</footer>
@@ -177,6 +196,7 @@ If your work speaks from within and seeks to connect, inspire, and transform —
     </>
   );
 }
+
 
 
 
