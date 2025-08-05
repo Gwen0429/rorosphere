@@ -21,9 +21,7 @@ const latestNews = [
   },
 ];
 
-export const metadata = {
-  title: 'Home | ROROSPHERE',
-};
+// 删除了 export const metadata，不能出现在 use client 文件中
 
 export default function Home() {
   return (
@@ -322,6 +320,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 
