@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Logo from '@/components/Logo';
 
 const latestNews = [
   {
@@ -20,8 +19,6 @@ const latestNews = [
     link: '/news/2',
   },
 ];
-
-// 删除了 export const metadata，不能出现在 use client 文件中
 
 export default function Home() {
   return (
@@ -83,8 +80,19 @@ export default function Home() {
         }
 
         h1 {
-          /* 去掉h1的样式，因为用Logo替代 */
           display: none;
+        }
+
+        .main-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 3.6rem;
+          letter-spacing: 0.2em;
+          color: var(--champagne-gold);
+          text-align: center;
+          margin: 0 0 40px;
+          z-index: 2;
+          position: relative;
+          user-select: none;
         }
 
         .subtitle {
@@ -151,7 +159,6 @@ export default function Home() {
           line-height: 1.6;
           color: #6b6b6bdd;
           user-select: none;
-          word-wrap: break-word;
         }
 
         .news-section {
@@ -168,7 +175,6 @@ export default function Home() {
           font-weight: 700;
           margin-bottom: 30px;
           user-select: none;
-          text-shadow: none;
           border-bottom: none;
           color: var(--champagne-gold);
         }
@@ -183,7 +189,6 @@ export default function Home() {
         ul.news-list li {
           border-bottom: 1px solid #eee;
           padding: 18px 0;
-          word-wrap: break-word;
         }
 
         ul.news-list li h3 {
@@ -191,14 +196,13 @@ export default function Home() {
           font-weight: 600;
           font-size: 1.3rem;
           color: #A8874E;
-          word-wrap: break-word;
         }
 
         ul.news-list li h3 a {
           color: inherit;
           text-decoration: none;
-          cursor: pointer;
         }
+
         ul.news-list li h3 a:hover,
         ul.news-list li h3 a:focus {
           text-decoration: none;
@@ -210,7 +214,6 @@ export default function Home() {
           font-weight: 300;
           font-size: 1rem;
           color: #a4997fcc;
-          word-wrap: break-word;
         }
 
         ul.news-list li time {
@@ -229,10 +232,15 @@ export default function Home() {
           z-index: 2;
         }
 
-        /* 响应式适配 */
         @media (max-width: 768px) {
           main {
             padding: 40px 16px 80px !important;
+          }
+
+          .main-title {
+            font-size: 2.2rem !important;
+            letter-spacing: 0.12em !important;
+            margin-bottom: 24px !important;
           }
 
           .subtitle {
@@ -277,8 +285,8 @@ export default function Home() {
       <main>
         <div className="flower-cluster" aria-hidden="true"></div>
 
-        {/* 用 Logo 组件替代标题 */}
-        <Logo size={160} />
+        {/* 显示大标题 ROROSPHERE */}
+        <h1 className="main-title">ROROSPHERE</h1>
 
         <p className="subtitle">
           Unlocking young potential through culture and expression.<br />
@@ -320,6 +328,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 
