@@ -166,7 +166,7 @@ export default function About() {
 
         <div className="signature" aria-label="Signature">
           Yours sincerely,<br />
-          The ROROSPHERE Team
+          The RORO Team
         </div>
 
         <footer>&copy; 2025 ROROSPHERE. All rights reserved.</footer>
