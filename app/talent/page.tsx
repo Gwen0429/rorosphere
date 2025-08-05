@@ -16,7 +16,8 @@ export default function Talent() {
         }
 
         html, body {
-          margin: 0; padding: 0;
+          margin: 0;
+          padding: 0;
           background: #fff;
           color: #333;
           font-family: 'Playfair Display', serif;
@@ -35,6 +36,7 @@ export default function Talent() {
           background: #fff;
           position: relative;
           user-select: none;
+          box-sizing: border-box;
         }
 
         .header {
@@ -53,9 +55,13 @@ export default function Talent() {
           color: var(--champagne-gold);
           text-align: center;
           margin: 0 0 36px;
-          letter-spacing: 0.15em;
+          letter-spacing: 0.12em;
           font-style: italic;
           text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 20px var(--champagne-gold-alpha-soft);
+          max-width: 100%;
+          word-break: break-word;
+          box-sizing: border-box;
+          padding: 0 10px;
         }
 
         section.content {
@@ -130,7 +136,8 @@ export default function Talent() {
           h1 {
             font-size: 2.8rem;
             margin-bottom: 24px;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
+            padding: 0 8px;
           }
 
           section.content {
@@ -196,3 +203,4 @@ Together, we will build not only extraordinary creations but a timeless legacy.`
     </>
   );
 }
+
