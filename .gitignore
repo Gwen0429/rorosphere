@@ -1,4 +1,4 @@
-# Node.js dependencies
+# Node modules
 node_modules/
 
 # Next.js build output
@@ -20,7 +20,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# OS system files
+# OS generated files
 .DS_Store
 Thumbs.db
 
@@ -28,7 +28,7 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Optional npm cache folder
+# Optional npm cache
 .npm/
 
 # Optional REPL history
@@ -67,5 +67,6 @@ Thumbs.db
 
 # Next.js telemetry
 .next/telemetry.json
+
 
 
