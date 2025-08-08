@@ -27,15 +27,17 @@ export default function Home() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&display=swap');
 
         :root {
-          --chanel-white: #fafafa;
-          --champagne-gold-start: #D4AF7F;
-          --champagne-gold-end: #B68E37;
-          --champagne-gold-alpha: #D4AF7Faa;
-          --champagne-gold-alpha-soft: #D4AF7F66;
-          --text-color: #2c2c2c;
+          --black-bg: #000000;
+          --pure-white: #ffffff;
+          --deep-gray-bg: rgba(0, 0, 0, 0.6);
+          --gold-start: #D4AF7F;
+          --gold-end: #B68E37;
+          --gold-alpha: #D4AF7Faa;
+          --gold-alpha-soft: #D4AF7F66;
+          --gold-text-light: #F7E6B5;
           --font-primary: 'Playfair Display', serif;
         }
 
@@ -45,8 +47,8 @@ export default function Home() {
 
         html, body {
           margin: 0; padding: 0;
-          background: var(--chanel-white);
-          color: var(--text-color);
+          background: var(--black-bg);
+          color: var(--gold-text-light);
           font-family: var(--font-primary);
           overflow-x: hidden;
           -webkit-font-smoothing: antialiased;
@@ -54,301 +56,304 @@ export default function Home() {
         }
 
         main {
-          padding: 80px 40px 140px;
           max-width: 1200px;
           margin: 0 auto;
-          min-height: 100vh;
+          padding: 150px 40px 120px;
           display: flex;
           flex-direction: column;
-          gap: 64px;
+          gap: 80px;
           user-select: none;
         }
 
-        /* 顶部标题区 */
-        .header {
+        /* Hero Section */
+        .hero-container {
           text-align: center;
-          position: relative;
-          z-index: 2;
-          padding: 80px 0 48px;
-          max-width: 90vw;
-          margin-left: auto;
-          margin-right: auto;
+          user-select: text;
+          padding: 0 20px;
         }
-
-        .header h1 {
-          font-weight: 700;
-          font-size: clamp(3rem, 8vw, 5rem);
-          letter-spacing: 0.28em;
+        .hero-title {
+          font-weight: 900;
+          font-size: 5rem;
           line-height: 1.1;
-          user-select: text;
-          color: var(--text-color);
+          letter-spacing: 0.3em;
+          background: linear-gradient(90deg, var(--gold-start), var(--gold-end));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin: 0;
           white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          transition: all 0.3s ease;
-          text-shadow:
-            0 1px 3px rgba(0,0,0,0.08);
-          font-feature-settings: "liga" 1;
-          font-variant-ligatures: common-ligatures;
-        }
-
-        /* 仅移动端允许换行 */
-        @media (max-width: 720px) {
-          .header h1 {
-            white-space: normal;
-            overflow: visible;
-            text-overflow: unset;
-            letter-spacing: 0.2em;
-            font-size: clamp(2.5rem, 10vw, 4.5rem);
-            line-height: 1.05;
-          }
-          .header h1 span.line1, .header h1 span.line2 {
-            display: block;
-            user-select: text;
-          }
-        }
-
-        .header p {
-          font-weight: 400;
-          font-size: 1.25rem;
-          color: #555555cc;
-          margin: 24px auto 36px;
-          max-width: 700px;
-          line-height: 1.5;
           user-select: text;
         }
-
+        /* 移动端被迫换行 */
+        @media (max-width: 480px) {
+          .hero-title {
+            white-space: normal;
+            font-size: 3.6rem;
+            letter-spacing: 0.25em;
+            line-height: 1.2;
+          }
+          .hero-title br {
+            display: block;
+            content: '';
+            margin-bottom: 0.25em;
+          }
+        }
+        .hero-subtitle {
+          font-weight: 400;
+          font-size: 1.5rem;
+          line-height: 1.8;
+          letter-spacing: 0.06em;
+          color: var(--gold-text-light);
+          max-width: 480px;
+          margin: 48px auto 56px;
+          user-select: text;
+          text-shadow: 0 0 8px rgba(212, 175, 127, 0.5);
+        }
         .btn-primary {
-          background: linear-gradient(45deg, var(--champagne-gold-start), var(--champagne-gold-end));
+          background: linear-gradient(45deg, var(--gold-start), var(--gold-end));
           border: none;
-          padding: 14px 36px;
-          font-size: 1rem;
+          padding: 16px 48px;
+          font-size: 1.1rem;
           font-weight: 700;
-          color: #fff;
-          border-radius: 30px;
+          color: #000;
+          border-radius: 36px;
           cursor: pointer;
-          box-shadow: 0 0 18px var(--champagne-gold-alpha);
-          transition: box-shadow 0.3s ease;
+          box-shadow: 0 0 18px var(--gold-alpha);
+          transition: background 0.3s ease, box-shadow 0.3s ease;
           user-select: none;
           text-decoration: none;
           display: inline-block;
         }
         .btn-primary:hover,
         .btn-primary:focus-visible {
-          box-shadow: 0 0 28px var(--champagne-gold-start);
+          background: linear-gradient(45deg, var(--gold-end), #8A6A22);
+          box-shadow: 0 0 28px var(--gold-alpha-soft);
           outline: none;
         }
 
-        /* 特色引导模块现代化 */
+        /* Guide Section */
         .guide-section {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 40px;
-          max-width: 960px;
-          margin: 0 auto;
-          padding: 0 12px;
-        }
-
-        .guide-card {
-          background: linear-gradient(145deg, #fefefe, #f5f5f5);
-          border-radius: 20px;
-          padding: 32px 24px;
-          box-shadow:
-            0 8px 16px rgba(212, 175, 127, 0.15),
-            inset 0 0 20px rgba(255, 255, 255, 0.4);
-          color: #6b5e41;
-          font-weight: 600;
-          font-size: 1.2rem;
-          text-align: center;
-          cursor: pointer;
-          user-select: none;
-          transition:
-            box-shadow 0.4s ease,
-            transform 0.3s ease;
           display: flex;
-          flex-direction: column;
+          gap: 40px;
           justify-content: center;
-          min-height: 180px;
-          outline-offset: 4px;
+          flex-wrap: wrap;
+          background: var(--deep-gray-bg);
+          padding: 40px 20px;
+          border-radius: 18px;
+          box-shadow:
+            0 0 18px rgba(212, 175, 127, 0.25),
+            inset 0 0 16px rgba(255, 255, 255, 0.05);
+          user-select: none;
         }
-
+        .guide-card {
+          background: transparent;
+          padding: 28px 18px;
+          cursor: pointer;
+          border-radius: 12px;
+          color: var(--gold-text-light);
+          text-decoration: none;
+          font-weight: 500;
+          flex: 1 1 240px;
+          text-align: center;
+          user-select: none;
+          transition: background-color 0.3s ease, color 0.3s ease;
+          box-shadow: none;
+          user-select: text;
+        }
         .guide-card:hover,
         .guide-card:focus-visible {
-          box-shadow:
-            0 14px 28px rgba(212, 175, 127, 0.35),
-            inset 0 0 30px rgba(255, 255, 255, 0.55);
-          transform: translateY(-8px);
+          background: rgba(212, 175, 127, 0.15);
+          color: var(--gold-start);
           outline: none;
+          box-shadow:
+            0 0 18px var(--gold-alpha),
+            0 0 28px var(--gold-alpha-soft);
         }
-
         .guide-card h3 {
-          margin-bottom: 12px;
-          font-size: 1.5rem;
-          letter-spacing: 0.14em;
-          color: var(--champagne-gold-end);
-          user-select: text;
+          font-size: 1.8rem;
+          font-weight: 700;
+          margin-bottom: 14px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
         }
-
         .guide-card p {
-          margin: 0;
           font-weight: 400;
           font-size: 1rem;
-          color: #8B7D5C;
-          user-select: text;
+          line-height: 1.5;
+          color: var(--gold-text-light);
+          margin: 0;
         }
 
-        /* 品牌历程 + 创意项目模块 */
-        .milestones-section, .projects-section {
-          max-width: 1100px;
-          margin: 0 auto;
-          padding: 32px 18px 24px;
-          background-color: #fafafa;
-          border-radius: 14px;
+        /* Milestones Section */
+        .milestones-section {
+          background: var(--deep-gray-bg);
+          padding: 48px 32px 36px;
+          border-radius: 18px;
           box-shadow:
-            inset 0 0 16px #fff7d8,
-            0 0 18px var(--champagne-gold-alpha-soft);
-          background-image: url('/textures/fine-papyrus.png');
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: cover;
+            0 0 22px rgba(212, 175, 127, 0.3),
+            inset 0 0 16px rgba(255, 255, 255, 0.07);
+          user-select: none;
         }
-
-        .milestones-section h2, .projects-section h2 {
+        .milestones-section h2 {
           font-size: 2.8rem;
           font-weight: 700;
-          color: var(--champagne-gold-end);
-          margin-bottom: 24px;
-          user-select: none;
+          color: var(--gold-start);
+          margin-bottom: 36px;
           text-align: center;
-          letter-spacing: 0.14em;
+          letter-spacing: 0.15em;
           text-transform: uppercase;
+          user-select: none;
           position: relative;
         }
-
-        .milestones-section h2::after, .projects-section h2::after {
+        .milestones-section h2::after {
           content: '';
           position: absolute;
           left: 50%;
-          bottom: -10px;
+          bottom: -14px;
           transform: translateX(-50%);
           width: max(40px, 10vw);
           height: 2px;
-          background: linear-gradient(90deg, var(--champagne-gold-alpha), var(--champagne-gold-end));
+          background: linear-gradient(90deg, var(--gold-alpha), var(--gold-end));
           border-radius: 1px;
         }
-
-        @media (max-width: 480px) {
-          .milestones-section h2::after, .projects-section h2::after {
-            display: none;
-          }
-        }
-
         .timeline {
-          border-left: 3px solid var(--champagne-gold-end);
-          margin-left: 16px;
-          padding-left: 24px;
+          border-left: 3px solid var(--gold-end);
+          margin-left: 24px;
+          padding-left: 32px;
         }
-
         .timeline-item {
           position: relative;
-          margin-bottom: 36px;
-          padding-left: 16px;
+          margin-bottom: 40px;
+          padding-left: 20px;
         }
-
         .timeline-item::before {
           content: '';
           position: absolute;
-          left: -28px;
-          top: 6px;
-          width: 16px;
-          height: 16px;
-          background: var(--champagne-gold-start);
+          left: -36px;
+          top: 10px;
+          width: 18px;
+          height: 18px;
+          background: var(--gold-start);
           border-radius: 50%;
-          box-shadow: 0 0 10px var(--champagne-gold-alpha);
+          box-shadow: 0 0 12px var(--gold-alpha);
         }
-
         .timeline-item time {
           display: block;
-          font-size: 0.9rem;
+          font-size: 1rem;
           font-weight: 600;
-          color: #a38f56cc;
-          margin-bottom: 6px;
+          color: #c9b87ccc;
+          margin-bottom: 8px;
           user-select: text;
         }
-
         .timeline-item h3 {
-          margin: 0 0 6px 0;
+          margin: 0 0 8px;
           font-weight: 700;
-          color: var(--champagne-gold-end);
+          color: var(--gold-end);
           user-select: text;
         }
-
         .timeline-item p {
           margin: 0;
           font-weight: 400;
-          color: #5b5b5bdd;
-          line-height: 1.4;
+          color: #bdb68a99;
+          line-height: 1.5;
           user-select: text;
         }
 
-        /* 创意项目 */
+        /* Projects Section */
+        .projects-section {
+          background: var(--deep-gray-bg);
+          padding: 48px 32px 36px;
+          border-radius: 18px;
+          box-shadow:
+            0 0 22px rgba(212, 175, 127, 0.25),
+            inset 0 0 18px rgba(255, 255, 255, 0.06);
+          user-select: none;
+        }
+        .projects-section h2 {
+          font-size: 2.8rem;
+          font-weight: 700;
+          color: var(--gold-start);
+          margin-bottom: 12px;
+          text-align: center;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          user-select: none;
+          position: relative;
+        }
+        .projects-section h2::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          bottom: -14px;
+          transform: translateX(-50%);
+          width: max(40px, 10vw);
+          height: 2px;
+          background: linear-gradient(90deg, var(--gold-alpha), var(--gold-end));
+          border-radius: 1px;
+        }
+        .projects-section p.section-subtitle {
+          font-size: 1.2rem;
+          font-weight: 400;
+          color: var(--gold-text-light);
+          margin-bottom: 36px;
+          user-select: text;
+          text-align: center;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+          line-height: 1.5;
+        }
         .projects-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-          gap: 32px;
+          gap: 36px;
         }
-
         .project-card {
-          border: 2px solid var(--champagne-gold-start);
+          background: transparent;
+          padding: 28px 24px;
           border-radius: 14px;
-          padding: 24px 22px;
-          box-shadow: 0 0 12px transparent;
-          background: #fff;
-          transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+          box-shadow: 0 0 0 transparent;
+          transition: box-shadow 0.3s ease, transform 0.3s ease;
+          color: var(--gold-text-light);
           user-select: none;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           min-height: 220px;
         }
-
         .project-card:hover,
         .project-card:focus-within {
           box-shadow:
-            0 0 28px var(--champagne-gold-alpha),
-            0 0 48px var(--champagne-gold-alpha-soft);
-          border-color: var(--champagne-gold-end);
+            0 0 28px var(--gold-alpha),
+            0 0 48px var(--gold-alpha-soft);
           transform: translateY(-6px);
           outline: none;
+          cursor: pointer;
         }
-
         .project-title {
           font-size: 1.5rem;
           font-weight: 700;
-          color: var(--champagne-gold-end);
-          margin-bottom: 16px;
+          margin-bottom: 20px;
           letter-spacing: 0.06em;
           user-select: text;
+          color: var(--gold-end);
         }
-
         .project-desc {
-          flex-grow: 1;
           font-weight: 400;
           font-size: 1rem;
-          color: #5b5b5bdd;
-          margin-bottom: 24px;
+          color: #bdb68aaa;
+          margin-bottom: 32px;
+          line-height: 1.5;
           user-select: text;
-          line-height: 1.4;
+          flex-grow: 1;
         }
-
         .like-button {
           background: none;
-          border: 2px solid var(--champagne-gold-start);
-          border-radius: 24px;
-          padding: 8px 24px;
+          border: 2px solid var(--gold-start);
+          border-radius: 28px;
+          padding: 10px 28px;
           font-size: 1rem;
           font-weight: 600;
-          color: var(--champagne-gold-start);
+          color: var(--gold-start);
           cursor: pointer;
           user-select: none;
           align-self: flex-start;
@@ -359,105 +364,124 @@ export default function Home() {
             box-shadow 0.3s ease;
           box-shadow: none;
         }
-
         .like-button.liked {
-          background-color: var(--champagne-gold-start);
-          color: #fff;
-          border-color: var(--champagne-gold-end);
-          box-shadow: 0 0 10px var(--champagne-gold-alpha);
+          background-color: var(--gold-start);
+          color: #000;
+          border-color: var(--gold-end);
+          box-shadow: 0 0 14px var(--gold-alpha);
         }
-
         .like-button:hover,
         .like-button:focus-visible {
           outline: none;
-          background-color: var(--champagne-gold-end);
-          color: #fff;
-          border-color: var(--champagne-gold-end);
-          box-shadow: 0 0 14px var(--champagne-gold-alpha);
+          background-color: var(--gold-end);
+          color: #000;
+          border-color: var(--gold-end);
+          box-shadow: 0 0 18px var(--gold-alpha);
         }
 
-        /* 页脚 */
+        /* Footer */
         footer {
           text-align: center;
-          font-size: 0.85rem;
-          color: #999999cc;
+          font-size: 0.9rem;
+          color: #7a6b52cc;
           letter-spacing: 0.12em;
           user-select: none;
-          margin-top: 48px;
-          padding-bottom: 24px;
+          margin-top: 64px;
+          padding-bottom: 36px;
         }
 
-        /* 响应式 */
+        /* Responsive */
         @media (max-width: 768px) {
           main {
-            padding: 40px 20px 80px;
-            gap: 50px;
+            padding: 100px 20px 80px;
+            gap: 64px;
           }
-          .header h1 {
-            white-space: normal;
-            overflow: visible;
-            text-overflow: unset;
-            letter-spacing: 0.2em;
-            font-size: clamp(2.5rem, 10vw, 4.5rem);
-            line-height: 1.05;
+          .hero-title {
+            font-size: 3.8rem;
+            letter-spacing: 0.22em;
           }
-          .header h1 span.line1,
-          .header h1 span.line2 {
-            display: block;
-            user-select: text;
+          .hero-subtitle {
+            font-size: 1.2rem;
+            max-width: 90vw;
+            margin: 40px auto 40px;
+          }
+          .btn-primary {
+            padding: 14px 36px;
+            font-size: 1rem;
+            border-radius: 30px;
           }
           .guide-section {
-            grid-template-columns: 1fr;
-            gap: 32px;
-            max-width: 100%;
-            padding: 0 12px;
-          }
-          .milestones-section,
-          .projects-section {
-            max-width: 100%;
-            padding: 24px 12px 24px;
+            padding: 32px 16px;
+            gap: 24px;
+            flex-direction: column;
           }
           .projects-grid {
             grid-template-columns: 1fr;
           }
           .project-card {
-            max-width: 100%;
+            min-height: auto;
+            padding: 24px 18px;
+          }
+        }
+        @media (max-width: 480px) {
+          main {
+            padding: 80px 16px 64px;
+            gap: 48px;
+          }
+          .hero-title {
+            font-size: 3.2rem;
+            letter-spacing: 0.18em;
+          }
+          .hero-subtitle {
+            font-size: 1rem;
+            max-width: 90vw;
+            margin: 32px auto 36px;
+          }
+          .btn-primary {
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            border-radius: 28px;
+          }
+          .guide-section {
+            padding: 24px 12px;
           }
         }
       `}</style>
 
-      <main role="main" aria-label="Rorosphere 首页">
-        <header className="header" aria-label="品牌介绍">
-          <h1 aria-label="ROROSPHERE">
-            <span className="line1">RORO</span>
-            <span className="line2">SPHERE</span>
+      <main>
+        {/* Hero Section */}
+        <section className="hero-container" aria-label="品牌介绍">
+          <h1 className="hero-title" aria-label="品牌名称">
+            RORO<br />SPHERE
           </h1>
-          <p>激发青少年潜能，构筑归属感与文化共创的未来。</p>
+          <p className="hero-subtitle">
+            激发青少年潜能，<br />
+            构筑归属感与文化共创的未来。
+          </p>
           <Link href="/brand-history" className="btn-primary" aria-label="了解品牌历程">
             了解品牌历程
           </Link>
-        </header>
-
-        <section className="guide-section" aria-label="核心引导">
-          <Link href="/cooperation" className="guide-card" tabIndex={0} aria-label="合作与参与">
-            <h3>合作与参与</h3>
-            <p>加入我们，共筑青少年成长平台。</p>
-          </Link>
-          <div className="guide-card" tabIndex={-1} aria-hidden="true">
-            <h3>内容持续更新</h3>
-            <p>更多精彩，敬请期待。</p>
-          </div>
-          <div className="guide-card" tabIndex={-1} aria-hidden="true">
-            <h3>敬请关注</h3>
-            <p>品牌活动，资讯发布。</p>
-          </div>
         </section>
 
+        {/* Guide Section */}
+        <section className="guide-section" aria-label="用户可做什么">
+          <Link
+            href="/contact"
+            className="guide-card"
+            tabIndex={0}
+            aria-label="合作与参与"
+          >
+            <h3>合作与参与</h3>
+            <p>携手打造未来，加入 ROROSPHERE 生态。</p>
+          </Link>
+        </section>
+
+        {/* Brand Milestones */}
         <section className="milestones-section" aria-label="品牌历程">
           <h2>品牌历程</h2>
-          <div className="timeline" role="list">
+          <div className="timeline">
             {brandMilestones.map(({ id, date, title, desc }) => (
-              <article key={id} className="timeline-item" role="listitem" tabIndex={0} aria-label={`${date} - ${title}`}>
+              <article className="timeline-item" key={id} tabIndex={-1}>
                 <time dateTime={date}>{date}</time>
                 <h3>{title}</h3>
                 <p>{desc}</p>
@@ -466,36 +490,44 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="projects-section" aria-label="创意项目">
+        {/* Creative Projects */}
+        <section className="projects-section" aria-label="创意项目与合作">
           <h2>创意项目</h2>
           <p className="section-subtitle">
-            汇聚年轻创意，激发文化传承与生活美学的多元表达。
+            发现我们如何激发灵感，融合文化与生活。
           </p>
           <div className="projects-grid">
             {projects.map(({ id, title, desc, liked }) => (
-              <article key={id} className="project-card" tabIndex={0} aria-label={`${title} 创意项目`}>
+              <article
+                className="project-card"
+                key={id}
+                tabIndex={0}
+                aria-label={`${title}项目，${liked ? '已点赞' : '未点赞'}`}
+              >
                 <h3 className="project-title">{title}</h3>
                 <p className="project-desc">{desc}</p>
                 <button
-                  className={`like-button ${liked ? 'liked' : ''}`}
-                  aria-pressed={liked}
+                  className={`like-button${liked ? ' liked' : ''}`}
                   onClick={() => toggleLike(id)}
-                  aria-label={liked ? `取消喜欢${title}` : `喜欢${title}`}
+                  aria-pressed={liked}
+                  aria-label={liked ? '取消点赞' : '点赞'}
+                  type="button"
                 >
-                  {liked ? '已喜欢' : '喜欢'}
+                  {liked ? '已点赞' : '点赞'}
                 </button>
               </article>
             ))}
           </div>
         </section>
 
-        <footer role="contentinfo" aria-label="网站页脚">
-          &copy; 2025 Rorosphere 版权所有
+        <footer>
+          © 2025 ROROSPHERE. All Rights Reserved.
         </footer>
       </main>
     </>
   );
 }
+
 
 
 
