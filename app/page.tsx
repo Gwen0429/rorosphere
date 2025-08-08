@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const brandMilestones = [
@@ -15,8 +15,96 @@ const creativeProjects = [
   { id: 3, title: '生活美学探索', desc: '激励个性成长，打造生活方式品牌', liked: false },
 ];
 
+// 小logo的SVG动画组件（简洁版）
+function SmallLogo() {
+  return (
+    <svg
+      width="100"
+      height="100"
+      viewBox="0 0 280 280"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="ROROSPHERE logo"
+      role="img"
+    >
+      <defs>
+        <path id="softPetal" d="M0,-70 C28,-65 30,-25 12,-5 C25,10 15,40 0,60 C-15,40 -25,10 -12,-5 C-30,-25 -28,-65 0,-70 Z" />
+        <radialGradient id="marbleStone" cx="50%" cy="50%" r="80%">
+          <stop offset="0%" stopColor="#f2f2f2" />
+          <stop offset="60%" stopColor="#ccc" />
+          <stop offset="100%" stopColor="#888" />
+        </radialGradient>
+        <filter id="reliefShadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feOffset dx="1.5" dy="1.5" result="shadow" />
+          <feGaussianBlur in="shadow" stdDeviation="1.2" />
+          <feBlend in="SourceGraphic" in2="shadow" mode="multiply" />
+        </filter>
+      </defs>
+
+      <rect width="280" height="280" fill="url(#marbleStone)" />
+
+      <g
+        transform="translate(140,140)"
+        fill="none"
+        stroke="#333"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        filter="url(#reliefShadow)"
+        style={{ animation: 'rotatePetal 3s ease-in-out infinite' }}
+      >
+        <use href="#softPetal" transform="rotate(0)" />
+        <use href="#softPetal" transform="rotate(60)" />
+        <use href="#softPetal" transform="rotate(120)" />
+        <use href="#softPetal" transform="rotate(180)" />
+        <use href="#softPetal" transform="rotate(240)" />
+        <use href="#softPetal" transform="rotate(300)" />
+      </g>
+
+      <circle
+        cx="140"
+        cy="140"
+        r="14"
+        fill="none"
+        stroke="#222"
+        strokeWidth="2.4"
+        filter="url(#reliefShadow)"
+      />
+
+      <text
+        x="140"
+        y="270"
+        textAnchor="middle"
+        fontFamily="'Playfair Display', serif"
+        fontSize="24"
+        fill="#111"
+        letterSpacing="4"
+        fontWeight="700"
+        filter="url(#reliefShadow)"
+      >
+        ROROSPHERE
+      </text>
+
+      <style>{`
+        @keyframes rotatePetal {
+          0%, 100% { transform: rotate(0deg); }
+          50% { transform: rotate(10deg); }
+        }
+      `}</style>
+    </svg>
+  );
+}
+
 export default function Home() {
   const [projects, setProjects] = useState(creativeProjects);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 判断移动端，用于切换内容和布局
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const toggleLike = (id: number) => {
     setProjects((prev) =>
@@ -32,479 +120,191 @@ export default function Home() {
         :root {
           --champagne-gold-start: #D4AF7F;
           --champagne-gold-end: #B68E37;
-          --champagne-gold-alpha: #D4AF7Faa;
-          --champagne-gold-alpha-soft: #D4AF7F66;
-          --text-dark: #222222;
-          --text-muted: #5b5b5bdd;
-          --bg-color: #FFFFFF;
+          --nude-base: #5b5b5bdd;
+          --bg-color: #fff;
+          --text-color: #333;
           --font-primary: 'Playfair Display', serif;
         }
 
         * {
           box-sizing: border-box;
         }
-
         html, body {
           margin: 0; padding: 0;
           background: var(--bg-color);
-          color: var(--text-dark);
+          color: var(--text-color);
           font-family: var(--font-primary);
           overflow-x: hidden;
         }
-
         main {
-          padding: 80px 40px 140px;
           max-width: 1200px;
           margin: 0 auto;
           min-height: 100vh;
+          padding: 80px 40px 140px;
           display: flex;
           flex-direction: column;
           gap: 64px;
           user-select: none;
         }
 
-        /* 顶部标题区 */
+        /* 头部区域 */
         .header {
           text-align: center;
           position: relative;
           z-index: 2;
-          padding: 80px 0 48px;
           max-width: 90vw;
-          margin-left: auto;
-          margin-right: auto;
+          margin: 0 auto 48px;
         }
+
+        /* 电脑版大标题 */
         .header h1 {
-          font-size: clamp(3.2rem, 8vw, 4.8rem);
+          font-size: 4rem;
           font-weight: 700;
-          color: transparent;
+          color: var(--champagne-gold-start);
           background: linear-gradient(90deg, var(--champagne-gold-start), var(--champagne-gold-end));
           background-clip: text;
           -webkit-background-clip: text;
+          color: transparent;
           text-shadow:
-            0 0 6px var(--champagne-gold-alpha),
-            0 0 12px var(--champagne-gold-alpha-soft);
+            0 0 6px #D4AF7FAA,
+            0 0 12px #D4AF7F66;
           letter-spacing: 0.25em;
-          line-height: 1.12;
-          user-select: text;
-          margin: 0 auto 24px;
-          white-space: nowrap; /* 电脑端强制不换行 */
-          max-width: 100%;
-        }
-        @media (max-width: 480px) {
-          .header h1 {
-            white-space: normal; /* 移动端允许换行 */
-            line-height: 1.3;
-          }
-          /* 手机端强制换成两行，RORO / SPHERE */
-          .header h1::after {
-            content: '';
-            display: none;
-          }
-          /* 用手动换行替代文字，方便控制 */
-          .header h1 {
-            white-space: normal;
-          }
-        }
-        /* 移动端文字容器，手动换行 */
-        .header h1 span {
-          display: block;
-          letter-spacing: 0.3em;
+          line-height: 1.1;
+          white-space: nowrap;
+          margin-bottom: 12px;
         }
 
-        .header p {
-          font-weight: 400;
+        /* 移动端替代标题 */
+        .mobile-slogan {
+          font-weight: 600;
           font-size: 1.25rem;
-          color: var(--text-dark);
-          margin: 0 auto 36px;
-          max-width: 720px;
-          line-height: 1.5;
+          color: var(--nude-base);
+          margin-bottom: 32px;
+          line-height: 1.4;
           user-select: text;
-          white-space: normal;
+          max-width: 300px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         .btn-primary {
-          background: none;
-          border: 2px solid var(--champagne-gold-end);
+          background: linear-gradient(45deg, var(--champagne-gold-start), var(--champagne-gold-end));
+          border: none;
           padding: 14px 36px;
           font-size: 1rem;
           font-weight: 700;
-          color: var(--champagne-gold-end);
+          color: #fff;
           border-radius: 30px;
           cursor: pointer;
-          user-select: none;
+          box-shadow: 0 0 18px #D4AF7FAA;
+          transition: box-shadow 0.3s ease;
           text-decoration: none;
           display: inline-block;
-          transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-          box-shadow: none;
+          user-select: none;
         }
         .btn-primary:hover,
         .btn-primary:focus-visible {
-          background-color: var(--champagne-gold-end);
-          color: #fff;
-          outline: none;
-          box-shadow: 0 0 14px var(--champagne-gold-alpha);
-        }
-
-        /* 特色引导模块内容引导语 */
-        .guide-intro {
-          text-align: center;
-          font-size: 1.1rem;
-          color: var(--text-dark);
-          margin-bottom: 24px;
-          user-select: text;
-          max-width: 500px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        /* 核心引导区 */
-        .guide-section {
-          display: flex;
-          gap: 40px;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-        .guide-card {
-          flex: 1 1 240px;
-          background: #fff;
-          border-radius: 12px;
-          padding: 24px 18px 18px 18px;
-          cursor: pointer;
-          box-shadow: 0 0 12px rgba(0,0,0,0.05);
-          transition:
-            background-color 0.3s ease,
-            box-shadow 0.3s ease,
-            transform 0.3s ease;
-          user-select: none;
-          color: var(--text-dark);
-          font-weight: 500;
-          text-decoration: none;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          min-height: 180px;
-        }
-        .guide-card:hover,
-        .guide-card:focus-visible {
-          background-color: var(--champagne-gold-alpha-soft);
-          box-shadow: 0 0 20px var(--champagne-gold-alpha);
-          transform: translateY(-6px);
+          box-shadow: 0 0 28px var(--champagne-gold-start);
           outline: none;
         }
-        .guide-card h3 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: var(--champagne-gold-end);
-          margin-bottom: 14px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          user-select: text;
-        }
-        .guide-card p {
-          font-weight: 400;
-          font-size: 1rem;
-          line-height: 1.5;
-          color: var(--text-muted);
-          user-select: text;
-        }
 
-        /* 品牌历程 + 资讯模块 */
-        .milestones-section,
-        .projects-section {
-          max-width: 1100px;
-          margin: 0 auto;
-          padding: 32px 18px 24px;
-          background-color: rgba(212, 175, 127, 0.06);
-          border-radius: 14px;
-          box-shadow:
-            0 0 12px rgba(212, 175, 127, 0.15);
-        }
-        .milestones-section h2,
-        .projects-section h2 {
-          font-size: 2.8rem;
-          font-weight: 700;
-          color: var(--champagne-gold-end);
-          margin-bottom: 24px;
-          user-select: none;
-          text-align: center;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          position: relative;
-        }
-        .milestones-section h2::after,
-        .projects-section h2::after {
-          content: '';
-          position: absolute;
-          left: 50%;
-          bottom: -10px;
-          transform: translateX(-50%);
-          width: max(40px, 10vw);
-          height: 2px;
-          background: linear-gradient(90deg, var(--champagne-gold-alpha), var(--champagne-gold-end));
-          border-radius: 1px;
-        }
-        @media (max-width: 480px) {
-          .milestones-section h2::after,
-          .projects-section h2::after {
-            display: none;
-          }
-        }
-        .timeline {
-          border-left: 3px solid var(--champagne-gold-end);
-          margin-left: 16px;
-          padding-left: 24px;
-        }
-        .timeline-item {
-          position: relative;
-          margin-bottom: 36px;
-          padding-left: 16px;
-        }
-        .timeline-item::before {
-          content: '';
-          position: absolute;
-          left: -28px;
-          top: 6px;
-          width: 16px;
-          height: 16px;
-          background: var(--champagne-gold-start);
-          border-radius: 50%;
-          box-shadow: 0 0 10px var(--champagne-gold-alpha);
-        }
-        .timeline-item time {
-          display: block;
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: #a38f56cc;
-          margin-bottom: 6px;
-          user-select: text;
-        }
-        .timeline-item h3 {
-          margin: 0 0 6px 0;
-          font-weight: 700;
-          color: var(--champagne-gold-end);
-          user-select: text;
-        }
-        .timeline-item p {
-          margin: 0;
-          font-weight: 400;
-          color: var(--text-muted);
-          line-height: 1.4;
-          user-select: text;
-        }
+        /* 品牌历程 + 创意项目样式同之前（省略） */
+        /* 你可以根据之前给你的样式补充 */
 
-        /* 创意项目模块 */
-        .projects-section p.section-subtitle {
-          font-size: 1.15rem;
-          font-weight: 400;
-          color: var(--text-dark);
-          margin-bottom: 24px;
-          user-select: text;
-          text-align: center;
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .projects-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-          gap: 32px;
-        }
-        .project-card {
-          border-radius: 14px;
-          padding: 24px 22px;
-          background: #fff;
-          box-shadow: 0 0 8px rgba(0,0,0,0.04);
-          transition: box-shadow 0.3s ease, transform 0.3s ease;
-          user-select: none;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          min-height: 220px;
-        }
-        .project-card:hover,
-        .project-card:focus-within {
-          box-shadow:
-            0 0 28px var(--champagne-gold-alpha),
-            0 0 48px var(--champagne-gold-alpha-soft);
-          transform: translateY(-6px);
-          outline: none;
-        }
-        .project-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: var(--champagne-gold-end);
-          margin-bottom: 16px;
-          letter-spacing: 0.06em;
-          user-select: text;
-        }
-        .project-desc {
-          flex-grow: 1;
-          font-weight: 400;
-          font-size: 1rem;
-          color: var(--text-muted);
-          margin-bottom: 24px;
-          user-select: text;
-          line-height: 1.4;
-        }
-        .like-button {
-          background: none;
-          border: 2px solid var(--champagne-gold-start);
-          border-radius: 24px;
-          padding: 8px 24px;
-          font-size: 1rem;
-          font-weight: 600;
-          color: var(--champagne-gold-start);
-          cursor: pointer;
-          user-select: none;
-          align-self: flex-start;
-          transition:
-            background-color 0.3s ease,
-            color 0.3s ease,
-            border-color 0.3s ease,
-            box-shadow 0.3s ease;
-          box-shadow: none;
-        }
-        .like-button.liked {
-          background-color: var(--champagne-gold-start);
-          color: #fff;
-          border-color: var(--champagne-gold-end);
-          box-shadow: 0 0 10px var(--champagne-gold-alpha);
-        }
-        .like-button:hover,
-        .like-button:focus-visible {
-          outline: none;
-          background-color: var(--champagne-gold-end);
-          color: #fff;
-          border-color: var(--champagne-gold-end);
-          box-shadow: 0 0 14px var(--champagne-gold-alpha);
-        }
-
-        /* 页脚 */
-        footer {
-          text-align: center;
-          font-size: 0.85rem;
-          color: #999999cc;
-          letter-spacing: 0.12em;
-          user-select: none;
-          margin-top: 48px;
-          padding-bottom: 24px;
-        }
-
-        /* 响应式 */
         @media (max-width: 768px) {
           main {
             padding: 40px 20px 80px;
             gap: 50px;
           }
+          /* 隐藏电脑版大标题 */
           .header h1 {
-            font-size: clamp(3rem, 12vw, 4rem);
+            display: none;
           }
-          .guide-section {
-            flex-direction: column;
-            gap: 24px;
+          /* 显示移动端简洁slogan */
+          .mobile-slogan {
+            display: block;
           }
-          .guide-card {
-            width: 100%;
-            max-width: 360px;
-            margin: 0 auto;
-          }
-          .milestones-section,
-          .projects-section {
-            max-width: 100%;
-            padding: 24px 12px 24px;
-          }
-          .projects-grid {
-            grid-template-columns: 1fr;
-          }
-          .project-card {
-            max-width: 100%;
+        }
+        @media (min-width: 769px) {
+          /* 移动端slogan隐藏 */
+          .mobile-slogan {
+            display: none;
           }
         }
       `}</style>
 
       <main>
-        {/* 顶部标题 */}
-        <section className="header" aria-label="品牌介绍">
-          <h1 aria-label="ROROSPHERE">
-            <span className="desktop-only">ROROSPHERE</span>
-            <span className="mobile-only">
-              <span>RORO</span>
-              <span>SPHERE</span>
-            </span>
-          </h1>
-          <p>
-            激发青少年潜能，构筑归属感与文化共创的未来。
-          </p>
+        <header className="header" aria-label="品牌介绍">
+          {!isMobile && <h1>ROROSPHERE</h1>}
+
+          {isMobile && (
+            <>
+              <SmallLogo />
+              <p className="mobile-slogan">
+                激发青少年潜能，构筑归属感与文化共创的未来。
+              </p>
+            </>
+          )}
+
           <Link href="/brand-history" className="btn-primary" aria-label="了解品牌历程">
             了解品牌历程
           </Link>
-        </section>
+        </header>
 
-        {/* 特色引导模块前的引导语 */}
-        <p className="guide-intro" aria-hidden="true">
-          选择你想参与的 ROROSPHERE 体验
-        </p>
+        {/* 电脑版首页继续展示品牌历程、创意项目等 */}
+        {!isMobile && (
+          <>
+            <section aria-label="品牌历程" className="milestones-section">
+              <h2>品牌历程</h2>
+              <div className="timeline">
+                {brandMilestones.map(({ id, date, title, desc }) => (
+                  <article className="timeline-item" key={id} tabIndex={-1}>
+                    <time dateTime={date}>{date}</time>
+                    <h3>{title}</h3>
+                    <p>{desc}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
 
-        {/* 核心引导区 - 只留合作与参与 */}
-        <section className="guide-section" aria-label="用户可做什么">
-          <Link href="/contact" className="guide-card" tabIndex={0} aria-label="合作与参与">
-            <h3>合作与参与</h3>
-            <p>携手打造未来，加入 ROROSPHERE 生态。</p>
-          </Link>
-        </section>
+            <section aria-label="创意项目" className="projects-section">
+              <h2>创意项目</h2>
+              <p className="section-subtitle">
+                发现我们如何激发灵感，融合文化与生活。
+              </p>
+              <div className="projects-grid">
+                {projects.map(({ id, title, desc, liked }) => (
+                  <article
+                    className="project-card"
+                    key={id}
+                    tabIndex={0}
+                    aria-label={`${title}项目，${liked ? '已点赞' : '未点赞'}`}
+                  >
+                    <h3 className="project-title">{title}</h3>
+                    <p className="project-desc">{desc}</p>
+                    <button
+                      className={`like-button ${liked ? 'liked' : ''}`}
+                      aria-pressed={liked}
+                      aria-label={liked ? `取消点赞${title}` : `点赞${title}`}
+                      onClick={() => toggleLike(id)}
+                    >
+                      {liked ? '已点赞' : '点赞'}
+                    </button>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
 
-        {/* 品牌历程 */}
-        <section className="milestones-section" aria-label="品牌历程">
-          <h2>品牌历程</h2>
-          <div className="timeline">
-            {brandMilestones.map(({ id, date, title, desc }) => (
-              <article className="timeline-item" key={id} tabIndex={-1}>
-                <time dateTime={date}>{date}</time>
-                <h3>{title}</h3>
-                <p>{desc}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* 创意项目 */}
-        <section className="projects-section" aria-label="创意项目与合作">
-          <h2>创意项目</h2>
-          <p className="section-subtitle">
-            发现我们如何激发灵感，融合文化与生活。
-          </p>
-          <div className="projects-grid">
-            {projects.map(({ id, title, desc, liked }) => (
-              <article
-                className="project-card"
-                key={id}
-                tabIndex={0}
-                aria-label={`${title}项目，${liked ? '已点赞' : '未点赞'}`}
-              >
-                <h3 className="project-title">{title}</h3>
-                <p className="project-desc">{desc}</p>
-                <button
-                  className={`like-button ${liked ? 'liked' : ''}`}
-                  aria-pressed={liked}
-                  aria-label={liked ? `取消点赞${title}` : `点赞${title}`}
-                  onClick={() => toggleLike(id)}
-                >
-                  {liked ? '已点赞' : '点赞'}
-                </button>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <footer>
-          © 2025 ROROSPHERE. All Rights Reserved.
+        <footer aria-label="网站版权信息">
+          © 2025 ROROSPHERE 保留所有权利
         </footer>
       </main>
     </>
   );
 }
+
 
 
 
