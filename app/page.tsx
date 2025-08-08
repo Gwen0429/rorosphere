@@ -1,431 +1,469 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
-const brandMilestones = [
-  { id: 1, date: '2025-07-01', title: 'ROROSPHERE 成立', desc: '开启青少年赋能与文化共创之旅' },
-  { id: 2, date: '2025-07-15', title: '首个线下创意展览', desc: '汇聚年轻创意，激发无限可能' },
-  { id: 3, date: '2025-07-30', title: '发布品牌首款周边', desc: '精致设计，传递品牌精神' },
+const latestBrandUpdates = [
+  {
+    id: 1,
+    title: 'RORO亮相国际艺术展',
+    summary: '在巴黎现代艺术馆举办的跨界艺术展上，RORO展现了品牌独特的文化张力。',
+    date: '2025-07-28',
+    link: '/brand-history/1',
+  },
+  {
+    id: 2,
+    title: '社区共创活动成功举办',
+    summary: 'RORO邀请青少年和家庭共同参与创意工作坊，激发多元文化交流。',
+    date: '2025-07-15',
+    link: '/brand-history/2',
+  },
 ];
 
-const creativeProjects = [
-  { id: 1, title: '艺术共创计划', desc: '聚合家庭与青少年力量，打造原创艺术', liked: false },
-  { id: 2, title: '文化传承项目', desc: '连接传统与现代，塑造独特文化表达', liked: false },
-  { id: 3, title: '生活美学探索', desc: '激励个性成长，打造生活方式品牌', liked: false },
+const creativeShowcases = [
+  {
+    id: 1,
+    title: '“光影交织”数字艺术展',
+    summary: '结合光伏科技与艺术表现，展现未来生活美学。',
+    link: '/creative-projects/1',
+  },
+  {
+    id: 2,
+    title: '“花蕊之韵”设计作品集',
+    summary: '融合RORO花瓣交叉元素的时尚设计，突破传统边界。',
+    link: '/creative-projects/2',
+  },
 ];
+
+const guideCardCSS = `
+  .guide-card {
+    flex: 1 1 240px;
+    border-bottom: 4px solid var(--champagne-gold);
+    padding: 24px 18px 18px 18px;
+    cursor: pointer;
+    border-radius: 12px;
+    background: linear-gradient(
+      145deg,
+      #f9f6f2,
+      #efe7db 40%,
+      #d4af7f 60%,
+      #e9ddc8
+    );
+    box-shadow:
+      inset 0 2px 6px rgba(212, 175, 127, 0.3),
+      0 0 8px rgba(212, 175, 127, 0.15);
+    transition:
+      box-shadow 0.4s ease,
+      transform 0.3s ease,
+      background-position 2.5s linear;
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    user-select: none;
+    color: #3e2f1c;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .guide-card:hover,
+  .guide-card:focus-visible {
+    animation: shimmer 3s linear infinite;
+    transform: translateY(-6px);
+    box-shadow:
+      0 0 28px var(--champagne-gold-alpha),
+      0 0 48px var(--champagne-gold-alpha-soft);
+    border-color: #b68e37;
+    outline: none;
+  }
+
+  .guide-card h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--champagne-gold);
+    margin-bottom: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    user-select: none;
+  }
+
+  .guide-card p {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #6b6b6bdd;
+    user-select: none;
+    margin: 0;
+  }
+
+  .guide-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+`;
 
 export default function Home() {
-  const [projects, setProjects] = useState(creativeProjects);
-
-  const toggleLike = (id: number) => {
-    setProjects((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, liked: !p.liked } : p))
-    );
-  };
-
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
 
         :root {
           --champagne-gold: #D4AF7F;
           --champagne-gold-alpha: #D4AF7Faa;
           --champagne-gold-alpha-soft: #D4AF7F66;
           --bg-color: #fff;
-          --text-color: #333;
-          --shadow-color: rgba(212, 175, 127, 0.3);
-          --border-color: #B68E37;
-          --font-primary: 'Playfair Display', serif;
-        }
-
-        * {
-          box-sizing: border-box;
+          --text-color: #3e2f1c;
         }
 
         html, body {
-          margin: 0; padding: 0;
+          margin: 0;
+          padding: 0;
           background: var(--bg-color);
           color: var(--text-color);
-          font-family: var(--font-primary);
+          font-family: 'Playfair Display', serif;
           overflow-x: hidden;
         }
 
         main {
-          padding: 80px 40px 140px;
-          max-width: 1200px;
-          margin: 0 auto;
           min-height: 100vh;
+          padding: 80px 40px 140px;
           display: flex;
           flex-direction: column;
-          gap: 80px;
-          user-select: none;
+          align-items: center;
+          max-width: 100vw;
+          position: relative;
         }
 
-        /* 顶部标题区 */
-        .header {
-          text-align: center;
-          position: relative;
-          z-index: 2;
+        .flower-cluster {
+          position: absolute;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          pointer-events: none;
+          user-select: none;
+          width: 320px;
+          height: 180px;
+          opacity: 0.15;
+          background: radial-gradient(circle at 40% 60%, var(--champagne-gold), transparent 70%);
+          filter: drop-shadow(0 0 10px var(--champagne-gold-alpha-soft));
+          border-radius: 50% / 40%;
+          animation: gentle-sway 10s ease-in-out infinite alternate;
+          z-index: 1;
         }
-        .header h1 {
+
+        @keyframes gentle-sway {
+          0% { transform: translateX(-50%) translateY(0) rotate(0deg);}
+          100% { transform: translateX(-50%) translateY(10px) rotate(3deg);}
+        }
+
+        h1 {
           font-size: 5rem;
           font-weight: 700;
-          color: var(--champagne-gold);
           letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--champagne-gold);
           font-style: italic;
-          text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 22px var(--champagne-gold-alpha-soft);
-          margin: 0 0 20px 0;
-        }
-        .header p {
-          font-weight: 400;
-          font-size: 1.3rem;
-          color: #7a6a4fdd;
-          margin: 0 0 30px;
-          max-width: 720px;
-          margin-left: auto;
-          margin-right: auto;
-          line-height: 1.6;
-          user-select: text;
-        }
-        .btn-primary {
-          background: linear-gradient(45deg, #D4AF7F, #B68E37);
-          border: none;
-          padding: 14px 36px;
-          font-size: 1rem;
-          font-weight: 700;
-          color: #fff;
-          border-radius: 30px;
-          cursor: pointer;
-          box-shadow: 0 0 18px var(--champagne-gold-alpha);
-          transition: box-shadow 0.3s ease;
+          text-shadow:
+            0 0 8px var(--champagne-gold-alpha),
+            0 0 22px var(--champagne-gold-alpha-soft);
+          margin: 0 0 48px;
           user-select: none;
-          text-decoration: none;
-          display: inline-block;
-        }
-        .btn-primary:hover,
-        .btn-primary:focus-visible {
-          box-shadow: 0 0 28px var(--champagne-gold);
-          outline: none;
+          text-align: center;
+          max-width: 100%;
+          padding: 0 10px;
         }
 
-        /* 核心引导区 */
+        .subtitle {
+          max-width: 720px;
+          font-weight: 600;
+          font-size: 1.6rem;
+          letter-spacing: 0.1em;
+          line-height: 1.6;
+          margin: 20px 0 80px;
+          text-align: center;
+          color: var(--text-color);
+          user-select: none;
+          font-family: 'Playfair Display', serif;
+        }
+
         .guide-section {
           display: flex;
           gap: 40px;
-          justify-content: center;
+          max-width: 960px;
+          width: 100%;
           flex-wrap: wrap;
+          justify-content: center;
+          margin-bottom: 80px;
+          z-index: 2;
         }
-        .guide-card {
-          flex: 1 1 240px;
+
+        ${guideCardCSS}
+
+        /* 品牌动态和创意展览也用同样样式 */
+        .updates-showcases {
+          display: flex;
+          gap: 40px;
+          max-width: 960px;
+          width: 100%;
+          flex-wrap: wrap;
+          justify-content: center;
+          margin-bottom: 80px;
+        }
+
+        .updates, .showcases {
+          flex: 1 1 440px;
+          background: linear-gradient(
+            145deg,
+            #f9f6f2,
+            #efe7db 40%,
+            #d4af7f 60%,
+            #e9ddc8
+          );
+          border-radius: 12px;
           border-bottom: 4px solid var(--champagne-gold);
+          box-shadow:
+            inset 0 2px 6px rgba(212, 175, 127, 0.3),
+            0 0 8px rgba(212, 175, 127, 0.15);
           padding: 24px 18px 18px 18px;
-          cursor: pointer;
-          transition:
-            box-shadow 0.3s ease,
-            transform 0.3s ease,
-            border-color 0.3s ease;
-          border-radius: 8px;
-          background: #fff;
           user-select: none;
-          box-shadow: 0 0 10px transparent;
+          cursor: pointer;
+          color: #3e2f1c;
+          font-weight: 500;
+          transition:
+            box-shadow 0.4s ease,
+            transform 0.3s ease,
+            background-position 2.5s linear;
+          background-size: 300% 300%;
+          background-position: 0% 50%;
         }
-        .guide-card:hover,
-        .guide-card:focus-visible {
+
+        .updates:hover,
+        .updates:focus-visible,
+        .showcases:hover,
+        .showcases:focus-visible {
+          animation: shimmer 3s linear infinite;
           transform: translateY(-6px);
           box-shadow:
-            0 0 24px var(--champagne-gold-alpha),
-            0 0 40px var(--champagne-gold-alpha-soft);
-          border-color: var(--border-color);
+            0 0 28px var(--champagne-gold-alpha),
+            0 0 48px var(--champagne-gold-alpha-soft);
+          border-color: #b68e37;
           outline: none;
+          background-position: 100% 50%;
         }
-        .guide-card h3 {
-          font-size: 1.8rem;
+
+        .updates h2,
+        .showcases h2 {
           font-weight: 700;
-          color: var(--border-color);
-          margin-bottom: 14px;
+          font-size: 2.2rem;
+          color: var(--champagne-gold);
+          margin-bottom: 24px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-        }
-        .guide-card p {
-          font-weight: 400;
-          font-size: 1rem;
-          line-height: 1.5;
-          color: #6b6b6bdd;
-        }
-        .guide-card a {
-          text-decoration: none;
-          color: inherit;
+          user-select: none;
+          border-bottom: 2px solid var(--champagne-gold-alpha-soft);
+          padding-bottom: 10px;
         }
 
-        /* 品牌历程+资讯模块 */
-        .milestones-section {
-          max-width: 900px;
-          margin: 0 auto;
-        }
-        .milestones-section h2 {
-          font-size: 2.6rem;
-          font-weight: 700;
-          color: var(--champagne-gold);
-          margin-bottom: 24px;
-          user-select: none;
-          text-align: center;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-        }
-        .timeline {
-          border-left: 3px solid var(--champagne-gold);
-          margin-left: 16px;
-          padding-left: 24px;
-        }
-        .timeline-item {
-          position: relative;
-          margin-bottom: 36px;
-          padding-left: 16px;
-        }
-        .timeline-item::before {
-          content: '';
-          position: absolute;
-          left: -28px;
-          top: 6px;
-          width: 16px;
-          height: 16px;
-          background: var(--champagne-gold);
-          border-radius: 50%;
-          box-shadow: 0 0 8px var(--champagne-gold-alpha);
-        }
-        .timeline-item time {
-          display: block;
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: #a38f56cc;
-          margin-bottom: 6px;
-        }
-        .timeline-item h3 {
-          margin: 0 0 6px 0;
-          font-weight: 700;
-          color: #B68E37;
-        }
-        .timeline-item p {
+        ul.update-list,
+        ul.showcase-list {
+          list-style: none;
+          padding: 0;
           margin: 0;
-          font-weight: 400;
-          color: #5b5b5bdd;
-          line-height: 1.4;
-          user-select: text;
+          overflow-y: auto;
+          max-height: 400px;
         }
 
-        /* 创意项目模块 */
-        .projects-section {
-          max-width: 900px;
-          margin: 0 auto;
-        }
-        .projects-section h2 {
-          font-size: 2.6rem;
-          font-weight: 700;
-          color: var(--champagne-gold);
-          margin-bottom: 24px;
-          user-select: none;
-          text-align: center;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-        }
-        .projects-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-          gap: 32px;
-        }
-        .project-card {
-          border: 2px solid var(--champagne-gold);
-          border-radius: 14px;
-          padding: 20px;
-          box-shadow: 0 0 12px transparent;
-          background: #fff;
-          transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-          user-select: none;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .project-card:hover,
-        .project-card:focus-within {
-          box-shadow:
-            0 0 22px var(--champagne-gold-alpha),
-            0 0 38px var(--champagne-gold-alpha-soft);
-          border-color: var(--border-color);
-          transform: translateY(-6px);
-          outline: none;
-        }
-        .project-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #B68E37;
-          margin-bottom: 12px;
-          letter-spacing: 0.06em;
-          user-select: text;
-        }
-        .project-desc {
-          flex-grow: 1;
-          font-weight: 400;
-          font-size: 1rem;
-          color: #5b5b5bdd;
-          margin-bottom: 20px;
-          user-select: text;
-        }
-        .like-button {
-          background: none;
-          border: 2px solid var(--champagne-gold);
-          border-radius: 24px;
-          padding: 6px 20px;
-          font-size: 1rem;
-          font-weight: 600;
-          color: var(--champagne-gold);
+        ul.update-list li,
+        ul.showcase-list li {
+          margin-bottom: 18px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 10px;
           cursor: pointer;
-          user-select: none;
-          align-self: flex-start;
-          transition:
-            background-color 0.3s ease,
-            color 0.3s ease,
-            border-color 0.3s ease;
+          user-select: text;
+          transition: color 0.3s ease;
+          outline-offset: 3px;
         }
-        .like-button.liked {
-          background-color: var(--champagne-gold);
-          color: #fff;
-          border-color: var(--border-color);
-        }
-        .like-button:hover,
-        .like-button:focus-visible {
+
+        ul.update-list li:hover,
+        ul.showcase-list li:hover,
+        ul.update-list li:focus-visible,
+        ul.showcase-list li:focus-visible {
+          color: var(--champagne-gold);
           outline: none;
-          background-color: var(--border-color);
-          color: #fff;
-          border-color: var(--border-color);
         }
 
-        /* 页脚 */
-        footer {
-          text-align: center;
-          font-size: 0.8rem;
-          color: #999999cc;
-          letter-spacing: 0.12em;
-          user-select: none;
+        ul.update-list li a,
+        ul.showcase-list li a {
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 1rem;
+          color: inherit;
+          user-select: text;
         }
 
-        /* 响应式 */
+        ul.update-list li a:hover,
+        ul.showcase-list li a:hover {
+          text-decoration: underline;
+        }
+
+        ul.update-list li p,
+        ul.showcase-list li p {
+          margin: 4px 0 0;
+          font-weight: 400;
+          font-size: 0.9rem;
+          color: #6b6b6bdd;
+          user-select: text;
+        }
+
         @media (max-width: 768px) {
           main {
-            padding: 40px 20px 80px;
-            gap: 50px;
+            padding: 40px 16px 80px !important;
           }
-          .header h1 {
-            font-size: 3.6rem;
-            letter-spacing: 0.12em;
+
+          h1 {
+            font-size: 3.6rem !important;
+            margin-bottom: 36px !important;
+            letter-spacing: 0.12em !important;
           }
-          .header p {
-            font-size: 1.1rem;
-            margin-bottom: 24px;
+
+          .subtitle {
+            font-size: 1.25rem !important;
+            margin: 16px 0 40px !important;
           }
+
           .guide-section {
-            flex-direction: column;
-            gap: 24px;
+            flex-direction: column !important;
+            gap: 30px !important;
           }
-          .guide-card {
-            width: 100%;
-            max-width: 360px;
-            margin: 0 auto;
+
+          .updates-showcases {
+            flex-direction: column !important;
+            gap: 40px !important;
           }
-          .milestones-section,
-          .projects-section {
-            max-width: 100%;
-            padding: 0 10px;
+
+          .updates, .showcases {
+            flex: 1 1 100% !important;
           }
-          .projects-grid {
-            grid-template-columns: 1fr;
+
+          ul.update-list li,
+          ul.showcase-list li {
+            margin-bottom: 14px !important;
+            padding-bottom: 8px !important;
           }
-          .project-card {
-            max-width: 100%;
+
+          ul.update-list li a,
+          ul.showcase-list li a {
+            font-size: 1rem !important;
           }
         }
       `}</style>
 
       <main>
-        {/* 顶部标题 */}
-        <section className="header" aria-label="品牌介绍">
-          <h1>ROROSPHERE</h1>
-          <p>
-            激发青少年潜能，构筑归属感与文化共创的未来。
-          </p>
-          <Link href="/brand-history" className="btn-primary" aria-label="了解品牌历程">
-            了解品牌历程
-          </Link>
-        </section>
+        <div className="flower-cluster" aria-hidden="true"></div>
 
-        {/* 核心引导区 */}
-        <section className="guide-section" aria-label="用户可做什么">
-          <Link href="/creative-projects" className="guide-card" tabIndex={0} aria-label="赋能潜能 - 了解青少年艺术成长计划">
-            <h3>赋能潜能</h3>
-            <p>助力青少年艺术与文化成长。</p>
-          </Link>
-          <Link href="/creative-projects" className="guide-card" tabIndex={0} aria-label="加入共创 - 参与家庭和青少年故事分享">
+        <h1>ROROSPHERE</h1>
+
+        <p className="subtitle">
+          在这里，年轻的创意被点燃，文化与表达交织成独特归属感。<br />
+          与家庭共创，携手成长，展现真实自我。
+        </p>
+
+        <section className="guide-section" aria-label="特色引导">
+          <div
+            className="guide-card"
+            tabIndex={0}
+            role="button"
+            aria-label="激发潜能"
+            onClick={() => window.location.href = '/brand-history'}
+          >
+            <h3>激发潜能</h3>
+            <p>通过文化与表达，培养年轻人的创造力与自信。</p>
+          </div>
+          <div
+            className="guide-card"
+            tabIndex={0}
+            role="button"
+            aria-label="加入共创"
+            onClick={() => window.location.href = '/creative-projects'}
+          >
             <h3>加入共创</h3>
-            <p>与家庭共同创造独特故事。</p>
-          </Link>
-          <Link href="/brand-history" className="guide-card" tabIndex={0} aria-label="探索生活方式 - 体验 RORO 生活美学">
-            <h3>探索生活方式</h3>
-            <p>体验 RORO 生活美学。</p>
-          </Link>
-          <Link href="/contact" className="guide-card" tabIndex={0} aria-label="联系我们 - 合作与参与">
-            <h3>联系我们</h3>
-            <p>想参与或合作？联系我们。</p>
-          </Link>
-        </section>
-
-        {/* 品牌历程 + 资讯 */}
-        <section className="milestones-section" aria-label="最新品牌动态">
-          <h2>最新品牌动态</h2>
-          <div className="timeline">
-            {brandMilestones.map(({ id, date, title, desc }) => (
-              <div key={id} className="timeline-item" tabIndex={0} aria-label={`${title}, 时间：${date}`}>
-                <time dateTime={date}>{date}</time>
-                <h3>{title}</h3>
-                <p>{desc}</p>
-              </div>
-            ))}
+            <p>一个家庭与青少年展示独特才华与故事的平台。</p>
+          </div>
+          <div
+            className="guide-card"
+            tabIndex={0}
+            role="button"
+            aria-label="活出RORO"
+            onClick={() => window.location.href = '/contact'}
+          >
+            <h3>活出RORO</h3>
+            <p>超越创作，品味成长与自我认同的生活方式。</p>
           </div>
         </section>
 
-        {/* 精选创意项目 */}
-        <section className="projects-section" aria-label="精彩创意展览">
-          <h2>精彩创意展览</h2>
-          <div className="projects-grid">
-            {projects.map(({ id, title, desc, liked }) => (
-              <article
-                key={id}
-                className="project-card"
-                tabIndex={0}
-                aria-label={`${title}，简介：${desc}，${liked ? '已点赞' : '未点赞'}`}
-              >
-                <h3 className="project-title">{title}</h3>
-                <p className="project-desc">{desc}</p>
-                <button
-                  className={`like-button ${liked ? 'liked' : ''}`}
-                  onClick={() => toggleLike(id)}
-                  aria-pressed={liked}
-                  aria-label={liked ? `取消点赞 ${title}` : `点赞 ${title}`}
+        <section className="updates-showcases" aria-label="品牌动态与创意展览">
+          <article
+            className="updates"
+            tabIndex={0}
+            role="region"
+            aria-label="最新品牌动态"
+          >
+            <h2>最新品牌动态</h2>
+            <ul className="update-list">
+              {latestBrandUpdates.map(({ id, title, summary, date, link }) => (
+                <li
+                  key={id}
+                  tabIndex={0}
+                  role="link"
+                  onClick={() => window.location.href = link}
+                  aria-label={`查看品牌动态：${title}`}
                 >
-                  {liked ? '已点赞 ♥' : '点赞 ♡'}
-                </button>
-              </article>
-            ))}
-          </div>
+                  <a href={link}>{title}</a>
+                  <p>{summary}</p>
+                  <time>{date}</time>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article
+            className="showcases"
+            tabIndex={0}
+            role="region"
+            aria-label="精彩创意展览"
+          >
+            <h2>精彩创意展览</h2>
+            <ul className="showcase-list">
+              {creativeShowcases.map(({ id, title, summary, link }) => (
+                <li
+                  key={id}
+                  tabIndex={0}
+                  role="link"
+                  onClick={() => window.location.href = link}
+                  aria-label={`查看创意展览：${title}`}
+                >
+                  <a href={link}>{title}</a>
+                  <p>{summary}</p>
+                </li>
+              ))}
+            </ul>
+          </article>
         </section>
 
-        <footer>
-          &copy; 2025 ROROSPHERE. 版权所有。
-        </footer>
+        <footer>&copy; 2025 ROROSPHERE. All rights reserved.</footer>
       </main>
     </>
   );
 }
+
 
 
 
