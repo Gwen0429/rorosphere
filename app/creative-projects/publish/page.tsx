@@ -20,14 +20,17 @@ export default function PublishPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 处理文件选择
-  const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setForm((prev) => ({
-      ...prev,
-      files: Array.from((e.target as HTMLInputElement).files || []),
-    }));
-  };
+  // 处理文件选择，带类型断言避免红线
+  // 处理文件选择，使用 e.currentTarget.files 绝不报红线
+const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.currentTarget.files;
+  if (!files) return;
+  setForm((prev) => ({
+    ...prev,
+    files: Array.from(files),
+  }));
+};
+
 
   // 校验联系方式三选二
   const validateContact = () => {
@@ -367,5 +370,3 @@ export default function PublishPage() {
     </>
   );
 }
-
-

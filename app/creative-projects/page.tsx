@@ -2,41 +2,60 @@
 
 import React, { useState } from 'react';
 
+interface FormState {
+  name: string;
+  idea: string;
+  wechat: string;
+  email: string;
+  phone: string;
+  files: File[];
+}
+
 export default function PublishPage() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     name: '',
     idea: '',
     wechat: '',
     email: '',
     phone: '',
-    files: [] as File[],
+    files: [],
   });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+
+  const [error, setError] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   // 处理输入变化
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   // 处理文件选择
   const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
+    const filesArray = Array.from(e.target.files);
     setForm((prev) => ({
       ...prev,
-      files: Array.from((e.target as HTMLInputElement).files || []),
+      files: filesArray,
     }));
   };
 
   // 校验联系方式三选二
-  const validateContact = () => {
-    const filledCount = [form.wechat, form.email, form.phone].filter((v) => v.trim() !== '').length;
+  const validateContact = (): boolean => {
+    const filledCount = [form.wechat, form.email, form.phone].filter(
+      (v) => v.trim() !== ''
+    ).length;
     return filledCount >= 2;
   };
 
   // 提交表单
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setSuccess(false);
@@ -45,6 +64,7 @@ export default function PublishPage() {
       setError('请填写您的姓名和创意内容');
       return;
     }
+
     if (!validateContact()) {
       setError('请至少填写两项联系方式（微信、邮箱、电话）');
       return;
@@ -53,15 +73,13 @@ export default function PublishPage() {
     setSubmitting(true);
 
     try {
-      // 这里模拟FormData上传，文件暂不上传，只上传文本和联系方式
-      // 后端如果支持multipart/form-data，改写API即可
+      // 目前不上传文件，后端支持时可以改成multipart/form-data
       const payload = {
         name: form.name,
         idea: form.idea,
         wechat: form.wechat,
         email: form.email,
         phone: form.phone,
-        // files暂不发送
       };
 
       const res = await fetch('/api/send-application', {
@@ -83,8 +101,12 @@ export default function PublishPage() {
         phone: '',
         files: [],
       });
-    } catch (err: any) {
-      setError(err.message || '提交失败，请稍后重试');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('提交失败，请稍后重试');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -257,7 +279,6 @@ export default function PublishPage() {
           font-size: 1.2rem;
         }
 
-        /* 响应式 */
         @media (max-width: 600px) {
           .contact-group > div {
             flex: 1 1 100%;
@@ -271,8 +292,16 @@ export default function PublishPage() {
       <form onSubmit={handleSubmit} noValidate>
         <h2>发布你的创意申请</h2>
 
-        {error && <p className="error-message" role="alert">{error}</p>}
-        {success && <p className="success-message" role="status">提交成功！感谢你的创意分享。</p>}
+        {error && (
+          <p className="error-message" role="alert">
+            {error}
+          </p>
+        )}
+        {success && (
+          <p className="success-message" role="status">
+            提交成功！感谢你的创意分享。
+          </p>
+        )}
 
         <div className="input-group">
           <label htmlFor="name">姓名 *</label>
@@ -367,5 +396,3 @@ export default function PublishPage() {
     </>
   );
 }
-
-

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import nodemailer from "nodemailer";
 
 export default function ContactPage() {
   const [form, setForm] = useState({
