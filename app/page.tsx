@@ -77,24 +77,28 @@ export default function Home() {
           margin-right: auto;
         }
         .header h1 {
-          font-size: clamp(3.2rem, 8vw, 4.8rem);
           font-weight: 700;
-          color: var(--champagne-gold-start);
+          color: transparent;
           background: linear-gradient(90deg, var(--champagne-gold-start), var(--champagne-gold-end));
           background-clip: text;
           -webkit-background-clip: text;
-          color: transparent;
           text-shadow:
             0 0 6px var(--champagne-gold-alpha),
             0 0 12px var(--champagne-gold-alpha-soft);
           letter-spacing: 0.25em;
-          line-height: 1.12;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          line-height: 1.1;
+          text-align: center;
           user-select: text;
-          max-width: 80vw;
-          margin: 0 auto 24px;
+          margin-bottom: 24px;
+        }
+        .line1 {
+          display: block;
+          font-size: clamp(3rem, 10vw, 4.8rem);
+        }
+        .line2 {
+          display: block;
+          font-size: clamp(2.8rem, 9vw, 4.6rem);
+          margin-top: -0.2em; /* 微调行间距 */
         }
         .header p {
           font-weight: 400;
@@ -218,6 +222,19 @@ export default function Home() {
           color: inherit;
         }
 
+        /* 只保留合作与参与跳转 */
+        .guide-section > div.guide-card:not(.clickable) {
+          cursor: default;
+        }
+        .guide-section > div.guide-card:not(.clickable):hover,
+        .guide-section > div.guide-card:not(.clickable):focus-visible {
+          animation: none;
+          transform: none;
+          box-shadow: none;
+          border-color: var(--champagne-gold-start);
+          outline: none;
+        }
+
         /* 品牌历程 + 资讯模块 */
         .milestones-section {
           max-width: 1100px;
@@ -232,6 +249,13 @@ export default function Home() {
           background-repeat: no-repeat;
           background-position: center center;
           background-size: cover;
+          background-blend-mode: lighten;
+        }
+        @media (max-width: 768px) {
+          .milestones-section {
+            background-color: var(--nude-light);
+            background-image: none;
+          }
         }
         .milestones-section h2 {
           font-size: 2.8rem;
@@ -317,6 +341,13 @@ export default function Home() {
           background-repeat: no-repeat;
           background-position: center center;
           background-size: cover;
+          background-blend-mode: lighten;
+        }
+        @media (max-width: 768px) {
+          .projects-section {
+            background-color: var(--nude-light);
+            background-image: none;
+          }
         }
         .projects-section h2 {
           font-size: 2.8rem;
@@ -451,11 +482,10 @@ export default function Home() {
             gap: 50px;
           }
           .header h1 {
-            font-size: clamp(3.2rem, 8vw, 4.8rem);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 90vw;
+            font-size: clamp(3rem, 10vw, 4.8rem);
+            white-space: normal;
+            overflow: visible;
+            max-width: 100vw;
           }
           .header p {
             font-size: 1.1rem;
@@ -488,49 +518,43 @@ export default function Home() {
         }
       `}</style>
 
-      <main>
-        {/* 顶部标题 */}
-        <section className="header" aria-label="品牌介绍">
-          <h1>ROROSPHERE</h1>
-          <p>
-            激发青少年潜能，构筑归属感与文化共创的未来。
-          </p>
+      <main role="main" aria-label="Rorosphere 首页">
+
+        <header className="header" aria-label="品牌介绍">
+          <h1>
+            <span className="line1">RORO</span>
+            <br />
+            <span className="line2">SPHERE</span>
+          </h1>
+          <p>激发青少年潜能，构筑归属感与文化共创的未来。</p>
           <Link href="/brand-history" className="btn-primary" aria-label="了解品牌历程">
             了解品牌历程
           </Link>
-        </section>
+        </header>
 
-        {/* 特色引导模块前的引导语 */}
-        <p className="guide-intro" aria-hidden="true">
-          选择你想参与的 ROROSPHERE 体验
-        </p>
-
-        {/* 核心引导区 */}
-        <section className="guide-section" aria-label="用户可做什么">
-          <Link href="/creative-projects" className="guide-card" tabIndex={0} aria-label="参与艺术共创计划">
-            <h3>激发艺术潜能</h3>
-            <p>聚合家庭与青少年力量，打造原创艺术。</p>
-          </Link>
-          <Link href="/community" className="guide-card" tabIndex={0} aria-label="加入家庭共创社区">
-            <h3>参与家庭共创</h3>
-            <p>连接传统与现代，塑造独特文化表达。</p>
-          </Link>
-          <Link href="/lifestyle" className="guide-card" tabIndex={0} aria-label="体验生活美学">
-            <h3>体验 RORO 生活美学</h3>
-            <p>激励个性成长，打造生活方式品牌。</p>
-          </Link>
-          <Link href="/contact" className="guide-card" tabIndex={0} aria-label="合作与参与">
+        <section className="guide-section" aria-label="核心引导">
+          <p className="guide-intro">
+            Rorosphere欢迎您的参与，一起打造共创生态。
+          </p>
+          <Link href="/cooperation" className="guide-card clickable" tabIndex={0} aria-label="合作与参与">
             <h3>合作与参与</h3>
-            <p>携手打造未来，加入 ROROSPHERE 生态。</p>
+            <p>加入我们，共筑青少年成长平台。</p>
           </Link>
+          <div className="guide-card" tabIndex={-1} aria-hidden="true">
+            <h3>内容持续更新</h3>
+            <p>更多精彩，敬请期待。</p>
+          </div>
+          <div className="guide-card" tabIndex={-1} aria-hidden="true">
+            <h3>敬请关注</h3>
+            <p>品牌活动，资讯发布。</p>
+          </div>
         </section>
 
-        {/* 品牌历程 */}
         <section className="milestones-section" aria-label="品牌历程">
           <h2>品牌历程</h2>
-          <div className="timeline">
+          <div className="timeline" role="list">
             {brandMilestones.map(({ id, date, title, desc }) => (
-              <article className="timeline-item" key={id} tabIndex={-1}>
+              <article key={id} className="timeline-item" role="listitem" tabIndex={0} aria-label={`${date} - ${title}`}>
                 <time dateTime={date}>{date}</time>
                 <h3>{title}</h3>
                 <p>{desc}</p>
@@ -539,37 +563,31 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 创意项目 */}
-        <section className="projects-section" aria-label="创意项目与合作">
+        <section className="projects-section" aria-label="创意项目">
           <h2>创意项目</h2>
           <p className="section-subtitle">
-            发现我们如何激发灵感，融合文化与生活。
+            汇聚年轻创意，激发文化传承与生活美学的多元表达。
           </p>
           <div className="projects-grid">
             {projects.map(({ id, title, desc, liked }) => (
-              <article
-                className="project-card"
-                key={id}
-                tabIndex={0}
-                aria-label={`${title}项目，${liked ? '已点赞' : '未点赞'}`}
-              >
+              <article key={id} className="project-card" tabIndex={0} aria-label={`${title} 创意项目`}>
                 <h3 className="project-title">{title}</h3>
                 <p className="project-desc">{desc}</p>
                 <button
                   className={`like-button ${liked ? 'liked' : ''}`}
                   aria-pressed={liked}
-                  aria-label={liked ? `取消点赞${title}` : `点赞${title}`}
                   onClick={() => toggleLike(id)}
+                  aria-label={liked ? `取消喜欢${title}` : `喜欢${title}`}
                 >
-                  {liked ? '已点赞' : '点赞'}
+                  {liked ? '已喜欢' : '喜欢'}
                 </button>
               </article>
             ))}
           </div>
         </section>
 
-        <footer aria-label="网站版权信息">
-          © 2025 ROROSPHERE 保留所有权利
+        <footer role="contentinfo">
+          © 2025 Rorosphere 版权所有
         </footer>
       </main>
     </>
