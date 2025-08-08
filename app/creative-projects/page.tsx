@@ -1,119 +1,371 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
-import { approvedProjects } from '../../src/data/creativeProjectsData';
+import React, { useState } from 'react';
 
-export default function CreativeProjectsPage() {
+export default function PublishPage() {
+  const [form, setForm] = useState({
+    name: '',
+    idea: '',
+    wechat: '',
+    email: '',
+    phone: '',
+    files: [] as File[],
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  // 处理输入变化
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // 处理文件选择
+  const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    setForm((prev) => ({
+      ...prev,
+      files: Array.from((e.target as HTMLInputElement).files || []),
+    }));
+  };
+
+  // 校验联系方式三选二
+  const validateContact = () => {
+    const filledCount = [form.wechat, form.email, form.phone].filter((v) => v.trim() !== '').length;
+    return filledCount >= 2;
+  };
+
+  // 提交表单
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess(false);
+
+    if (!form.name.trim() || !form.idea.trim()) {
+      setError('请填写您的姓名和创意内容');
+      return;
+    }
+    if (!validateContact()) {
+      setError('请至少填写两项联系方式（微信、邮箱、电话）');
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      // 这里模拟FormData上传，文件暂不上传，只上传文本和联系方式
+      // 后端如果支持multipart/form-data，改写API即可
+      const payload = {
+        name: form.name,
+        idea: form.idea,
+        wechat: form.wechat,
+        email: form.email,
+        phone: form.phone,
+        // files暂不发送
+      };
+
+      const res = await fetch('/api/send-application', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error('提交失败，请稍后再试');
+
+      setSuccess(true);
+      setForm({
+        name: '',
+        idea: '',
+        wechat: '',
+        email: '',
+        phone: '',
+        files: [],
+      });
+    } catch (err: any) {
+      setError(err.message || '提交失败，请稍后重试');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <>
       <style>{`
-        main {
-          max-width: 900px;
-          margin: 64px auto 120px;
-          padding: 0 24px;
+        :root {
+          --champagne-gold: #D4AF7F;
+          --champagne-gold-alpha: #D4AF7Faa;
+          --champagne-gold-alpha-soft: #D4AF7F66;
+          --border-color: #B68E37;
+          --bg-color: #f9f6f2;
+          --text-color-dark: #3e2f1c;
+          --text-color-light: #6b6b6bdd;
+          --btn-bg: linear-gradient(145deg, #f9f6f2, #efe7db 40%, #d4af7f 60%, #e9ddc8);
+          --btn-hover-shadow: 0 0 28px var(--champagne-gold-alpha), 0 0 48px var(--champagne-gold-alpha-soft);
+          --error-color: #b04545;
+          --success-color: #4a774a;
+        }
+        form {
+          max-width: 520px;
+          margin: 0 auto;
+          background: var(--bg-color);
+          border-radius: 14px;
+          padding: 28px 30px 36px;
+          box-shadow:
+            inset 0 2px 6px rgba(212, 175, 127, 0.3),
+            0 0 8px rgba(212, 175, 127, 0.15);
+          user-select: none;
           font-family: 'Playfair Display', serif;
-          user-select: none;
-          background: #fefcf8;
-          border-radius: 16px;
-          box-shadow: 0 8px 24px rgba(212,175,127,0.15);
+          color: var(--text-color-dark);
         }
-        h1 {
-          font-size: 3rem;
+        h2 {
+          font-size: 2.2rem;
           font-weight: 700;
-          color: #D4AF7F;
-          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          margin-bottom: 24px;
+          color: var(--border-color);
+          user-select: text;
           text-align: center;
-          margin-bottom: 48px;
-          user-select: text;
         }
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        li {
-          border: 2px solid #D4AF7F;
-          border-radius: 20px;
-          margin-bottom: 32px;
-          padding: 28px 32px;
-          box-shadow: 0 8px 16px rgba(212,175,127,0.1);
-          transition: box-shadow 0.3s ease;
-          background: white;
-        }
-        li:hover,
-        li:focus-within {
-          box-shadow: 0 12px 32px rgba(212,175,127,0.35);
-          outline: none;
-        }
-        .title-link {
-          font-size: 1.8rem;
-          font-weight: 700;
-          margin-bottom: 12px;
-          color: #B68E37;
-          text-decoration: none;
-          user-select: text;
-        }
-        .title-link:hover,
-        .title-link:focus-visible {
-          text-decoration: underline;
-          outline: none;
-        }
-        .desc {
-          font-size: 1rem;
-          color: #5b5b5bdd;
-          line-height: 1.5;
-          margin-bottom: 16px;
-          user-select: text;
-        }
-        .meta {
-          font-size: 0.85rem;
-          color: #a38f56cc;
-          font-weight: 600;
-          user-select: text;
-        }
-        .publish-link {
+        label {
           display: block;
-          max-width: 280px;
-          margin: 40px auto 0;
-          text-align: center;
-          background: linear-gradient(45deg, #D4AF7F, #B68E37);
-          color: #fff;
-          font-weight: 700;
-          font-size: 1.2rem;
-          padding: 14px 32px;
-          border-radius: 30px;
-          text-decoration: none;
-          box-shadow: 0 0 18px #D4AF7Faa;
-          transition: box-shadow 0.3s ease;
+          margin-bottom: 8px;
+          font-weight: 600;
+          font-size: 1rem;
+          color: var(--text-color-dark);
+          user-select: text;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+          width: 100%;
+          padding: 12px 14px;
+          border: 2px solid var(--champagne-gold);
+          border-radius: 10px;
+          font-size: 1rem;
+          font-family: 'Playfair Display', serif;
+          color: var(--text-color-dark);
+          background-color: #fff;
+          resize: vertical;
+          transition: border-color 0.3s ease;
+          outline-offset: 2px;
+          user-select: text;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus {
+          border-color: var(--border-color);
+          outline: none;
+          box-shadow: var(--btn-hover-shadow);
+        }
+        textarea {
+          min-height: 100px;
+          line-height: 1.6;
+        }
+        .input-group {
+          margin-bottom: 20px;
+        }
+        .files-input {
+          border: 2px solid var(--champagne-gold);
+          border-radius: 10px;
+          padding: 8px 12px;
+          background: #fff;
+          font-size: 1rem;
+          color: var(--text-color-dark);
+          cursor: pointer;
+          transition: box-shadow 0.3s ease, border-color 0.3s ease;
           user-select: none;
         }
-        .publish-link:hover,
-        .publish-link:focus-visible {
-          box-shadow: 0 0 28px #D4AF7F;
+        .files-input:hover,
+        .files-input:focus {
+          border-color: var(--border-color);
+          box-shadow: var(--btn-hover-shadow);
           outline: none;
+        }
+        .files-list {
+          margin-top: 8px;
+          font-size: 0.9rem;
+          color: var(--text-color-light);
+          user-select: text;
+          max-height: 120px;
+          overflow-y: auto;
+          border: 1px solid var(--champagne-gold-alpha-soft);
+          border-radius: 8px;
+          padding: 8px 10px;
+          background: #fdfbf5;
+        }
+        .files-list li {
+          margin-bottom: 6px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .contact-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+          margin-bottom: 20px;
+        }
+        .contact-group > div {
+          flex: 1 1 45%;
+          min-width: 180px;
+          display: flex;
+          flex-direction: column;
+        }
+        button[type="submit"] {
+          width: 100%;
+          padding: 14px 0;
+          background: var(--btn-bg);
+          border: none;
+          border-bottom: 4px solid var(--border-color);
+          border-radius: 30px;
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: var(--text-color-dark);
+          cursor: pointer;
+          box-shadow: none;
+          transition:
+            box-shadow 0.3s ease,
+            transform 0.3s ease,
+            background-position 2.5s linear;
+          user-select: none;
+        }
+        button[type="submit"]:hover,
+        button[type="submit"]:focus-visible {
+          box-shadow: var(--btn-hover-shadow);
+          border-color: #b68e37;
+          outline: none;
+          transform: translateY(-6px);
+        }
+        .error-message {
+          color: var(--error-color);
+          font-weight: 600;
+          margin-bottom: 20px;
+          user-select: text;
+          text-align: center;
+        }
+        .success-message {
+          color: var(--border-color);
+          font-weight: 700;
+          margin-bottom: 20px;
+          user-select: text;
+          text-align: center;
+          font-size: 1.2rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+          .contact-group > div {
+            flex: 1 1 100%;
+          }
+          form {
+            padding: 24px 20px 30px;
+          }
         }
       `}</style>
 
-      <main>
-        <h1>精彩创意展览</h1>
-        <ul>
-          {approvedProjects.map(({ id, title, desc, author, date }) => (
-            <li key={id} tabIndex={0} aria-label={`${title}，作者：${author}，日期：${date}`}>
-              <Link href={`/creative-projects/${id}`} className="title-link">
-                {title}
-              </Link>
-              <div className="desc">{desc}</div>
-              <div className="meta">作者：{author} | 日期：{new Date(date).toLocaleDateString()}</div>
-            </li>
-          ))}
-        </ul>
+      <form onSubmit={handleSubmit} noValidate>
+        <h2>发布你的创意申请</h2>
 
-        <a href="/creative-projects/publish" className="publish-link" aria-label="发布您的创意项目">
-          发布您的创意项目
-        </a>
-      </main>
+        {error && <p className="error-message" role="alert">{error}</p>}
+        {success && <p className="success-message" role="status">提交成功！感谢你的创意分享。</p>}
+
+        <div className="input-group">
+          <label htmlFor="name">姓名 *</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value={form.name}
+            onChange={handleChange}
+            required
+            autoComplete="name"
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="idea">创意内容 *</label>
+          <textarea
+            id="idea"
+            name="idea"
+            value={form.idea}
+            onChange={handleChange}
+            required
+            placeholder="请详细描述你的创意想法"
+          />
+        </div>
+
+        <div className="contact-group" aria-label="联系方式，至少填写两项">
+          <div>
+            <label htmlFor="wechat">微信</label>
+            <input
+              id="wechat"
+              name="wechat"
+              type="text"
+              value={form.wechat}
+              onChange={handleChange}
+              placeholder="微信号"
+              autoComplete="off"
+            />
+          </div>
+          <div>
+            <label htmlFor="email">邮箱</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="邮箱地址"
+              autoComplete="email"
+            />
+          </div>
+          <div>
+            <label htmlFor="phone">电话</label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              value={form.phone}
+              onChange={handleChange}
+              placeholder="手机号"
+              autoComplete="tel"
+            />
+          </div>
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="files">上传文件/照片</label>
+          <input
+            id="files"
+            name="files"
+            type="file"
+            multiple
+            onChange={handleFilesChange}
+            className="files-input"
+            accept="image/*,application/pdf"
+          />
+          {form.files.length > 0 && (
+            <ul className="files-list" aria-label="已选择文件列表">
+              {form.files.map((file, idx) => (
+                <li key={idx} title={file.name}>
+                  {file.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <button type="submit" disabled={submitting} aria-busy={submitting}>
+          {submitting ? '提交中...' : '提交申请'}
+        </button>
+      </form>
     </>
   );
 }
+
 
