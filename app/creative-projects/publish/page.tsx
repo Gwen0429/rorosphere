@@ -20,17 +20,15 @@ export default function PublishPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 处理文件选择，带类型断言避免红线
   // 处理文件选择，使用 e.currentTarget.files 绝不报红线
-const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const files = e.currentTarget.files;
-  if (!files) return;
-  setForm((prev) => ({
-    ...prev,
-    files: Array.from(files),
-  }));
-};
-
+  const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.currentTarget.files;
+    if (!files) return;
+    setForm((prev) => ({
+      ...prev,
+      files: Array.from(files),
+    }));
+  };
 
   // 校验联系方式三选二
   const validateContact = () => {
@@ -86,8 +84,12 @@ const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         phone: '',
         files: [],
       });
-    } catch (err: any) {
-      setError(err.message || '提交失败，请稍后重试');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('提交失败，请稍后重试');
+      }
     } finally {
       setSubmitting(false);
     }
