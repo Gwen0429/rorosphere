@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Logo({ size = 120 }: { size?: number }) {
+export default function Logo({ size = 48 }: { size?: number }) {
   return (
     <svg
       width={size}
@@ -27,6 +27,12 @@ export default function Logo({ size = 120 }: { size?: number }) {
           <stop offset="60%" stopColor="#D4AF7F" />
           <stop offset="100%" stopColor="#B88A50" />
         </radialGradient>
+
+        <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#FBE8C9" />
+          <stop offset="100%" stopColor="#D4AF7F" />
+        </radialGradient>
+
         <filter id="textRelief" x="-50%" y="-50%" width="200%" height="200%">
           <feOffset dx="1.5" dy="1.5" result="offsetblur" />
           <feGaussianBlur in="offsetblur" stdDeviation="1.2" />
@@ -38,6 +44,7 @@ export default function Logo({ size = 120 }: { size?: number }) {
         </filter>
       </defs>
 
+      {/* 保留黑色矩形背景，如果你想透明可以删掉这行 */}
       <rect width="280" height="280" rx="20" fill="black" />
 
       <g
@@ -57,7 +64,15 @@ export default function Logo({ size = 120 }: { size?: number }) {
         <use href="#sculptedPetal" transform="rotate(300)" />
       </g>
 
-      <circle cx="140" cy="140" r="14" fill="black" stroke="white" strokeWidth="2.4" />
+      {/* 中心圆用渐变光泽感填充 */}
+      <circle
+        cx="140"
+        cy="140"
+        r="14"
+        fill="url(#centerGlow)"
+        stroke="white"
+        strokeWidth="2.4"
+      />
 
       <circle
         cx="140"
@@ -84,3 +99,4 @@ export default function Logo({ size = 120 }: { size?: number }) {
     </svg>
   );
 }
+

@@ -1,356 +1,585 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
-const latestNews = [
-  {
-    id: 1,
-    title: 'Nurturing Young Creativity',
-    summary: 'Discover how ROROSPHERE empowers the next generation through art and culture.',
-    date: '2025-08-01',
-    link: '/news/1',
-  },
-  {
-    id: 2,
-    title: 'Family Collaboration Spotlight',
-    summary: 'Celebrating the stories of families creating together in the ROROSPHERE community.',
-    date: '2025-08-01',
-    link: '/news/2',
-  },
+const brandMilestones = [
+  { id: 1, date: '2025-07-01', title: 'ROROSPHERE 成立', desc: '开启青少年赋能与文化共创之旅' },
+  { id: 2, date: '2025-07-15', title: '首个线下创意展览', desc: '汇聚年轻创意，激发无限可能' },
+  { id: 3, date: '2025-07-30', title: '发布品牌首款周边', desc: '精致设计，传递品牌精神' },
+];
+
+const creativeProjects = [
+  { id: 1, title: '艺术共创计划', desc: '聚合家庭与青少年力量，打造原创艺术', liked: false },
+  { id: 2, title: '文化传承项目', desc: '连接传统与现代，塑造独特文化表达', liked: false },
+  { id: 3, title: '生活美学探索', desc: '激励个性成长，打造生活方式品牌', liked: false },
 ];
 
 export default function Home() {
+  const [projects, setProjects] = useState(creativeProjects);
+
+  const toggleLike = (id: number) => {
+    setProjects((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, liked: !p.liked } : p))
+    );
+  };
+
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 
         :root {
-          --champagne-gold: #D4AF7F;
+          --champagne-gold-start: #D4AF7F;
+          --champagne-gold-end: #B68E37;
           --champagne-gold-alpha: #D4AF7Faa;
           --champagne-gold-alpha-soft: #D4AF7F66;
+          --nude-base: #E9DCC9;
+          --nude-light: #F3E8DF;
+          --bg-color: #fff;
+          --text-color: #333;
+          --shadow-color: rgba(212, 175, 127, 0.3);
+          --border-color: var(--champagne-gold-end);
+          --font-primary: 'Playfair Display', serif;
         }
 
-        *, *::before, *::after {
-          max-width: 100vw;
+        * {
           box-sizing: border-box;
-          word-break: break-word;
         }
 
         html, body {
-          margin: 0;
-          padding: 0;
-          background: #fff;
-          color: #333;
-          font-family: 'Playfair Display', serif;
+          margin: 0; padding: 0;
+          background: var(--bg-color);
+          color: var(--text-color);
+          font-family: var(--font-primary);
           overflow-x: hidden;
         }
 
         main {
-          min-height: 100vh;
           padding: 80px 40px 140px;
+          max-width: 1200px;
+          margin: 0 auto;
+          min-height: 100vh;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          position: relative;
-          overflow: visible;
-          max-width: 100vw;
-        }
-
-        .flower-cluster {
-          position: absolute;
-          top: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          pointer-events: none;
+          gap: 64px;
           user-select: none;
-          width: 320px;
-          height: 180px;
-          opacity: 0.15;
-          background: radial-gradient(circle at 40% 60%, var(--champagne-gold), transparent 70%);
-          filter: drop-shadow(0 0 10px var(--champagne-gold-alpha-soft));
-          border-radius: 50% / 40%;
-          animation: gentle-sway 10s ease-in-out infinite alternate;
-          z-index: 1;
         }
 
-        @keyframes gentle-sway {
-          0% { transform: translateX(-50%) translateY(0) rotate(0deg);}
-          100% { transform: translateX(-50%) translateY(10px) rotate(3deg);}
-        }
-
-        h1 {
-          font-family: 'Playfair Display', serif;
-          font-size: 5rem;
-          margin: 0 0 48px 0;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--champagne-gold);
-          font-style: italic;
-          text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 22px var(--champagne-gold-alpha-soft);
-          position: relative;
-          z-index: 2;
-          user-select: none;
-          word-break: break-word;
-          overflow-wrap: break-word;
-          padding: 0 10px;
-          max-width: 100%;
-          white-space: normal;
-        }
-
-        .subtitle {
-          max-width: 720px;
+        /* 顶部标题区 */
+        .header {
           text-align: center;
-          font-weight: 300;
-          font-size: 1.4rem;
-          margin: 20px 0 80px;
-          letter-spacing: 0.08em;
-          line-height: 1.5;
-          color: #7a6a4fcc;
-          font-family: 'Great Vibes', cursive;
           position: relative;
           z-index: 2;
+          padding: 80px 0 48px;
+          max-width: 90vw;
+          margin-left: auto;
+          margin-right: auto;
         }
-
-        .sections {
-          display: flex;
-          gap: 50px;
-          max-width: 900px;
-          width: 100%;
-          justify-content: center;
-          margin-bottom: 100px;
-          flex-wrap: wrap;
-          z-index: 2;
-        }
-
-        .section-item {
-          flex: 1 1 280px;
-          border-bottom: 3px solid var(--champagne-gold);
-          padding-bottom: 25px;
-          cursor: pointer;
-          transition: box-shadow 0.3s ease, transform 0.3s ease;
-          font-size: 1rem;
-          transform: translateY(0);
-          box-sizing: border-box;
-          min-width: 0;
-          outline-offset: 4px;
-        }
-
-        .section-item:hover,
-        .section-item:focus-visible {
-          transform: translateY(-4px);
-          box-shadow:
-            0 0 15px var(--champagne-gold-alpha),
-            0 0 30px var(--champagne-gold-alpha-soft);
-          border-color: var(--champagne-gold);
-          outline: none;
-        }
-
-        .section-item h2 {
-          font-size: 1.9rem;
+        .header h1 {
+          font-size: clamp(3.2rem, 8vw, 4.8rem);
           font-weight: 700;
-          margin-bottom: 12px;
-          text-transform: uppercase;
-          letter-spacing: 0.18em;
-          color: #B68E37;
-          user-select: none;
-        }
-
-        .section-item p {
-          font-weight: 300;
-          font-size: 1rem;
-          line-height: 1.6;
-          color: #6b6b6bdd;
-          user-select: none;
-        }
-
-        .news-section {
-          max-width: 900px;
-          width: 100%;
-          color: var(--champagne-gold);
-          font-family: 'Playfair Display', serif;
-          position: relative;
-          z-index: 2;
-        }
-
-        .news-title {
-          font-size: 2.6rem;
-          font-weight: 700;
-          margin-bottom: 30px;
-          user-select: none;
-          border-bottom: none;
-          color: var(--champagne-gold);
-        }
-
-        ul.news-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          color: #777;
-        }
-
-        ul.news-list li {
-          border-bottom: 1px solid #eee;
-          padding: 18px 0;
-        }
-
-        ul.news-list li h3 {
-          margin: 0 0 6px;
-          font-weight: 600;
-          font-size: 1.3rem;
-          color: #A8874E;
-        }
-
-        ul.news-list li h3 a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        ul.news-list li h3 a:hover,
-        ul.news-list li h3 a:focus {
-          text-decoration: none;
-          outline: none;
-        }
-
-        ul.news-list li p {
-          margin: 0 0 4px;
-          font-weight: 300;
-          font-size: 1rem;
-          color: #a4997fcc;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
+          color: var(--champagne-gold-start);
+          background: linear-gradient(90deg, var(--champagne-gold-start), var(--champagne-gold-end));
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          text-shadow:
+            0 0 6px var(--champagne-gold-alpha),
+            0 0 12px var(--champagne-gold-alpha-soft);
+          letter-spacing: 0.25em;
+          line-height: 1.12;
+          white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          user-select: text;
+          max-width: 80vw;
+          margin: 0 auto 24px;
+        }
+        .header p {
+          font-weight: 400;
+          font-size: 1.25rem;
+          color: var(--nude-base);
+          background: none;
+          user-select: text;
+          margin: 0 auto 36px;
+          max-width: 720px;
+          line-height: 1.5;
+        }
+        /* fallback for non-supporting browsers */
+        @supports not (-webkit-background-clip: text) {
+          .header h1 {
+            color: var(--champagne-gold-start);
+            background: none;
+            text-shadow: 0 0 4px var(--champagne-gold-alpha);
+          }
+        }
+        .btn-primary {
+          background: linear-gradient(45deg, var(--champagne-gold-start), var(--champagne-gold-end));
+          border: none;
+          padding: 14px 36px;
+          font-size: 1rem;
+          font-weight: 700;
+          color: #fff;
+          border-radius: 30px;
+          cursor: pointer;
+          box-shadow: 0 0 18px var(--champagne-gold-alpha);
+          transition: box-shadow 0.3s ease;
+          user-select: none;
+          text-decoration: none;
+          display: inline-block;
+        }
+        .btn-primary:hover,
+        .btn-primary:focus-visible {
+          box-shadow: 0 0 28px var(--champagne-gold-start);
+          outline: none;
         }
 
-        ul.news-list li time {
-          font-size: 0.8rem;
-          color: #b8a96caa;
-        }
-
-        .view-all-news {
+        /* 特色引导模块内容引导语 */
+        .guide-intro {
           text-align: center;
-          margin-top: 20px;
+          font-size: 1.1rem;
+          color: var(--nude-base);
+          margin-bottom: 24px;
+          user-select: text;
+          max-width: 500px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
-        .view-all-news a {
-          color: var(--champagne-gold);
-          font-size: 0.9rem;
-          text-decoration: underline;
+        /* 核心引导区 */
+        .guide-section {
+          display: flex;
+          gap: 40px;
+          justify-content: center;
+          flex-wrap: wrap;
         }
-
-        footer {
-          margin-top: 110px;
-          text-align: center;
-          font-size: 0.75rem;
-          font-weight: 300;
-          color: #999999aa;
+        .guide-card {
+          flex: 1 1 240px;
+          border-bottom: 4px solid var(--champagne-gold-start);
+          padding: 24px 18px 18px 18px;
+          cursor: pointer;
+          border-radius: 12px;
+          background: linear-gradient(
+            145deg,
+            #f9f6f2,
+            #efe7db 40%,
+            var(--champagne-gold-start) 60%,
+            #e9ddc8
+          );
+          box-shadow:
+            inset 0 2px 6px rgba(212, 175, 127, 0.3),
+            0 0 8px rgba(212, 175, 127, 0.15);
+          transition:
+            box-shadow 0.4s ease,
+            transform 0.3s ease,
+            background-position 2.5s linear;
+          background-size: 300% 300%;
+          background-position: 0% 50%;
+          user-select: none;
+          color: #3e2f1c;
+          font-weight: 500;
+          text-decoration: none;
+        }
+        .guide-card:hover,
+        .guide-card:focus-visible {
+          animation: shimmer 3s linear infinite;
+          transform: translateY(-6px);
+          box-shadow:
+            0 0 28px var(--champagne-gold-alpha),
+            0 0 48px var(--champagne-gold-alpha-soft);
+          border-color: var(--champagne-gold-end);
+          outline: none;
+        }
+        @keyframes shimmer {
+          0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 100% 50%;
+          }
+        }
+        .guide-card h3 {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: var(--champagne-gold-end);
+          margin-bottom: 14px;
           letter-spacing: 0.1em;
-          position: relative;
-          z-index: 2;
+          text-transform: uppercase;
+        }
+        .guide-card p {
+          font-weight: 400;
+          font-size: 1rem;
+          line-height: 1.5;
+          color: #6b6b6bdd;
+        }
+        .guide-card a {
+          text-decoration: none;
+          color: inherit;
         }
 
+        /* 品牌历程 + 资讯模块 */
+        .milestones-section {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 32px 18px 24px;
+          background-color: var(--nude-light);
+          border-radius: 14px;
+          box-shadow:
+            inset 0 0 16px #fff7d8,
+            0 0 18px var(--champagne-gold-alpha-soft);
+          background-image: url('/textures/fine-papyrus.png');
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: cover;
+        }
+        .milestones-section h2 {
+          font-size: 2.8rem;
+          font-weight: 700;
+          color: var(--champagne-gold-end);
+          margin-bottom: 24px;
+          user-select: none;
+          text-align: center;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          position: relative;
+        }
+        .milestones-section h2::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          bottom: -10px;
+          transform: translateX(-50%);
+          width: max(40px, 10vw);
+          height: 2px;
+          background: linear-gradient(90deg, var(--champagne-gold-alpha), var(--champagne-gold-end));
+          border-radius: 1px;
+        }
+        @media (max-width: 480px) {
+          .milestones-section h2::after {
+            display: none;
+          }
+        }
+        .timeline {
+          border-left: 3px solid var(--champagne-gold-end);
+          margin-left: 16px;
+          padding-left: 24px;
+        }
+        .timeline-item {
+          position: relative;
+          margin-bottom: 36px;
+          padding-left: 16px;
+        }
+        .timeline-item::before {
+          content: '';
+          position: absolute;
+          left: -28px;
+          top: 6px;
+          width: 16px;
+          height: 16px;
+          background: var(--champagne-gold-start);
+          border-radius: 50%;
+          box-shadow: 0 0 10px var(--champagne-gold-alpha);
+        }
+        .timeline-item time {
+          display: block;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #a38f56cc;
+          margin-bottom: 6px;
+          user-select: text;
+        }
+        .timeline-item h3 {
+          margin: 0 0 6px 0;
+          font-weight: 700;
+          color: var(--champagne-gold-end);
+          user-select: text;
+        }
+        .timeline-item p {
+          margin: 0;
+          font-weight: 400;
+          color: #5b5b5bdd;
+          line-height: 1.4;
+          user-select: text;
+        }
+
+        /* 创意项目模块 */
+        .projects-section {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 32px 18px 24px;
+          background-color: var(--nude-light);
+          border-radius: 14px;
+          box-shadow:
+            inset 0 0 16px #fff7d8,
+            0 0 18px var(--champagne-gold-alpha-soft);
+          background-image: url('/textures/fine-papyrus.png');
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: cover;
+        }
+        .projects-section h2 {
+          font-size: 2.8rem;
+          font-weight: 700;
+          color: var(--champagne-gold-end);
+          margin-bottom: 8px;
+          user-select: none;
+          text-align: center;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          position: relative;
+        }
+        .projects-section p.section-subtitle {
+          font-size: 1.15rem;
+          font-weight: 400;
+          color: var(--nude-base);
+          margin-bottom: 24px;
+          user-select: text;
+          text-align: center;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .projects-section h2::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          bottom: -10px;
+          transform: translateX(-50%);
+          width: max(40px, 10vw);
+          height: 2px;
+          background: linear-gradient(90deg, var(--champagne-gold-alpha), var(--champagne-gold-end));
+          border-radius: 1px;
+        }
+        @media (max-width: 480px) {
+          .projects-section h2::after {
+            display: none;
+          }
+        }
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 32px;
+        }
+        .project-card {
+          border: 2px solid var(--champagne-gold-start);
+          border-radius: 14px;
+          padding: 24px 22px;
+          box-shadow: 0 0 12px transparent;
+          background: #fff;
+          transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+          user-select: none;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 220px;
+        }
+        .project-card:hover,
+        .project-card:focus-within {
+          box-shadow:
+            0 0 28px var(--champagne-gold-alpha),
+            0 0 48px var(--champagne-gold-alpha-soft);
+          border-color: var(--border-color);
+          transform: translateY(-6px);
+          outline: none;
+        }
+        .project-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--champagne-gold-end);
+          margin-bottom: 16px;
+          letter-spacing: 0.06em;
+          user-select: text;
+        }
+        .project-desc {
+          flex-grow: 1;
+          font-weight: 400;
+          font-size: 1rem;
+          color: #5b5b5bdd;
+          margin-bottom: 24px;
+          user-select: text;
+          line-height: 1.4;
+        }
+        .like-button {
+          background: none;
+          border: 2px solid var(--champagne-gold-start);
+          border-radius: 24px;
+          padding: 8px 24px;
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--champagne-gold-start);
+          cursor: pointer;
+          user-select: none;
+          align-self: flex-start;
+          transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease,
+            box-shadow 0.3s ease;
+          box-shadow: none;
+        }
+        .like-button.liked {
+          background-color: var(--champagne-gold-start);
+          color: #fff;
+          border-color: var(--border-color);
+          box-shadow: 0 0 10px var(--champagne-gold-alpha);
+        }
+        .like-button:hover,
+        .like-button:focus-visible {
+          outline: none;
+          background-color: var(--border-color);
+          color: #fff;
+          border-color: var(--border-color);
+          box-shadow: 0 0 14px var(--champagne-gold-alpha);
+        }
+
+        /* 页脚 */
+        footer {
+          text-align: center;
+          font-size: 0.85rem;
+          color: #999999cc;
+          letter-spacing: 0.12em;
+          user-select: none;
+          margin-top: 48px;
+          padding-bottom: 24px;
+        }
+
+        /* 响应式 */
         @media (max-width: 768px) {
           main {
-            padding: 40px 16px 80px !important;
+            padding: 40px 20px 80px;
+            gap: 50px;
           }
-
-          h1 {
-            font-size: 3.6rem !important;
-            margin-bottom: 36px !important;
-            letter-spacing: 0.12em !important;
+          .header h1 {
+            font-size: clamp(3.2rem, 8vw, 4.8rem);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 90vw;
           }
-
-          .subtitle {
-            font-size: 1rem !important;
-            margin: 16px 0 40px !important;
+          .header p {
+            font-size: 1.1rem;
+            margin-bottom: 32px;
           }
-
-          .sections {
-            flex-direction: column !important;
-            gap: 30px !important;
+          .guide-intro {
+            max-width: 90vw;
+            font-size: 1rem;
           }
-
-          .section-item {
-            text-align: center !important;
-            padding-bottom: 15px !important;
-            border-bottom: 2px solid var(--champagne-gold) !important;
+          .guide-section {
+            flex-direction: column;
+            gap: 24px;
           }
-
-          .section-item h2 {
-            font-size: 1.6rem !important;
+          .guide-card {
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
           }
-
-          .news-title {
-            font-size: 1.8rem !important;
-            text-align: center !important;
+          .milestones-section,
+          .projects-section {
+            max-width: 100%;
+            padding: 24px 12px 24px;
           }
-
-          ul.news-list li h3 {
-            font-size: 1rem !important;
+          .projects-grid {
+            grid-template-columns: 1fr;
           }
-
-          ul.news-list li p {
-            font-size: 0.9rem !important;
-          }
-
-          footer {
-            font-size: 0.65rem !important;
+          .project-card {
+            max-width: 100%;
           }
         }
       `}</style>
 
       <main>
-        <div className="flower-cluster" aria-hidden="true"></div>
+        {/* 顶部标题 */}
+        <section className="header" aria-label="品牌介绍">
+          <h1>ROROSPHERE</h1>
+          <p>
+            激发青少年潜能，构筑归属感与文化共创的未来。
+          </p>
+          <Link href="/brand-history" className="btn-primary" aria-label="了解品牌历程">
+            了解品牌历程
+          </Link>
+        </section>
 
-        <h1>ROROSPHERE</h1>
-
-        <p className="subtitle">
-          Unlocking young potential through culture and expression.<br />
-          Where families nurture creativity and identity.
+        {/* 特色引导模块前的引导语 */}
+        <p className="guide-intro" aria-hidden="true">
+          选择你想参与的 ROROSPHERE 体验
         </p>
 
-        <section className="sections" aria-label="Key Features">
-          <div className="section-item" tabIndex={0} role="button" aria-label="Empower Potential">
-            <h2>Empower Potential</h2>
-            <p>Fostering creativity and confidence in young minds through culture and expression.</p>
-          </div>
-          <div className="section-item" tabIndex={0} role="button" aria-label="Join the Movement">
-            <h2>Join the Movement</h2>
-            <p>A collaborative platform for families and youth to showcase unique talents and stories.</p>
-          </div>
-          <div className="section-item" tabIndex={0} role="button" aria-label="Live RORO">
-            <h2>Live RORO</h2>
-            <p>Beyond creation — a lifestyle where taste meets growth and identity blossoms.</p>
-          </div>
+        {/* 核心引导区 */}
+        <section className="guide-section" aria-label="用户可做什么">
+          <Link href="/creative-projects" className="guide-card" tabIndex={0} aria-label="参与艺术共创计划">
+            <h3>激发艺术潜能</h3>
+            <p>聚合家庭与青少年力量，打造原创艺术。</p>
+          </Link>
+          <Link href="/community" className="guide-card" tabIndex={0} aria-label="加入家庭共创社区">
+            <h3>参与家庭共创</h3>
+            <p>连接传统与现代，塑造独特文化表达。</p>
+          </Link>
+          <Link href="/lifestyle" className="guide-card" tabIndex={0} aria-label="体验生活美学">
+            <h3>体验 RORO 生活美学</h3>
+            <p>激励个性成长，打造生活方式品牌。</p>
+          </Link>
+          <Link href="/contact" className="guide-card" tabIndex={0} aria-label="合作与参与">
+            <h3>合作与参与</h3>
+            <p>携手打造未来，加入 ROROSPHERE 生态。</p>
+          </Link>
         </section>
 
-        <section className="news-section" aria-label="Latest News">
-          <h2 className="news-title">Latest News</h2>
-          <ul className="news-list">
-            {latestNews.map(({ id, title, summary, date, link }) => (
-              <li key={id}>
-                <h3>
-                  <Link href={link}>{title}</Link>
-                </h3>
-                <p>{summary}</p>
-                <time>{date}</time>
-              </li>
+        {/* 品牌历程 */}
+        <section className="milestones-section" aria-label="品牌历程">
+          <h2>品牌历程</h2>
+          <div className="timeline">
+            {brandMilestones.map(({ id, date, title, desc }) => (
+              <article className="timeline-item" key={id} tabIndex={-1}>
+                <time dateTime={date}>{date}</time>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </article>
             ))}
-          </ul>
-          <div className="view-all-news">
-            <Link href="/news">View All News →</Link>
           </div>
         </section>
 
-        <footer>&copy; 2025 ROROSPHERE. All rights reserved.</footer>
+        {/* 创意项目 */}
+        <section className="projects-section" aria-label="创意项目与合作">
+          <h2>创意项目</h2>
+          <p className="section-subtitle">
+            发现我们如何激发灵感，融合文化与生活。
+          </p>
+          <div className="projects-grid">
+            {projects.map(({ id, title, desc, liked }) => (
+              <article
+                className="project-card"
+                key={id}
+                tabIndex={0}
+                aria-label={`${title}项目，${liked ? '已点赞' : '未点赞'}`}
+              >
+                <h3 className="project-title">{title}</h3>
+                <p className="project-desc">{desc}</p>
+                <button
+                  className={`like-button ${liked ? 'liked' : ''}`}
+                  aria-pressed={liked}
+                  aria-label={liked ? `取消点赞${title}` : `点赞${title}`}
+                  onClick={() => toggleLike(id)}
+                >
+                  {liked ? '已点赞' : '点赞'}
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <footer aria-label="网站版权信息">
+          © 2025 ROROSPHERE 保留所有权利
+        </footer>
       </main>
     </>
   );
 }
+
+
+
+
+
 
 
 

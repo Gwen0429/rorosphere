@@ -1,1 +1,8 @@
-{}
+{
+  "/creative-projects/page": "app/creative-projects/page.js",
+  "/creative-projects/publish/page": "app/creative-projects/publish/page.js",
+  "/page": "app/page.js",
+  "/news-materials/page": "app/news-materials/page.js",
+  "/brand-history/page": "app/brand-history/page.js",
+  "/contact/page": "app/contact/page.js"
+}

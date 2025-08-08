@@ -1,3 +1,4 @@
+// Navbar.tsx
 'use client';
 
 import Link from 'next/link';
@@ -11,12 +12,11 @@ export default function NavBar() {
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   const links = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About Us' },
-    { href: '/news', label: 'News' },
-    { href: '/programs', label: 'Programs' },
-    { href: '/collaborate', label: 'Collaborate' },
-    { href: '/talent', label: 'Talent' },
+    { href: '/', label: '首页' },
+    { href: '/brand-history', label: '品牌历程' },
+    { href: '/news-materials', label: '资讯物料' },
+    { href: '/creative-projects', label: '创意项目' },
+    { href: '/contact', label: '联系我们' },
   ];
 
   const handleLinkClick = () => {
@@ -48,7 +48,7 @@ export default function NavBar() {
   `;
 
   return (
-    <nav className="nav" role="navigation" aria-label="Primary navigation">
+    <nav className="nav" role="navigation" aria-label="主导航">
       <div className="nav-container">
         <div className="nav-links">
           {links.map(({ href, label }) => (
@@ -75,7 +75,7 @@ export default function NavBar() {
           ref={toggleButtonRef}
           className="menu-toggle"
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-label={mobileOpen ? '关闭菜单' : '打开菜单'}
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           aria-haspopup="true"
