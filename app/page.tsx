@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 const brandMilestones = [
@@ -15,96 +15,8 @@ const creativeProjects = [
   { id: 3, title: '生活美学探索', desc: '激励个性成长，打造生活方式品牌', liked: false },
 ];
 
-// 小logo的SVG动画组件（简洁版）
-function SmallLogo() {
-  return (
-    <svg
-      width="100"
-      height="100"
-      viewBox="0 0 280 280"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="ROROSPHERE logo"
-      role="img"
-    >
-      <defs>
-        <path id="softPetal" d="M0,-70 C28,-65 30,-25 12,-5 C25,10 15,40 0,60 C-15,40 -25,10 -12,-5 C-30,-25 -28,-65 0,-70 Z" />
-        <radialGradient id="marbleStone" cx="50%" cy="50%" r="80%">
-          <stop offset="0%" stopColor="#f2f2f2" />
-          <stop offset="60%" stopColor="#ccc" />
-          <stop offset="100%" stopColor="#888" />
-        </radialGradient>
-        <filter id="reliefShadow" x="-50%" y="-50%" width="200%" height="200%">
-          <feOffset dx="1.5" dy="1.5" result="shadow" />
-          <feGaussianBlur in="shadow" stdDeviation="1.2" />
-          <feBlend in="SourceGraphic" in2="shadow" mode="multiply" />
-        </filter>
-      </defs>
-
-      <rect width="280" height="280" fill="url(#marbleStone)" />
-
-      <g
-        transform="translate(140,140)"
-        fill="none"
-        stroke="#333"
-        strokeWidth="2.5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        filter="url(#reliefShadow)"
-        style={{ animation: 'rotatePetal 3s ease-in-out infinite' }}
-      >
-        <use href="#softPetal" transform="rotate(0)" />
-        <use href="#softPetal" transform="rotate(60)" />
-        <use href="#softPetal" transform="rotate(120)" />
-        <use href="#softPetal" transform="rotate(180)" />
-        <use href="#softPetal" transform="rotate(240)" />
-        <use href="#softPetal" transform="rotate(300)" />
-      </g>
-
-      <circle
-        cx="140"
-        cy="140"
-        r="14"
-        fill="none"
-        stroke="#222"
-        strokeWidth="2.4"
-        filter="url(#reliefShadow)"
-      />
-
-      <text
-        x="140"
-        y="270"
-        textAnchor="middle"
-        fontFamily="'Playfair Display', serif"
-        fontSize="24"
-        fill="#111"
-        letterSpacing="4"
-        fontWeight="700"
-        filter="url(#reliefShadow)"
-      >
-        ROROSPHERE
-      </text>
-
-      <style>{`
-        @keyframes rotatePetal {
-          0%, 100% { transform: rotate(0deg); }
-          50% { transform: rotate(10deg); }
-        }
-      `}</style>
-    </svg>
-  );
-}
-
 export default function Home() {
   const [projects, setProjects] = useState(creativeProjects);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // 判断移动端，用于切换内容和布局
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const toggleLike = (id: number) => {
     setProjects((prev) =>
@@ -118,17 +30,20 @@ export default function Home() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 
         :root {
-          --champagne-gold-start: #D4AF7F;
-          --champagne-gold-end: #B68E37;
-          --nude-base: #5b5b5bdd;
+          --champagne-gold: #D4AF7F;
+          --champagne-gold-alpha: #D4AF7Faa;
+          --champagne-gold-alpha-soft: #D4AF7F66;
           --bg-color: #fff;
           --text-color: #333;
+          --shadow-color: rgba(212, 175, 127, 0.3);
+          --border-color: #B68E37;
           --font-primary: 'Playfair Display', serif;
         }
 
         * {
           box-sizing: border-box;
         }
+
         html, body {
           margin: 0; padding: 0;
           background: var(--bg-color);
@@ -136,59 +51,46 @@ export default function Home() {
           font-family: var(--font-primary);
           overflow-x: hidden;
         }
+
         main {
+          padding: 80px 40px 140px;
           max-width: 1200px;
           margin: 0 auto;
           min-height: 100vh;
-          padding: 80px 40px 140px;
           display: flex;
           flex-direction: column;
-          gap: 64px;
+          gap: 80px;
           user-select: none;
         }
 
-        /* 头部区域 */
+        /* 顶部标题区 */
         .header {
           text-align: center;
           position: relative;
           z-index: 2;
-          max-width: 90vw;
-          margin: 0 auto 48px;
         }
-
-        /* 电脑版大标题 */
         .header h1 {
-          font-size: 4rem;
+          font-size: 5rem;
           font-weight: 700;
-          color: var(--champagne-gold-start);
-          background: linear-gradient(90deg, var(--champagne-gold-start), var(--champagne-gold-end));
-          background-clip: text;
-          -webkit-background-clip: text;
-          color: transparent;
-          text-shadow:
-            0 0 6px #D4AF7FAA,
-            0 0 12px #D4AF7F66;
-          letter-spacing: 0.25em;
-          line-height: 1.1;
-          white-space: nowrap;
-          margin-bottom: 12px;
+          color: var(--champagne-gold);
+          letter-spacing: 0.2em;
+          font-style: italic;
+          text-shadow: 0 0 8px var(--champagne-gold-alpha), 0 0 22px var(--champagne-gold-alpha-soft);
+          margin: 0 0 20px 0;
         }
-
-        /* 移动端替代标题 */
-        .mobile-slogan {
-          font-weight: 600;
-          font-size: 1.25rem;
-          color: var(--nude-base);
-          margin-bottom: 32px;
-          line-height: 1.4;
-          user-select: text;
-          max-width: 300px;
+        .header p {
+          font-weight: 400;
+          font-size: 1.3rem;
+          color: #7a6a4fdd;
+          margin: 0 0 30px;
+          max-width: 720px;
           margin-left: auto;
           margin-right: auto;
+          line-height: 1.6;
+          user-select: text;
         }
-
         .btn-primary {
-          background: linear-gradient(45deg, var(--champagne-gold-start), var(--champagne-gold-end));
+          background: linear-gradient(45deg, #D4AF7F, #B68E37);
           border: none;
           padding: 14px 36px;
           font-size: 1rem;
@@ -196,114 +98,335 @@ export default function Home() {
           color: #fff;
           border-radius: 30px;
           cursor: pointer;
-          box-shadow: 0 0 18px #D4AF7FAA;
+          box-shadow: 0 0 18px var(--champagne-gold-alpha);
           transition: box-shadow 0.3s ease;
+          user-select: none;
           text-decoration: none;
           display: inline-block;
-          user-select: none;
         }
         .btn-primary:hover,
         .btn-primary:focus-visible {
-          box-shadow: 0 0 28px var(--champagne-gold-start);
+          box-shadow: 0 0 28px var(--champagne-gold);
           outline: none;
         }
 
-        /* 品牌历程 + 创意项目样式同之前（省略） */
-        /* 你可以根据之前给你的样式补充 */
+        /* 核心引导区 */
+        .guide-section {
+          display: flex;
+          gap: 40px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        .guide-card {
+          flex: 1 1 240px;
+          border-bottom: 4px solid var(--champagne-gold);
+          padding: 24px 18px 18px 18px;
+          cursor: pointer;
+          transition:
+            box-shadow 0.3s ease,
+            transform 0.3s ease,
+            border-color 0.3s ease;
+          border-radius: 8px;
+          background: #fff;
+          user-select: none;
+          box-shadow: 0 0 10px transparent;
+        }
+        .guide-card:hover,
+        .guide-card:focus-visible {
+          transform: translateY(-6px);
+          box-shadow:
+            0 0 24px var(--champagne-gold-alpha),
+            0 0 40px var(--champagne-gold-alpha-soft);
+          border-color: var(--border-color);
+          outline: none;
+        }
+        .guide-card h3 {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: var(--border-color);
+          margin-bottom: 14px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+        .guide-card p {
+          font-weight: 400;
+          font-size: 1rem;
+          line-height: 1.5;
+          color: #6b6b6bdd;
+        }
+        .guide-card a {
+          text-decoration: none;
+          color: inherit;
+        }
 
+        /* 品牌历程+资讯模块 */
+        .milestones-section {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+        .milestones-section h2 {
+          font-size: 2.6rem;
+          font-weight: 700;
+          color: var(--champagne-gold);
+          margin-bottom: 24px;
+          user-select: none;
+          text-align: center;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+        .timeline {
+          border-left: 3px solid var(--champagne-gold);
+          margin-left: 16px;
+          padding-left: 24px;
+        }
+        .timeline-item {
+          position: relative;
+          margin-bottom: 36px;
+          padding-left: 16px;
+        }
+        .timeline-item::before {
+          content: '';
+          position: absolute;
+          left: -28px;
+          top: 6px;
+          width: 16px;
+          height: 16px;
+          background: var(--champagne-gold);
+          border-radius: 50%;
+          box-shadow: 0 0 8px var(--champagne-gold-alpha);
+        }
+        .timeline-item time {
+          display: block;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #a38f56cc;
+          margin-bottom: 6px;
+        }
+        .timeline-item h3 {
+          margin: 0 0 6px 0;
+          font-weight: 700;
+          color: #B68E37;
+        }
+        .timeline-item p {
+          margin: 0;
+          font-weight: 400;
+          color: #5b5b5bdd;
+          line-height: 1.4;
+          user-select: text;
+        }
+
+        /* 创意项目模块 */
+        .projects-section {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+        .projects-section h2 {
+          font-size: 2.6rem;
+          font-weight: 700;
+          color: var(--champagne-gold);
+          margin-bottom: 24px;
+          user-select: none;
+          text-align: center;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 32px;
+        }
+        .project-card {
+          border: 2px solid var(--champagne-gold);
+          border-radius: 14px;
+          padding: 20px;
+          box-shadow: 0 0 12px transparent;
+          background: #fff;
+          transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+          user-select: none;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .project-card:hover,
+        .project-card:focus-within {
+          box-shadow:
+            0 0 22px var(--champagne-gold-alpha),
+            0 0 38px var(--champagne-gold-alpha-soft);
+          border-color: var(--border-color);
+          transform: translateY(-6px);
+          outline: none;
+        }
+        .project-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #B68E37;
+          margin-bottom: 12px;
+          letter-spacing: 0.06em;
+          user-select: text;
+        }
+        .project-desc {
+          flex-grow: 1;
+          font-weight: 400;
+          font-size: 1rem;
+          color: #5b5b5bdd;
+          margin-bottom: 20px;
+          user-select: text;
+        }
+        .like-button {
+          background: none;
+          border: 2px solid var(--champagne-gold);
+          border-radius: 24px;
+          padding: 6px 20px;
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--champagne-gold);
+          cursor: pointer;
+          user-select: none;
+          align-self: flex-start;
+          transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease;
+        }
+        .like-button.liked {
+          background-color: var(--champagne-gold);
+          color: #fff;
+          border-color: var(--border-color);
+        }
+        .like-button:hover,
+        .like-button:focus-visible {
+          outline: none;
+          background-color: var(--border-color);
+          color: #fff;
+          border-color: var(--border-color);
+        }
+
+        /* 页脚 */
+        footer {
+          text-align: center;
+          font-size: 0.8rem;
+          color: #999999cc;
+          letter-spacing: 0.12em;
+          user-select: none;
+        }
+
+        /* 响应式 */
         @media (max-width: 768px) {
           main {
             padding: 40px 20px 80px;
             gap: 50px;
           }
-          /* 隐藏电脑版大标题 */
           .header h1 {
-            display: none;
+            font-size: 3.6rem;
+            letter-spacing: 0.12em;
           }
-          /* 显示移动端简洁slogan */
-          .mobile-slogan {
-            display: block;
+          .header p {
+            font-size: 1.1rem;
+            margin-bottom: 24px;
           }
-        }
-        @media (min-width: 769px) {
-          /* 移动端slogan隐藏 */
-          .mobile-slogan {
-            display: none;
+          .guide-section {
+            flex-direction: column;
+            gap: 24px;
+          }
+          .guide-card {
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+          }
+          .milestones-section,
+          .projects-section {
+            max-width: 100%;
+            padding: 0 10px;
+          }
+          .projects-grid {
+            grid-template-columns: 1fr;
+          }
+          .project-card {
+            max-width: 100%;
           }
         }
       `}</style>
 
       <main>
-        <header className="header" aria-label="品牌介绍">
-          {!isMobile && <h1>ROROSPHERE</h1>}
-
-          {isMobile && (
-            <>
-              <SmallLogo />
-              <p className="mobile-slogan">
-                激发青少年潜能，构筑归属感与文化共创的未来。
-              </p>
-            </>
-          )}
-
+        {/* 顶部标题 */}
+        <section className="header" aria-label="品牌介绍">
+          <h1>ROROSPHERE</h1>
+          <p>
+            激发青少年潜能，构筑归属感与文化共创的未来。
+          </p>
           <Link href="/brand-history" className="btn-primary" aria-label="了解品牌历程">
             了解品牌历程
           </Link>
-        </header>
+        </section>
 
-        {/* 电脑版首页继续展示品牌历程、创意项目等 */}
-        {!isMobile && (
-          <>
-            <section aria-label="品牌历程" className="milestones-section">
-              <h2>品牌历程</h2>
-              <div className="timeline">
-                {brandMilestones.map(({ id, date, title, desc }) => (
-                  <article className="timeline-item" key={id} tabIndex={-1}>
-                    <time dateTime={date}>{date}</time>
-                    <h3>{title}</h3>
-                    <p>{desc}</p>
-                  </article>
-                ))}
+        {/* 核心引导区 */}
+        <section className="guide-section" aria-label="用户可做什么">
+          <Link href="/creative-projects" className="guide-card" tabIndex={0} aria-label="赋能潜能 - 了解青少年艺术成长计划">
+            <h3>赋能潜能</h3>
+            <p>助力青少年艺术与文化成长。</p>
+          </Link>
+          <Link href="/creative-projects" className="guide-card" tabIndex={0} aria-label="加入共创 - 参与家庭和青少年故事分享">
+            <h3>加入共创</h3>
+            <p>与家庭共同创造独特故事。</p>
+          </Link>
+          <Link href="/brand-history" className="guide-card" tabIndex={0} aria-label="探索生活方式 - 体验 RORO 生活美学">
+            <h3>探索生活方式</h3>
+            <p>体验 RORO 生活美学。</p>
+          </Link>
+          <Link href="/contact" className="guide-card" tabIndex={0} aria-label="联系我们 - 合作与参与">
+            <h3>联系我们</h3>
+            <p>想参与或合作？联系我们。</p>
+          </Link>
+        </section>
+
+        {/* 品牌历程 + 资讯 */}
+        <section className="milestones-section" aria-label="最新品牌动态">
+          <h2>最新品牌动态</h2>
+          <div className="timeline">
+            {brandMilestones.map(({ id, date, title, desc }) => (
+              <div key={id} className="timeline-item" tabIndex={0} aria-label={`${title}, 时间：${date}`}>
+                <time dateTime={date}>{date}</time>
+                <h3>{title}</h3>
+                <p>{desc}</p>
               </div>
-            </section>
+            ))}
+          </div>
+        </section>
 
-            <section aria-label="创意项目" className="projects-section">
-              <h2>创意项目</h2>
-              <p className="section-subtitle">
-                发现我们如何激发灵感，融合文化与生活。
-              </p>
-              <div className="projects-grid">
-                {projects.map(({ id, title, desc, liked }) => (
-                  <article
-                    className="project-card"
-                    key={id}
-                    tabIndex={0}
-                    aria-label={`${title}项目，${liked ? '已点赞' : '未点赞'}`}
-                  >
-                    <h3 className="project-title">{title}</h3>
-                    <p className="project-desc">{desc}</p>
-                    <button
-                      className={`like-button ${liked ? 'liked' : ''}`}
-                      aria-pressed={liked}
-                      aria-label={liked ? `取消点赞${title}` : `点赞${title}`}
-                      onClick={() => toggleLike(id)}
-                    >
-                      {liked ? '已点赞' : '点赞'}
-                    </button>
-                  </article>
-                ))}
-              </div>
-            </section>
-          </>
-        )}
+        {/* 精选创意项目 */}
+        <section className="projects-section" aria-label="精彩创意展览">
+          <h2>精彩创意展览</h2>
+          <div className="projects-grid">
+            {projects.map(({ id, title, desc, liked }) => (
+              <article
+                key={id}
+                className="project-card"
+                tabIndex={0}
+                aria-label={`${title}，简介：${desc}，${liked ? '已点赞' : '未点赞'}`}
+              >
+                <h3 className="project-title">{title}</h3>
+                <p className="project-desc">{desc}</p>
+                <button
+                  className={`like-button ${liked ? 'liked' : ''}`}
+                  onClick={() => toggleLike(id)}
+                  aria-pressed={liked}
+                  aria-label={liked ? `取消点赞 ${title}` : `点赞 ${title}`}
+                >
+                  {liked ? '已点赞 ♥' : '点赞 ♡'}
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
 
-        <footer aria-label="网站版权信息">
-          © 2025 ROROSPHERE 保留所有权利
+        <footer>
+          &copy; 2025 ROROSPHERE. 版权所有。
         </footer>
       </main>
     </>
   );
 }
+
 
 
 
