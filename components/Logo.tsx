@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default function Logo({ size = 72 }: { size?: number }) {
+interface LogoProps {
+  size?: number;
+  className?: string;
+}
+
+export default function Logo({ size = 72, className = '' }: LogoProps) {
   return (
     <svg
       width={size}
@@ -9,12 +14,14 @@ export default function Logo({ size = 72 }: { size?: number }) {
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label="Simplified Rorosphere Symbol Logo"
+      className={className}
       fill="none"
       stroke="url(#roroGradient)"
       strokeWidth={3}
       strokeLinejoin="round"
       strokeLinecap="round"
       filter="url(#glow)"
+      style={{ display: 'block' }}  // 防止svg下方留空白行
     >
       <defs>
         <linearGradient id="roroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -35,15 +42,14 @@ export default function Logo({ size = 72 }: { size?: number }) {
       </defs>
 
       <g transform="translate(140,140)">
-        <use href="#linePetal" transform="rotate(0)" />
-        <use href="#linePetal" transform="rotate(72)" />
-        <use href="#linePetal" transform="rotate(144)" />
-        <use href="#linePetal" transform="rotate(216)" />
-        <use href="#linePetal" transform="rotate(288)" />
+        {[0, 72, 144, 216, 288].map((angle) => (
+          <use key={angle} href="#linePetal" transform={`rotate(${angle})`} />
+        ))}
       </g>
     </svg>
   );
 }
+
 
 
 
