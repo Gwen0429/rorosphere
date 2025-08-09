@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-import Logo from '../../components/Logo';
+import React from 'react';
 import Link from 'next/link';
 
 const newsItems = [
@@ -11,7 +10,6 @@ const newsItems = [
     title: 'Roro中文名征集投票开启',
     summary: '参与Roro中文名创意投票，助力品牌本土化。',
     link: '/news/vote',
-    image: '', // 暂无图，显示logo占位
   },
   {
     id: 2,
@@ -19,7 +17,6 @@ const newsItems = [
     title: '电子邀请函样式公布',
     summary: '全新设计的电子邀请函现已上线，支持下载和分享。',
     link: '/news/invitation',
-    image: '/assets/news-invitation.jpg',
   },
   {
     id: 3,
@@ -27,327 +24,226 @@ const newsItems = [
     title: '夏季活动回顾',
     summary: '精彩纷呈的夏季艺术活动全纪录，精彩不容错过。',
     link: '/news/summer-event',
-    image: '/assets/news-summer-event.jpg',
   },
 ];
 
-const merchItems = [
-  {
-    id: 1,
-    name: 'Roro风车模型',
-    image: '', // 暂无图片，显示Logo占位
-    description: '精致风车，象征创意旋转不息。',
-  },
-  {
-    id: 2,
-    name: '品牌环保帆布袋',
-    image: '/assets/merch-canvas-bag.jpg',
-    description: '实用环保，随身携带Roro精神。',
-  },
-  {
-    id: 3,
-    name: '定制笔记本',
-    image: '/assets/merch-notebook.jpg',
-    description: '书写灵感，记录创意火花。',
-  },
-];
+// 时间倒序，最新日期排前
+newsItems.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-export default function NewsMaterials() {
-  const [activeTab, setActiveTab] = useState<'news' | 'merch'>('news');
-
+export default function NewsTimeline() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
 
         :root {
-          --roro-main: #FACBAA;
-          --roro-accent: #A17494;
-          --bg-color: #FFFFFF;
-          --text-color: #2C3E50;
+          --roro-main: #FACBAA;    /* 裸色 */
+          --roro-accent: #A17494;  /* 紫褐色 */
+          --timeline-line: #A17494;
+          --timeline-dot: #FACBAA;
         }
 
         html, body {
           margin: 0;
           padding: 0;
-          background: var(--bg-color);
-          color: var(--text-color);
-          font-family: 'Montserrat', sans-serif;
+          background: #ffffff;
+          color: var(--roro-accent);
+          font-family: 'Playfair Display', serif;
           overflow-x: hidden;
         }
 
         main {
-          max-width: 1100px;
-          margin: 0 auto 4rem;
-          padding: 6rem 1.5rem 3rem; /* 顶部留导航空间 */
+          max-width: 720px;
+          margin: 80px auto 140px;
+          padding: 40px 32px 64px;
           box-sizing: border-box;
-          min-height: calc(100vh - 80px);
-        }
-
-        h1 {
-          font-family: 'Playfair Display', serif;
-          font-weight: 700;
-          font-size: 3.8rem;
-          color: var(--roro-accent);
-          text-align: center;
-          margin-bottom: 2.4rem;
-          user-select: none;
           position: relative;
-          z-index: 1;
         }
 
-        /* Tab切换按钮组 */
-        .tab-buttons {
-          display: flex;
-          justify-content: center;
-          gap: 2rem;
+        h1.page-title {
+          font-family: 'Great Vibes', cursive;
+          font-size: 3.6rem;
+          text-align: center;
           margin-bottom: 3rem;
-          user-select: none;
-        }
-        .tab-button {
-          font-family: 'Playfair Display', serif;
-          font-size: 1.8rem;
           color: var(--roro-accent);
-          padding: 0.4rem 1.4rem;
-          border-radius: 24px;
-          cursor: pointer;
-          border: 2px solid transparent;
-          transition: all 0.3s ease;
-          background: transparent;
-        }
-        .tab-button:hover,
-        .tab-button:focus-visible {
-          outline: none;
-          color: var(--roro-main);
-          border-color: var(--roro-main);
-          box-shadow: 0 0 10px var(--roro-main);
-        }
-        .tab-button.active {
-          color: #fff;
-          background: var(--roro-main);
-          border-color: var(--roro-main);
-          box-shadow: 0 0 15px var(--roro-main);
-          cursor: default;
-        }
-
-        /* 内容容器 */
-        .tab-content {
-          background: #fff;
-          border: 2px solid var(--roro-main);
-          border-radius: 20px;
-          box-shadow: 0 4px 18px rgba(161, 116, 148, 0.25);
-          padding: 2rem 2.5rem;
-          min-height: 460px;
           user-select: none;
+          text-shadow:
+            0 0 8px var(--roro-accent)aa,
+            0 0 16px var(--roro-accent)88;
         }
 
-        /* 列表样式统一 */
-        ul.item-list {
-          list-style: none;
-          padding-left: 0;
+        .timeline {
+          position: relative;
+          padding-left: 40px;
+          padding-right: 40px;
           margin: 0;
-          max-height: 360px;
-          overflow-y: auto;
         }
 
-        /* 单条资讯/物料条目 */
-        li.item {
-          display: flex;
-          gap: 1.5rem;
-          margin-bottom: 1.8rem;
-          align-items: center;
+        .timeline::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 4px;
+          background-color: var(--timeline-line);
+          border-radius: 2px;
+          z-index: 0;
         }
 
-        /* 图片或Logo占位 */
-        .item-img {
-          width: 96px;
-          height: 96px;
-          flex-shrink: 0;
-          border-radius: 16px;
-          overflow: hidden;
-          background: #faf0e9;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          filter: drop-shadow(0 0 5px var(--roro-main));
+        .timeline-item {
+          position: relative;
+          width: 50%;
+          padding: 1rem 2rem;
+          box-sizing: border-box;
+          z-index: 1;
+          user-select: text;
         }
 
-        /* 图片 */
-        .item-img img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        .timeline-item.left {
+          left: 0;
+          text-align: right;
+          padding-right: 3rem;
+        }
+
+        .timeline-item.right {
+          left: 50%;
+          text-align: left;
+          padding-left: 3rem;
+        }
+
+        .timeline-dot {
+          position: absolute;
+          top: 1.2rem;
+          width: 24px;
+          height: 24px;
+          background: var(--timeline-dot);
+          border: 3px solid var(--roro-accent);
+          border-radius: 50%;
+          box-shadow:
+            0 0 10px var(--roro-main),
+            0 0 15px var(--roro-accent);
+          transition: box-shadow 0.3s ease;
+          z-index: 2;
+          cursor: default;
           user-select: none;
         }
 
-        /* Logo占位大小控制 */
-        .logo-placeholder {
-          width: 72px !important;
-          height: 72px !important;
+        .timeline-item.left .timeline-dot {
+          right: -12px;
         }
 
-        /* 文字内容 */
-        .item-text {
-          flex: 1;
+        .timeline-item.right .timeline-dot {
+          left: -12px;
         }
-        .item-title {
+
+        .timeline-item:hover .timeline-dot {
+          box-shadow:
+            0 0 15px var(--roro-main),
+            0 0 25px var(--roro-accent);
+        }
+
+        .timeline-date {
           font-weight: 700;
           font-size: 1.3rem;
-          margin: 0 0 0.3rem;
+          margin-bottom: 0.5rem;
           color: var(--roro-accent);
-          user-select: text;
+        }
+
+        /* 去除所有链接下划线，永远无下划线 */
+        a {
+          color: var(--roro-accent);
+          text-decoration: none !important;
           cursor: pointer;
+          user-select: text;
           transition: color 0.3s ease;
         }
-        .item-title:hover,
-        .item-title:focus-visible {
+        a:hover,
+        a:focus-visible {
           color: var(--roro-main);
           outline: none;
-          text-decoration: underline;
+          text-decoration: none !important;
         }
-        .item-summary {
+
+        .timeline-content {
           font-weight: 300;
-          font-size: 1rem;
-          color: #555555cc;
-          user-select: text;
-          line-height: 1.5;
+          font-size: 1.15rem;
+          line-height: 1.7;
+          color: #6b6b6bdd;
+          letter-spacing: 0.03em;
+          white-space: pre-line;
         }
 
-        /* 时间 */
-        .item-date {
-          font-size: 0.85rem;
-          color: var(--roro-accent);
-          font-weight: 600;
-          margin-bottom: 0.2rem;
-          user-select: none;
-        }
-
-        /* 响应式 */
-        @media (max-width: 767px) {
+        @media (max-width: 768px) {
           main {
-            padding: 5rem 1rem 2rem;
+            margin: 40px 16px 80px;
+            padding: 24px 16px 40px;
           }
-          h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.8rem;
-          }
-          .tab-buttons {
-            gap: 1.2rem;
+          h1.page-title {
+            font-size: 2.6rem;
             margin-bottom: 2rem;
           }
-          .tab-button {
-            font-size: 1.4rem;
-            padding: 0.3rem 1rem;
+          .timeline {
+            padding-left: 30px;
+            padding-right: 20px;
           }
-          .tab-content {
-            padding: 1.5rem 1.8rem;
-            min-height: 360px;
+          .timeline::before {
+            left: 20px;
+            width: 3px;
           }
-          ul.item-list {
-            max-height: 280px;
+          .timeline-item {
+            width: 100% !important;
+            padding: 1rem 1rem 1rem 3.5rem !important;
+            text-align: left !important;
+            left: 0 !important;
+            margin-bottom: 3rem;
           }
-          li.item {
-            flex-direction: column;
-            align-items: flex-start;
+          .timeline-item .timeline-dot {
+            left: 0 !important;
+            right: auto !important;
+            top: 1.25rem;
+            width: 20px;
+            height: 20px;
+            border-width: 2.5px;
           }
-          .item-img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 0.8rem;
+          .timeline-date {
+            font-size: 1.1rem;
           }
-          .logo-placeholder {
-            width: 56px !important;
-            height: 56px !important;
+          .timeline-content {
+            font-size: 1rem;
+            line-height: 1.5;
           }
         }
       `}</style>
 
       <main>
-        <h1>News & Materials</h1>
+        <h1 className="page-title" aria-label="资讯">News</h1>
 
-        <nav className="tab-buttons" role="tablist" aria-label="资讯与物料切换">
-          <button
-            role="tab"
-            aria-selected={activeTab === 'news'}
-            aria-controls="tab-news"
-            id="tab-button-news"
-            className={`tab-button ${activeTab === 'news' ? 'active' : ''}`}
-            onClick={() => setActiveTab('news')}
-            tabIndex={activeTab === 'news' ? 0 : -1}
-          >
-            资讯
-          </button>
-          <button
-            role="tab"
-            aria-selected={activeTab === 'merch'}
-            aria-controls="tab-merch"
-            id="tab-button-merch"
-            className={`tab-button ${activeTab === 'merch' ? 'active' : ''}`}
-            onClick={() => setActiveTab('merch')}
-            tabIndex={activeTab === 'merch' ? 0 : -1}
-          >
-            物料
-          </button>
-        </nav>
-
-        <section
-          id="tab-news"
-          role="tabpanel"
-          aria-labelledby="tab-button-news"
-          hidden={activeTab !== 'news'}
-          className="tab-content"
-        >
-          <ul className="item-list">
-            {newsItems.map(({ id, date, title, summary, link, image }) => (
-              <li key={id} className="item">
-                <div className="item-img" aria-hidden="true">
-                  {image ? (
-                    <img src={image} alt={title} />
-                  ) : (
-                    <Logo size={72} className="logo-placeholder" />
-                  )}
-                </div>
-                <div className="item-text">
-                  <time className="item-date" dateTime={date}>{date}</time>
-                  <Link href={link} className="item-title" aria-label={`查看详情: ${title}`}>
-                    {title}
-                  </Link>
-                  <p className="item-summary">{summary}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section
-          id="tab-merch"
-          role="tabpanel"
-          aria-labelledby="tab-button-merch"
-          hidden={activeTab !== 'merch'}
-          className="tab-content"
-        >
-          <ul className="item-list">
-            {merchItems.map(({ id, name, image, description }) => (
-              <li key={id} className="item">
-                <div className="item-img" aria-hidden="true">
-                  {image ? (
-                    <img src={image} alt={name} />
-                  ) : (
-                    <Logo size={72} className="logo-placeholder" />
-                  )}
-                </div>
-                <div className="item-text">
-                  <div className="item-title">{name}</div>
-                  <div className="item-summary">{description}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <div className="timeline" aria-label="资讯时间轴">
+          {newsItems.map(({ id, date, title, summary }, i) => {
+            // 交替左右排列
+            const side = i % 2 === 0 ? 'left' : 'right';
+            return (
+              <article key={id} className={`timeline-item ${side}`}>
+                <div className="timeline-dot" aria-hidden="true" />
+                <time className="timeline-date" dateTime={date}>
+                  {date}
+                </time>
+                <Link href={`/news/${title.replace(/\s+/g, '-').toLowerCase()}`} aria-label={`查看详情: ${title}`}>
+                  {title}
+                </Link>
+                <p className="timeline-content">{summary}</p>
+              </article>
+            );
+          })}
+        </div>
       </main>
     </>
   );
 }
+
+
 
 
 

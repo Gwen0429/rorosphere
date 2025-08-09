@@ -14,7 +14,7 @@ export default function Talent() {
           --roro-accent: #A17494;  /* 紫褐色 */
           --roro-glow-alpha: #FACBAA66;
           --roro-glow-alpha-light: #FACBAA33;
-          --invitation-glow-gradient: linear-gradient(90deg, var(--roro-main) 0%, var(--roro-accent) 50%, var(--roro-main) 100%);
+          --invitation-glow-gradient: linear-gradient(135deg, var(--roro-main) 0%, var(--roro-accent) 100%);
         }
 
         html, body {
@@ -32,13 +32,14 @@ export default function Talent() {
           width: 100%;
           margin: 80px auto 140px;
           padding: 40px 32px 64px;
-          background: #fff;
+          background: linear-gradient(180deg, #fff 0%, #fff7f3 100%);
           user-select: none;
           box-sizing: border-box;
           border-radius: 16px;
           z-index: 0;
           overflow-wrap: break-word;
           word-break: break-word;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
         /* 两圈边框光晕效果 */
@@ -49,7 +50,6 @@ export default function Talent() {
           border-radius: 16px;
           pointer-events: none;
           z-index: -1;
-          transition: all 0.3s ease;
         }
 
         /* 内圈边框 */
@@ -65,7 +65,6 @@ export default function Talent() {
             linear-gradient(#fff 0 0);
           -webkit-mask-composite: destination-out;
           mask-composite: exclude;
-          box-sizing: border-box;
         }
 
         /* 外圈光晕 */
@@ -75,15 +74,15 @@ export default function Talent() {
           right: 0;
           bottom: 0;
           box-shadow:
-            0 0 12px var(--roro-main),
+            0 0 10px var(--roro-main),
             0 0 20px var(--roro-accent);
         }
 
         main:hover::after,
         main:focus-within::after {
           box-shadow:
-            0 0 20px var(--roro-main),
-            0 0 30px var(--roro-accent);
+            0 0 16px var(--roro-main),
+            0 0 28px var(--roro-accent);
         }
 
         .header {
@@ -93,10 +92,9 @@ export default function Talent() {
           text-align: center;
           margin-bottom: 36px;
           letter-spacing: 0.06em;
-          user-select: none;
           text-shadow:
             0 0 6px var(--roro-accent)aa,
-            0 0 12px var(--roro-accent)88;
+            0 0 12px var(--roro-accent)55;
         }
 
         section.content {
@@ -107,8 +105,6 @@ export default function Talent() {
           letter-spacing: 0.03em;
           margin-bottom: 40px;
           white-space: pre-line;
-          overflow-wrap: break-word;
-          word-break: break-word;
         }
 
         ul.requirements {
@@ -119,9 +115,6 @@ export default function Talent() {
           font-weight: 300;
           font-size: 1.1rem;
           letter-spacing: 0.04em;
-          user-select: text;
-          overflow-wrap: break-word;
-          word-break: break-word;
         }
 
         ul.requirements li {
@@ -142,7 +135,6 @@ export default function Talent() {
           color: var(--roro-main);
           font-weight: 600;
           text-decoration: underline;
-          cursor: pointer;
           transition: color 0.3s ease;
         }
         a.contact-link:hover,
@@ -158,7 +150,6 @@ export default function Talent() {
           text-align: right;
           margin-top: 80px;
           letter-spacing: 0.05em;
-          user-select: none;
         }
 
         footer {
@@ -173,9 +164,8 @@ export default function Talent() {
         /* 响应式 */
         @media (max-width: 768px) {
           main {
-            max-width: 100%;
             margin: 40px 12px 80px;
-            padding: 20px 12px 40px;
+            padding: 20px 16px 36px;
             border-radius: 12px;
           }
 
@@ -187,7 +177,7 @@ export default function Talent() {
           section.content {
             font-size: 1rem;
             margin-bottom: 32px;
-            line-height: 1.5;
+            line-height: 1.55;
           }
 
           ul.requirements {
@@ -207,11 +197,11 @@ export default function Talent() {
       `}</style>
 
       <main>
-        <div className="header" aria-label="Invitation to visionaries and creators">
+        <div className="header">
           To Visionaries & Creators
         </div>
 
-        <section className="content" aria-label="Introduction">
+        <section className="content">
           {`在 RORO，我们寻找的不只是技术——而是发声的艺术生命。
 
 我们精心甄选创作者，邀请敢于创新、表达、激发灵感的你，突破常规的边界。
@@ -219,13 +209,13 @@ export default function Talent() {
 我们的生态基于初心与真诚，塑造一个专属氛围，让你的艺术引领文化潮流。
 
 如你共鸣，期待你点击这里前往 `}
-          <Link href="/contact" className="contact-link" aria-label="联系我们">
+          <Link href="/contact" className="contact-link">
             联系我们
           </Link>
           {`，携手开创未来。`}
         </section>
 
-        <section aria-label="Talent requirements">
+        <section>
           <ul className="requirements">
             <li>对创意表达与创新的热忱</li>
             <li>致力于在精选社群中协作</li>
@@ -235,16 +225,16 @@ export default function Talent() {
           </ul>
         </section>
 
-        <div className="signature" aria-label="Signature">
+        <div className="signature">
           With Respect,<br />
           Gwen · Chief Creator of ROROSPHERE
         </div>
-
-        <footer>&copy; 2025 ROROSPHERE. All rights reserved.</footer>
       </main>
     </>
   );
 }
+
+
 
 
 

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Logo from '../../components/Logo';
 
 export default function BrandHistory() {
   return (
@@ -136,20 +135,6 @@ export default function BrandHistory() {
           white-space: pre-line;
         }
 
-        /* Logo 分界符 */
-        .timeline-divider {
-          position: relative;
-          left: 50%;
-          transform: translateX(-50%);
-          margin: 4rem 0;
-          z-index: 2;
-          user-select: none;
-          width: 120px;
-          height: 120px;
-        }
-
-        /* SVG Logo 直接用组件渲染 */
-
         /* 移动端响应 */
         @media (max-width: 768px) {
           main {
@@ -182,13 +167,6 @@ export default function BrandHistory() {
             width: 20px;
             height: 20px;
             border-width: 2.5px;
-          }
-          .timeline-divider {
-            width: 90px !important;
-            height: 90px !important;
-            margin: 3rem auto;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
           }
           .timeline-date {
             font-size: 1.1rem;
@@ -223,11 +201,6 @@ export default function BrandHistory() {
             </div>
           </div>
 
-          {/* LOGO分界符 */}
-          <div className="timeline-divider" aria-hidden="true">
-            <Logo size={120} />
-          </div>
-
           {/* 时间点3 左 */}
           <div className="timeline-item left">
             <div className="timeline-dot" aria-hidden="true" />
@@ -251,3 +224,4 @@ export default function BrandHistory() {
     </>
   );
 }
+
