@@ -146,27 +146,31 @@ export default function BrandHistory() {
             margin-bottom: 2rem;
           }
           .timeline {
-            padding-left: 30px;
-            padding-right: 20px;
+            padding-left: 0;
+            padding-right: 0;
+            position: relative;
           }
           .timeline::before {
-            left: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 3px;
           }
           .timeline-item {
-            width: 100% !important;
-            padding: 1rem 1rem 1rem 3.5rem !important;
-            text-align: left !important;
+            width: auto !important;
+            max-width: 320px;
+            margin: 0 auto 3rem !important;
+            padding: 1rem !important;
+            text-align: center !important;
             left: 0 !important;
-            margin-bottom: 3rem;
           }
           .timeline-item .timeline-dot {
-            left: 0 !important;
-            right: auto !important;
+            left: 50% !important;
+            transform: translateX(-50%);
             top: 1.25rem;
             width: 20px;
             height: 20px;
             border-width: 2.5px;
+            right: auto !important;
           }
           .timeline-date {
             font-size: 1.1rem;
@@ -183,45 +187,44 @@ export default function BrandHistory() {
 
         <div className="timeline" aria-label="品牌历程时间轴">
 
-          {/* 时间点1 左 */}
-          <div className="timeline-item left">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2022年 - 创立</div>
-            <div className="timeline-content">
-              ROROSPHERE成立于2022年，诞生于对青少年创意跨界社区的热忱，致力于为年轻创作者打造独特的表达平台。
-            </div>
-          </div>
+  <div className="timeline-item left">
+    <div className="timeline-dot" aria-hidden="true" />
+    <div className="timeline-date">2022年 - 创立</div>
+    <div className="timeline-content">
+      ROROSPHERE成立于2022年，诞生于对青少年创意跨界社区的热忱，致力于为年轻创作者打造独特的表达平台。
+    </div>
+  </div>
 
-          {/* 时间点2 右 */}
-          <div className="timeline-item right">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2023年 - 首次大型活动</div>
-            <div className="timeline-content">
-              举办首届“创意盛典”，汇聚来自全国各地的年轻创作者，推动多元跨界合作。
-            </div>
-          </div>
+  <div className="timeline-item right">
+    <div className="timeline-dot" aria-hidden="true" />
+    <div className="timeline-date">2023年 - 首次大型活动</div>
+    <div className="timeline-content">
+      举办首届“创意盛典”，汇聚来自全国各地的年轻创作者，推动多元跨界合作。
+    </div>
+  </div>
 
-          {/* 时间点3 左 */}
-          <div className="timeline-item left">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2024年 - 平台升级</div>
-            <div className="timeline-content">
-              平台功能全面升级，加入实时互动和创意激励机制，提升用户体验。
-            </div>
-          </div>
+  <div className="timeline-item left">
+    <div className="timeline-dot" aria-hidden="true" />
+    <div className="timeline-date">2024年 - 平台升级</div>
+    <div className="timeline-content">
+      平台功能全面升级，加入实时互动和创意激励机制，提升用户体验。
+    </div>
+  </div>
 
-          {/* 时间点4 右 */}
-          <div className="timeline-item right">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2025年 - 持续成长</div>
-            <div className="timeline-content">
-              ROROSPHERE不断扩大社群影响力，成为青少年创意跨界领域的重要力量。
-            </div>
-          </div>
+  <div className="timeline-item right">
+    <div className="timeline-dot" aria-hidden="true" />
+    <div className="timeline-date">2025年 - 持续成长</div>
+    <div className="timeline-content">
+      ROROSPHERE不断扩大社群影响力，成为青少年创意跨界领域的重要力量。
+    </div>
+  </div>
 
-        </div>
+</div>
+
       </main>
     </>
   );
 }
+
+
 

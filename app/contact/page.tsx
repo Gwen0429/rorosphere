@@ -50,8 +50,10 @@ export default function ContactUs() {
           left: 6px;
           right: 6px;
           bottom: 6px;
-          border: 2px solid transparent;
-          background: var(--invitation-glow-gradient);
+
+          border: none !important;
+          background: transparent !important;
+
           -webkit-mask:
             linear-gradient(#fff 0 0) content-box,
             linear-gradient(#fff 0 0);
@@ -133,8 +135,9 @@ export default function ContactUs() {
         </div>
 
         <section className="content">
-          {`无论你是希望与 RORO 合作、还是想申请成为 RORO 创作者，我们都期待听到你的声音。`}
-        </section>
+  无论你是希望与 RORO 合作、还是想申请成为 RORO 创作者，我们都期待听到你的声音。
+</section>
+
 
         <div style={{ textAlign: 'center' }}>
           <Link href="/apply" className="cta-button">
@@ -145,3 +148,4 @@ export default function ContactUs() {
     </>
   );
 }
+

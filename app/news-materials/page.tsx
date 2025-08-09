@@ -185,27 +185,31 @@ export default function NewsTimeline() {
             margin-bottom: 2rem;
           }
           .timeline {
-            padding-left: 30px;
-            padding-right: 20px;
+            padding-left: 0;
+            padding-right: 0;
+            position: relative;
           }
           .timeline::before {
-            left: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 3px;
           }
           .timeline-item {
-            width: 100% !important;
-            padding: 1rem 1rem 1rem 3.5rem !important;
-            text-align: left !important;
+            width: auto !important;
+            max-width: 320px;
+            margin: 0 auto 3rem !important;
+            padding: 1rem !important;
+            text-align: center !important;
             left: 0 !important;
-            margin-bottom: 3rem;
           }
           .timeline-item .timeline-dot {
-            left: 0 !important;
-            right: auto !important;
+            left: 50% !important;
+            transform: translateX(-50%);
             top: 1.25rem;
             width: 20px;
             height: 20px;
             border-width: 2.5px;
+            right: auto !important;
           }
           .timeline-date {
             font-size: 1.1rem;
@@ -242,6 +246,7 @@ export default function NewsTimeline() {
     </>
   );
 }
+
 
 
 
