@@ -1,151 +1,157 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
 
-export default function ContactUs() {
+export default function Contact() {
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    setError('');
+    const formData = new FormData(e.target);
+
+    try {
+      // 你换成实际action地址
+      const res = await fetch('https://formspree.io/f/yourformid', {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        setSuccess(true);
+        e.target.reset();
+      } else {
+        throw new Error('提交失败');
+      }
+    } catch (err) {
+      setError(err.message || '提交错误');
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
-
         :root {
           --roro-main: #FACBAA;
           --roro-accent: #A17494;
-          --roro-glow-alpha: #FACBAA66;
-          --invitation-glow-gradient: linear-gradient(135deg, var(--roro-main) 0%, var(--roro-accent) 100%);
         }
-
-        html, body {
-          margin: 0;
-          padding: 0;
-          background: #fff;
-          font-family: 'Playfair Display', serif;
-          overflow-x: hidden;
-        }
-
         main {
-          position: relative;
           max-width: 720px;
-          width: 100%;
-          margin: 80px auto;
+          margin: 80px auto 140px;
           padding: 40px 32px 64px;
-          background: linear-gradient(180deg, #fff 0%, #fff7f3 100%);
+          background: #fff;
           border-radius: 16px;
-          box-sizing: border-box;
           box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-
-        main::before,
-        main::after {
-          content: "";
-          position: absolute;
-          border-radius: 16px;
-          pointer-events: none;
-          z-index: -1;
-        }
-
-        main::before {
-          top: 6px;
-          left: 6px;
-          right: 6px;
-          bottom: 6px;
-
-          border: none !important;
-          background: transparent !important;
-
-          -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-          -webkit-mask-composite: destination-out;
-          mask-composite: exclude;
-        }
-
-        main::after {
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          box-shadow:
-            0 0 10px var(--roro-main),
-            0 0 20px var(--roro-accent);
-        }
-
-        main:hover::after {
-          box-shadow:
-            0 0 16px var(--roro-main),
-            0 0 28px var(--roro-accent);
-        }
-
-        .header {
-          font-family: 'Great Vibes', cursive;
-          font-size: 2.6rem;
+          font-family: 'Playfair Display', serif;
           color: var(--roro-accent);
-          text-align: center;
-          margin-bottom: 36px;
-          letter-spacing: 0.05em;
+          user-select: none;
         }
-
-        section.content {
-          font-size: 1.15rem;
-          line-height: 1.7;
-          color: #6b6b6bdd;
-          margin-bottom: 40px;
+        h1 {
+          font-family: 'Great Vibes', cursive;
+          font-size: 3.6rem;
           text-align: center;
+          margin-bottom: 3rem;
+          user-select: none;
+          text-shadow:
+            0 0 8px var(--roro-accent)aa,
+            0 0 16px var(--roro-accent)88;
         }
-
-        .cta-button {
-          display: inline-block;
-          background: var(--invitation-glow-gradient);
-          color: white;
-          padding: 12px 28px;
-          border-radius: 8px;
-          font-size: 1rem;
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+        label {
           font-weight: 600;
-          letter-spacing: 0.05em;
-          text-decoration: none;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-          transition: all 0.3s ease;
+          font-size: 1.1rem;
+          margin-bottom: 6px;
         }
-
-        .cta-button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        input[type="file"] {
+          width: 100%;
+          padding: 12px 16px;
+          border: 1.5px solid var(--roro-main);
+          border-radius: 8px;
+          font-family: 'Playfair Display', serif;
+          font-size: 1rem;
+          color: #444;
+          resize: vertical;
         }
-
+        input[type="file"] {
+          padding: 6px 16px;
+        }
+        button {
+          align-self: center;
+          background-color: var(--roro-main);
+          color: white;
+          font-family: 'Great Vibes', cursive;
+          font-size: 2rem;
+          padding: 14px 36px;
+          border: none;
+          border-radius: 28px;
+          box-shadow: 0 0 15px var(--roro-main);
+          cursor: pointer;
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+          user-select: none;
+        }
+        button:hover,
+        button:focus-visible {
+          background-color: #f9b89d;
+          box-shadow: 0 0 25px var(--roro-main);
+          outline: none;
+        }
+        .status {
+          text-align: center;
+          font-weight: 500;
+          margin-top: 1rem;
+          color: var(--roro-accent);
+        }
         @media (max-width: 768px) {
           main {
-            margin: 40px 12px;
-            padding: 24px 16px 36px;
+            margin: 40px 16px 80px;
+            padding: 24px 16px 40px;
           }
-          .header {
-            font-size: 2rem;
-            margin-bottom: 24px;
-          }
-          section.content {
-            font-size: 1rem;
-            line-height: 1.55;
+          h1 {
+            font-size: 2.6rem;
+            margin-bottom: 2rem;
           }
         }
       `}</style>
 
       <main>
-        <div className="header">
-          Contact ROROSPHERE
-        </div>
+        <h1>Contact Us</h1>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <div>
+            <label htmlFor="name">姓名 / Name</label>
+            <input id="name" name="name" type="text" required placeholder="你的名字" />
+          </div>
 
-        <section className="content">
-  无论你是希望与 RORO 合作、还是想申请成为 RORO 创作者，我们都期待听到你的声音。
-</section>
+          <div>
+            <label htmlFor="email">邮箱 / Email</label>
+            <input id="email" name="email" type="email" required placeholder="your@email.com" />
+          </div>
 
+          <div>
+            <label htmlFor="message">留言 / Message</label>
+            <textarea id="message" name="message" rows="5" required placeholder="告诉我们你的想法..." />
+          </div>
 
-        <div style={{ textAlign: 'center' }}>
-          <Link href="/apply" className="cta-button">
-            提交申请 / 合作意向
-          </Link>
-        </div>
+          <div>
+            <label htmlFor="attachment">附件（可选）/ Attachment (Optional)</label>
+            <input id="attachment" name="attachment" type="file" />
+          </div>
+
+          <button type="submit" disabled={sending}>{sending ? '发送中...' : '发送'}</button>
+          {success && <div className="status">感谢你的留言，我们会尽快联系你！</div>}
+          {error && <div className="status" style={{color: 'red'}}>{error}</div>}
+        </form>
       </main>
     </>
   );
 }
-

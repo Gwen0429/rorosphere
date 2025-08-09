@@ -29,9 +29,9 @@ export default function Talent() {
         main {
           position: relative;
           max-width: 720px;
-          width: 100%;
+          width: auto; /* 改动，防止移动端溢出 */
           margin: 80px auto 140px;
-          padding: 40px 32px 64px;
+          padding: 40px 24px 64px; /* 改动，左右padding更合理 */
           background: linear-gradient(180deg, #fff 0%, #fff7f3 100%);
           user-select: none;
           box-sizing: border-box;
@@ -167,6 +167,8 @@ export default function Talent() {
             margin: 40px 12px 80px;
             padding: 20px 16px 36px;
             border-radius: 12px;
+            max-width: 100%; /* 防止屏幕溢出 */
+            box-sizing: border-box;
           }
 
           .header {
@@ -233,6 +235,7 @@ export default function Talent() {
     </>
   );
 }
+
 
 
 

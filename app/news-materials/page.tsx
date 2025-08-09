@@ -84,8 +84,7 @@ export default function NewsTimeline() {
           position: absolute;
           top: 0;
           bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
+          left: 20px; /* 左偏 */
           width: 4px;
           background-color: var(--timeline-line);
           border-radius: 2px;
@@ -190,26 +189,23 @@ export default function NewsTimeline() {
             position: relative;
           }
           .timeline::before {
-            left: 50%;
-            transform: translateX(-50%);
+            left: 20px; /* 左偏 */
             width: 3px;
           }
           .timeline-item {
-            width: auto !important;
-            max-width: 320px;
-            margin: 0 auto 3rem !important;
-            padding: 1rem !important;
-            text-align: center !important;
+            width: 100% !important;
+            padding: 1rem 1rem 1rem 3.5rem !important;
+            text-align: left !important;
             left: 0 !important;
+            margin-bottom: 3rem;
           }
           .timeline-item .timeline-dot {
-            left: 50% !important;
-            transform: translateX(-50%);
+            left: 0 !important;
+            right: auto !important;
             top: 1.25rem;
             width: 20px;
             height: 20px;
             border-width: 2.5px;
-            right: auto !important;
           }
           .timeline-date {
             font-size: 1.1rem;
@@ -234,7 +230,7 @@ export default function NewsTimeline() {
                 <time className="timeline-date" dateTime={date}>
                   {date}
                 </time>
-                <Link href={`/news/${title.replace(/\s+/g, '-').toLowerCase()}`} aria-label={`查看详情: ${title}`}>
+                <Link href={newsItems[i].link} aria-label={`查看详情: ${title}`}>
                   {title}
                 </Link>
                 <p className="timeline-content">{summary}</p>
@@ -246,6 +242,7 @@ export default function NewsTimeline() {
     </>
   );
 }
+
 
 
 
