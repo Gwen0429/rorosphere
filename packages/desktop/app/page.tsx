@@ -1,164 +1,313 @@
 'use client';
 
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
 
 const latestNews = [
-  { id: 1, title: '最新艺术展：创意与灵感', desc: '汇聚当代艺术家的创意与灵感，探索无限可能。', link: '/news/exhibition' },
-  { id: 2, title: 'RORO品牌与文化融合计划', desc: '探索RORO如何推动文化创新与年轻力量的融合。', link: '/news/culture' },
-  { id: 3, title: '周边商品限时发售', desc: '精美的品牌周边，展现RORO精神与美学。', link: '/news/merchandise' },
+  {
+    id: 1,
+    title: 'ROROSPHERE开启新境界',
+    summary: '步入风格与革新的独家空间。',
+    date: '2025-08-01',
+    link: '/news/1',
+  },
+  {
+    id: 2,
+    title: '重磅合作揭晓',
+    summary: '跨界巨匠携手，共创非凡作品。',
+    date: '2025-08-01',
+    link: '/news/2',
+  },
 ];
 
 export default function Home() {
   return (
-    <main>
-      {/* 大标题 */}
-      <section className="header">
-        <h1>ROROSPHERE</h1>
-        <p className="subtitle">
-          激发青少年潜能，构筑归属感与文化共创的未来。
-        </p>
-      </section>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
-      {/* 最新资讯模块 */}
-      <section className="news-section">
-        <h2>最新资讯</h2>
-        <div className="news-cards">
-          {latestNews.map((item) => (
-            <div className="news-card" key={item.id}>
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-              <Link href={item.link} className="read-more">查看更多</Link>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <style jsx>{`
         :root {
-          --champagne-gold: #D4AF7F;
-          --bg-color: #ffffff;
-          --text-color: #333;
-          --subtitle-color: #A17494;
-          --card-bg-color: #f5f5f5;
-          --card-hover-bg: #fafafa;
-          --card-border-color: #e1d6b7;
+          --roro-main: #FACBAA;
+          --roro-accent: #A17494;
+          --roro-bg: #FFFFFF;
+          --roro-text: #3B2E2E;
+          --roro-glow-alpha: #FACBAA66;
+        }
+
+        *, *::before, *::after {
+          max-width: 100vw;
+          box-sizing: border-box;
+          word-break: break-word;
         }
 
         html, body {
-          margin: 0;
-          padding: 0;
-          background: var(--bg-color);
-          color: var(--text-color);
-          font-family: 'Playfair Display', serif;
-          line-height: 1.6;
+          margin: 0; padding: 0;
+          background: var(--roro-bg);
+          color: var(--roro-text);
+          font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+          overflow-x: hidden;
         }
 
         main {
-          padding: 100px 40px 140px;
-          max-width: 1200px;
-          margin: 0 auto;
           min-height: 100vh;
+          padding: 80px 40px 140px;
           display: flex;
           flex-direction: column;
-          gap: 80px;
-        }
-
-        /* 大标题 */
-        .header {
-          text-align: center;
+          align-items: center;
           position: relative;
-        }
-        .header h1 {
-          font-size: 4rem;
-          font-weight: 500;
-          color: black;
-          margin: 0 0 16px;
-        }
-        .header .subtitle {
-          font-size: 1.25rem;
-          color: var(--subtitle-color);
-          max-width: 800px;
-          margin: 0 auto;
+          max-width: 100vw;
+          overflow-x: hidden;
         }
 
-        /* 最新资讯模块 */
-        .news-section {
+        .flower-cluster {
+          position: absolute;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          pointer-events: none;
+          user-select: none;
+          width: 320px;
+          height: 180px;
+          opacity: 0.15;
+          background: radial-gradient(circle at 40% 60%, var(--roro-main), transparent 70%);
+          filter: drop-shadow(0 0 10px var(--roro-glow-alpha));
+          border-radius: 50% / 40%;
+          animation: gentle-sway 10s ease-in-out infinite alternate;
+          z-index: 0;
+        }
+
+        @keyframes gentle-sway {
+          0% { transform: translateX(-50%) translateY(0) rotate(0deg);}
+          100% { transform: translateX(-50%) translateY(10px) rotate(3deg);}
+        }
+
+        h1.brand-title {
+          font-family: 'Great Vibes', cursive;
+          font-size: 7rem;
+          font-style: normal;
+          color: var(--roro-main);
+          letter-spacing: 0.1em;
+          margin: 0;
+          user-select: none;
           text-align: center;
+          text-shadow: 0 0 10px var(--roro-main)aa;
+          position: relative;
+          z-index: 1;
         }
-        .news-section h2 {
-          font-size: 2.5rem;
-          font-weight: 600;
-          color: var(--champagne-gold);
-          margin-bottom: 24px;
-          text-transform: uppercase;
-          letter-spacing: 0.15em;
+
+        .subtitle {
+          font-family: 'Great Vibes', cursive;
+          font-size: 1.4rem;
+          color: var(--roro-accent);
+          text-align: center;
+          max-width: 600px;
+          margin: 1rem auto 3rem;
+          user-select: none;
+          line-height: 1.3;
+          letter-spacing: 0.05em;
         }
-        .news-cards {
+
+        .sections {
+          max-width: 900px;
+          margin: 0 auto 6rem;
           display: flex;
-          justify-content: space-between;
-          gap: 24px;
+          gap: 40px;
+          justify-content: center;
           flex-wrap: wrap;
+          z-index: 1;
         }
-        .news-card {
-          background: var(--card-bg-color);
-          padding: 20px;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
-          width: 30%;
+
+        .section-item {
+          flex: 1 1 280px;
+          border-bottom: 3px solid var(--roro-main);
+          padding-bottom: 20px;
           cursor: pointer;
-          text-align: left;
+          transition: box-shadow 0.3s ease, transform 0.3s ease;
+          font-size: 1.05rem;
+          min-width: 0;
+          color: var(--roro-text);
+          user-select: none;
         }
-        .news-card:hover {
-          background-color: var(--card-hover-bg);
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+        .section-item:hover,
+        .section-item:focus-visible {
+          transform: translateY(-4px);
+          box-shadow:
+            0 0 15px var(--roro-main)aa,
+            0 0 30px var(--roro-main)66;
+          border-color: var(--roro-main);
+          outline: none;
         }
-        .news-card h3 {
-          font-size: 1.5rem;
+
+        .section-item h2 {
+          font-size: 1.8rem;
+          font-weight: 700;
+          margin-bottom: 10px;
+          color: var(--roro-accent);
+          user-select: none;
+        }
+
+        .section-item p {
+          font-weight: 300;
+          line-height: 1.6;
+          color: #5a4a4a;
+          word-wrap: break-word;
+        }
+
+        .news-section {
+          max-width: 900px;
+          width: 100%;
+          color: var(--roro-main);
+          font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+          z-index: 1;
+        }
+
+        .news-title {
+          font-size: 2.4rem;
+          font-weight: 700;
+          margin-bottom: 30px;
+          user-select: none;
+          text-align: center;
+          color: var(--roro-main);
+        }
+
+        ul.news-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          color: #7a6a6a;
+        }
+
+        ul.news-list li {
+          border-bottom: 1px solid #eee;
+          padding: 18px 0;
+          word-wrap: break-word;
+        }
+
+        ul.news-list li h3 {
+          margin: 0 0 6px;
           font-weight: 600;
-          color: var(--text-color);
-          margin-bottom: 12px;
+          font-size: 1.3rem;
+          color: var(--roro-accent);
         }
-        .news-card p {
-          font-size: 1rem;
-          color: #777;
-          margin-bottom: 16px;
-        }
-        .read-more {
-          font-size: 1rem;
-          color: var(--champagne-gold);
+
+        ul.news-list li h3 a {
+          color: inherit;
           text-decoration: none;
-          transition: color 0.3s ease;
+          cursor: pointer;
         }
-        .read-more:hover {
-          color: var(--text-color);
+        ul.news-list li h3 a:hover,
+        ul.news-list li h3 a:focus {
+          text-decoration: none;
+          outline: none;
         }
 
-        /* 适配小屏 */
+        ul.news-list li p {
+          margin: 0 0 4px;
+          font-weight: 300;
+          font-size: 1rem;
+          color: #a4997fcc;
+          word-wrap: break-word;
+        }
+
+        ul.news-list li time {
+          font-size: 0.8rem;
+          color: #b8a96caa;
+        }
+
+        /* 移动端响应式 */
         @media (max-width: 768px) {
-          .news-cards {
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
+          main {
+            padding: 40px 16px 80px !important;
           }
-          .news-card {
-            width: 80%;
-            margin-bottom: 24px;
-          }
-        }
 
-        /* 适配大屏 */
-        @media (min-width: 768px) {
-          .news-cards {
-            flex-wrap: nowrap;
+          h1.brand-title {
+            font-size: 4rem !important;
+            letter-spacing: 0.05em !important;
+            padding: 0 10px !important;
           }
-          .news-card {
-            width: 30%; /* 控制每个卡片的宽度，使它们横向排列 */
+
+          .subtitle {
+            font-size: 1.1rem !important;
+            max-width: 90vw !important;
+            margin-bottom: 2rem !important;
+            line-height: 1.25 !important;
+          }
+
+          .sections {
+            flex-direction: column !important;
+            gap: 30px !important;
+          }
+
+          .section-item {
+            text-align: center !important;
+            border-bottom: 2px solid var(--roro-main) !important;
+            padding-bottom: 15px !important;
+          }
+
+          .section-item h2 {
+            font-size: 1.5rem !important;
+          }
+
+          .section-item p {
+            font-size: 0.95rem !important;
+          }
+
+          .news-title {
+            font-size: 1.8rem !important;
+            text-align: center !important;
+          }
+
+          ul.news-list li h3 {
+            font-size: 1rem !important;
+          }
+
+          ul.news-list li p {
+            font-size: 0.9rem !important;
           }
         }
       `}</style>
-    </main>
+
+      <main>
+        <div className="flower-cluster" aria-hidden="true"></div>
+
+        <h1 className="brand-title">ROROSPHERE</h1>
+
+        <p className="subtitle">
+          Enter a realm where visionaries converge — ROROSPHERE isn’t just collaboration, it’s the genesis of tomorrow’s legends.
+        </p>
+
+        <section className="sections">
+          <div className="section-item" tabIndex={0}>
+            <h2>我们的愿景</h2>
+            <p>跨界融合，汇聚敢想敢为的创造者，共筑未来文化新高地。</p>
+          </div>
+          <div className="section-item" tabIndex={0}>
+            <h2>加入我们</h2>
+            <p>机会属于敢于突破的你，提交作品与理念，展现你的独特声音。</p>
+          </div>
+          <div className="section-item" tabIndex={0}>
+            <h2>体验RORO</h2>
+            <p>不仅是创作，更是一种态度，一场优雅且坚定的革新之旅。</p>
+          </div>
+        </section>
+
+        <section className="news-section">
+          <h2 className="news-title">最新资讯</h2>
+          <ul className="news-list">
+            {latestNews.map(({ id, title, summary, date, link }) => (
+              <li key={id}>
+                <h3>
+                  <Link href={link}>{title}</Link>
+                </h3>
+                <p>{summary}</p>
+                <time>{date}</time>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
+    </>
   );
 }
 
