@@ -1,15 +1,21 @@
-/* Navbar.css */
-/* Navbar整体样式 */
+:root {
+  --roro-main: #FACBAA;    /* 主品牌色 裸色 */
+  --roro-accent: #A17494;  /* 辅助紫褐 */
+  --roro-glow: #B68E37;    /* 暗金色 */
+  --roro-bg: rgba(255, 255, 255, 0.95);
+  --roro-border: rgba(212, 175, 127, 0.25);
+}
+
 .nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--roro-bg);
   backdrop-filter: saturate(180%) blur(14px);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border-bottom: 1px solid rgba(212, 175, 127, 0.25);
+  border-bottom: 1px solid var(--roro-border);
   font-family: 'Playfair Display', serif;
   transition: background-color 0.3s ease;
   user-select: none;
@@ -35,48 +41,44 @@
   font-weight: 500;
   color: #2C3E50;
   text-decoration: none;
-  position: relative;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  height: 2px;
-  width: 0%;
-  background-color: #D4AF7F;
-  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative;
 }
 
 .nav-link:hover,
 .nav-link:focus-visible {
-  color: #D4AF7F;
-  text-shadow: 0 0 6px #D4AF7Faa;
+  color: var(--roro-main);
+  text-shadow: 0 0 6px var(--roro-main);
   outline: none;
 }
 
-.nav-link:hover::after,
-.nav-link:focus-visible::after {
-  width: 100%;
+/* 彻底去掉横线伪元素 */
+.nav-link::after {
+  content: none !important;
 }
 
 .nav-link.active {
   font-weight: 700;
-  color: #B68E37;
-  text-shadow: 0 0 8px #B68E37cc;
+  color: var(--roro-main);
+  text-shadow: none;
 }
 
-/* 激活状态下 SVG 替换文本链接 */
+/* 激活状态显示Logo，隐藏文字 */
 .nav-link.active span {
   display: none;
 }
 
-.nav-link.active .svg-icon {
+.nav-link.active svg {
   display: inline-block;
+  width: 72px;
+  height: 72px;
+  vertical-align: middle;
 }
 
+/* 移动菜单 */
 .menu-toggle {
   background: none;
   border: none;
@@ -86,13 +88,13 @@
   cursor: pointer;
   display: block;
   padding: 0;
-  color: #D4AF7F;
+  color: var(--roro-main);
   transition: color 0.3s ease;
 }
 
 .menu-toggle:hover,
 .menu-toggle:focus {
-  color: #B68E37;
+  color: var(--roro-glow);
   outline: none;
 }
 
@@ -125,18 +127,18 @@
 
 .mobile-link.active {
   font-weight: 700;
-  color: #D4AF7F;
-  text-shadow: 0 0 6px #D4AF7Faa;
+  color: var(--roro-main);
+  text-shadow: 0 0 6px var(--roro-main);
 }
 
 .mobile-link:hover,
 .mobile-link:focus-visible {
-  color: #B68E37;
-  text-shadow: 0 0 8px #B68E37cc;
+  color: var(--roro-glow);
+  text-shadow: 0 0 8px var(--roro-glow);
   outline: none;
 }
 
-/* 桌面端样式 */
+/* 大屏显示导航链接 */
 @media (min-width: 640px) {
   .nav-links {
     display: flex;
@@ -151,10 +153,5 @@
   }
 }
 
-/* SVG 图标样式（加大） */
-.svg-icon {
-  display: inline-block;
-  width: 56px;
-  height: 56px;
-  vertical-align: middle;
-}
+
+

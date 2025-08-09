@@ -1,223 +1,356 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import {
-  newsItems,
-  materialItems,
-  NewsItem,
-  MaterialItem,
-} from '../../src/data/newsMaterialData';
+import React, { useState } from 'react';
+import Logo from '../../components/Logo';
+import Link from 'next/link';
 
-type NewsOrMaterial = NewsItem | MaterialItem;
+const newsItems = [
+  {
+    id: 1,
+    date: '2025-06-10',
+    title: 'Roro中文名征集投票开启',
+    summary: '参与Roro中文名创意投票，助力品牌本土化。',
+    link: '/news/vote',
+    image: '', // 暂无图，显示logo占位
+  },
+  {
+    id: 2,
+    date: '2025-05-01',
+    title: '电子邀请函样式公布',
+    summary: '全新设计的电子邀请函现已上线，支持下载和分享。',
+    link: '/news/invitation',
+    image: '/assets/news-invitation.jpg',
+  },
+  {
+    id: 3,
+    date: '2025-04-20',
+    title: '夏季活动回顾',
+    summary: '精彩纷呈的夏季艺术活动全纪录，精彩不容错过。',
+    link: '/news/summer-event',
+    image: '/assets/news-summer-event.jpg',
+  },
+];
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    function handleResize() {
-      setIsMobile(window.innerWidth <= 768);
-    }
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  return isMobile;
-}
+const merchItems = [
+  {
+    id: 1,
+    name: 'Roro风车模型',
+    image: '', // 暂无图片，显示Logo占位
+    description: '精致风车，象征创意旋转不息。',
+  },
+  {
+    id: 2,
+    name: '品牌环保帆布袋',
+    image: '/assets/merch-canvas-bag.jpg',
+    description: '实用环保，随身携带Roro精神。',
+  },
+  {
+    id: 3,
+    name: '定制笔记本',
+    image: '/assets/merch-notebook.jpg',
+    description: '书写灵感，记录创意火花。',
+  },
+];
 
-export default function NewsAndMaterials() {
-  const [activeTab, setActiveTab] = useState<'news' | 'material'>('news');
-  const isMobile = useIsMobile();
-  const data: NewsOrMaterial[] = activeTab === 'news' ? newsItems : materialItems;
-
-  const [showImages, setShowImages] = useState(false);
+export default function NewsMaterials() {
+  const [activeTab, setActiveTab] = useState<'news' | 'merch'>('news');
 
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat&display=swap');
+
         :root {
           --roro-main: #FACBAA;
           --roro-accent: #A17494;
-          --roro-bg: #FFFFFF;
-          --roro-text: #3B2E2E;
-          --roro-shadow: rgba(0, 0, 0, 0.15);
-          --roro-glow-alpha: #FACBAA66;
-        }
-
-        *, *::before, *::after {
-          box-sizing: border-box;
-          word-break: break-word;
+          --bg-color: #FFFFFF;
+          --text-color: #2C3E50;
         }
 
         html, body {
           margin: 0;
           padding: 0;
-          background: var(--roro-bg);
-          color: var(--roro-text);
-          font-family: 'Playfair Display', serif;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
+          background: var(--bg-color);
+          color: var(--text-color);
+          font-family: 'Montserrat', sans-serif;
+          overflow-x: hidden;
         }
 
         main {
-          max-width: 1080px;
-          margin: 0 auto;
-          padding: 80px 24px 96px;
+          max-width: 1100px;
+          margin: 0 auto 4rem;
+          padding: 6rem 1.5rem 3rem; /* 顶部留导航空间 */
+          box-sizing: border-box;
+          min-height: calc(100vh - 80px);
         }
 
-        .tabs {
+        h1 {
+          font-family: 'Playfair Display', serif;
+          font-weight: 700;
+          font-size: 3.8rem;
+          color: var(--roro-accent);
+          text-align: center;
+          margin-bottom: 2.4rem;
+          user-select: none;
+          position: relative;
+          z-index: 1;
+        }
+
+        /* Tab切换按钮组 */
+        .tab-buttons {
           display: flex;
           justify-content: center;
-          gap: 28px;
-          margin-bottom: 48px;
+          gap: 2rem;
+          margin-bottom: 3rem;
+          user-select: none;
         }
-
         .tab-button {
-          flex: 1 1 auto;
-          min-width: 140px;
-          padding: 16px 0;
-          font-weight: 700;
-          font-size: 1.2rem;
-          color: var(--roro-main);
-          border: 2px solid var(--roro-main);
-          border-radius: 36px;
-          background: transparent;
+          font-family: 'Playfair Display', serif;
+          font-size: 1.8rem;
+          color: var(--roro-accent);
+          padding: 0.4rem 1.4rem;
+          border-radius: 24px;
           cursor: pointer;
-          transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-          text-align: center;
+          border: 2px solid transparent;
+          transition: all 0.3s ease;
+          background: transparent;
         }
-
-        .tab-button.active,
         .tab-button:hover,
         .tab-button:focus-visible {
-          background-color: var(--roro-main);
-          color: #fff;
           outline: none;
-          box-shadow: 0 0 12px var(--roro-main);
-        }
-
-        .cards-container {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 36px;
-        }
-
-        .card {
-          background: #fff;
-          border-radius: 20px;
-          box-shadow: 0 8px 16px rgba(250, 203, 170, 0.2);
-          overflow: hidden;
-          cursor: default;
-          display: flex;
-          flex-direction: column;
-          transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .card:hover,
-        .card:focus-within {
-          box-shadow: 0 12px 32px rgba(250, 203, 170, 0.35);
-          transform: translateY(-8px);
-        }
-
-        .card-images {
-          display: flex;
-          overflow-x: auto;
-          gap: 12px;
-          padding: 16px;
-        }
-
-        .card-images img {
-          height: 140px;
-          border-radius: 14px;
-          flex-shrink: 0;
-          transition: transform 0.3s ease;
-        }
-
-        .card-images img:hover {
-          transform: scale(1.06);
-        }
-
-        .card-content {
-          padding: 20px 24px 28px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-
-        .card-date {
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: #a38f56cc;
-        }
-
-        .card-title {
-          font-size: 1.5rem;
-          font-weight: 700;
           color: var(--roro-main);
-          margin-bottom: 12px;
+          border-color: var(--roro-main);
+          box-shadow: 0 0 10px var(--roro-main);
+        }
+        .tab-button.active {
+          color: #fff;
+          background: var(--roro-main);
+          border-color: var(--roro-main);
+          box-shadow: 0 0 15px var(--roro-main);
+          cursor: default;
         }
 
-        .card-desc {
+        /* 内容容器 */
+        .tab-content {
+          background: #fff;
+          border: 2px solid var(--roro-main);
+          border-radius: 20px;
+          box-shadow: 0 4px 18px rgba(161, 116, 148, 0.25);
+          padding: 2rem 2.5rem;
+          min-height: 460px;
+          user-select: none;
+        }
+
+        /* 列表样式统一 */
+        ul.item-list {
+          list-style: none;
+          padding-left: 0;
+          margin: 0;
+          max-height: 360px;
+          overflow-y: auto;
+        }
+
+        /* 单条资讯/物料条目 */
+        li.item {
+          display: flex;
+          gap: 1.5rem;
+          margin-bottom: 1.8rem;
+          align-items: center;
+        }
+
+        /* 图片或Logo占位 */
+        .item-img {
+          width: 96px;
+          height: 96px;
+          flex-shrink: 0;
+          border-radius: 16px;
+          overflow: hidden;
+          background: #faf0e9;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          filter: drop-shadow(0 0 5px var(--roro-main));
+        }
+
+        /* 图片 */
+        .item-img img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          user-select: none;
+        }
+
+        /* Logo占位大小控制 */
+        .logo-placeholder {
+          width: 72px !important;
+          height: 72px !important;
+        }
+
+        /* 文字内容 */
+        .item-text {
+          flex: 1;
+        }
+        .item-title {
+          font-weight: 700;
+          font-size: 1.3rem;
+          margin: 0 0 0.3rem;
+          color: var(--roro-accent);
+          user-select: text;
+          cursor: pointer;
+          transition: color 0.3s ease;
+        }
+        .item-title:hover,
+        .item-title:focus-visible {
+          color: var(--roro-main);
+          outline: none;
+          text-decoration: underline;
+        }
+        .item-summary {
+          font-weight: 300;
           font-size: 1rem;
-          color: #5b5b5bdd;
-          line-height: 1.4;
+          color: #555555cc;
+          user-select: text;
+          line-height: 1.5;
         }
 
-        @media (max-width: 768px) {
-          .cards-container {
-            grid-template-columns: 1fr;
-            gap: 24px;
+        /* 时间 */
+        .item-date {
+          font-size: 0.85rem;
+          color: var(--roro-accent);
+          font-weight: 600;
+          margin-bottom: 0.2rem;
+          user-select: none;
+        }
+
+        /* 响应式 */
+        @media (max-width: 767px) {
+          main {
+            padding: 5rem 1rem 2rem;
+          }
+          h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.8rem;
+          }
+          .tab-buttons {
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+          }
+          .tab-button {
+            font-size: 1.4rem;
+            padding: 0.3rem 1rem;
+          }
+          .tab-content {
+            padding: 1.5rem 1.8rem;
+            min-height: 360px;
+          }
+          ul.item-list {
+            max-height: 280px;
+          }
+          li.item {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .item-img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 0.8rem;
+          }
+          .logo-placeholder {
+            width: 56px !important;
+            height: 56px !important;
           }
         }
       `}</style>
 
       <main>
-        {isMobile ? (
-          <select
-            className="tab-select"
-            value={activeTab}
-            onChange={(e) => setActiveTab(e.target.value as 'news' | 'material')}
-          >
-            <option value="news">资讯</option>
-            <option value="material">物料</option>
-          </select>
-        ) : (
-          <nav className="tabs">
-            <button
-              className={`tab-button ${activeTab === 'news' ? 'active' : ''}`}
-              onClick={() => setActiveTab('news')}
-            >
-              资讯
-            </button>
-            <button
-              className={`tab-button ${activeTab === 'material' ? 'active' : ''}`}
-              onClick={() => setActiveTab('material')}
-            >
-              物料
-            </button>
-          </nav>
-        )}
+        <h1>News & Materials</h1>
 
-        <section className="cards-container">
-          {data.map((item) => (
-            <article key={item.id} className="card">
-              {showImages && (
-                <div className="card-images">
-                  {item.images.map((src, idx) => (
-                    <img key={idx} src={src} alt={`${item.title} 图片${idx + 1}`} />
-                  ))}
+        <nav className="tab-buttons" role="tablist" aria-label="资讯与物料切换">
+          <button
+            role="tab"
+            aria-selected={activeTab === 'news'}
+            aria-controls="tab-news"
+            id="tab-button-news"
+            className={`tab-button ${activeTab === 'news' ? 'active' : ''}`}
+            onClick={() => setActiveTab('news')}
+            tabIndex={activeTab === 'news' ? 0 : -1}
+          >
+            资讯
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'merch'}
+            aria-controls="tab-merch"
+            id="tab-button-merch"
+            className={`tab-button ${activeTab === 'merch' ? 'active' : ''}`}
+            onClick={() => setActiveTab('merch')}
+            tabIndex={activeTab === 'merch' ? 0 : -1}
+          >
+            物料
+          </button>
+        </nav>
+
+        <section
+          id="tab-news"
+          role="tabpanel"
+          aria-labelledby="tab-button-news"
+          hidden={activeTab !== 'news'}
+          className="tab-content"
+        >
+          <ul className="item-list">
+            {newsItems.map(({ id, date, title, summary, link, image }) => (
+              <li key={id} className="item">
+                <div className="item-img" aria-hidden="true">
+                  {image ? (
+                    <img src={image} alt={title} />
+                  ) : (
+                    <Logo size={72} className="logo-placeholder" />
+                  )}
                 </div>
-              )}
-              <div className="card-content">
-                <time className="card-date">{item.date}</time>
-                <h3 className="card-title">{item.title}</h3>
-                <p className="card-desc">{item.desc}</p>
-              </div>
-            </article>
-          ))}
+                <div className="item-text">
+                  <time className="item-date" dateTime={date}>{date}</time>
+                  <Link href={link} className="item-title" aria-label={`查看详情: ${title}`}>
+                    {title}
+                  </Link>
+                  <p className="item-summary">{summary}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section
+          id="tab-merch"
+          role="tabpanel"
+          aria-labelledby="tab-button-merch"
+          hidden={activeTab !== 'merch'}
+          className="tab-content"
+        >
+          <ul className="item-list">
+            {merchItems.map(({ id, name, image, description }) => (
+              <li key={id} className="item">
+                <div className="item-img" aria-hidden="true">
+                  {image ? (
+                    <img src={image} alt={name} />
+                  ) : (
+                    <Logo size={72} className="logo-placeholder" />
+                  )}
+                </div>
+                <div className="item-text">
+                  <div className="item-title">{name}</div>
+                  <div className="item-summary">{description}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
     </>
   );
 }
+
+
+
 
 
 

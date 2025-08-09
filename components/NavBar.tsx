@@ -1,9 +1,9 @@
-// Navbar.tsx
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useRef } from 'react';
+import Logo from './Logo';  // 新简洁Logo组件
 import './NavBar.css';
 
 export default function NavBar() {
@@ -24,51 +24,30 @@ export default function NavBar() {
     toggleButtonRef.current?.focus();
   };
 
-  const svgIcon = `
-    <svg width="48" height="48" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" class="rotating-svg">
-      <defs>
-        <path id="sculptedPetal" d="M0,-70 C30,-62 32,-26 12,-6 C26,12 14,38 0,60 C-14,38 -26,12 -12,-6 C-32,-26 -30,-62 0,-70 Z"/>
-        <radialGradient id="goldRelief" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" stop-color="#FBE8C9"/>
-          <stop offset="60%" stop-color="#D4AF7F"/>
-          <stop offset="100%" stop-color="#B88A50"/>
-        </radialGradient>
-      </defs>
-      <g transform="translate(140,140)" stroke="white" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" fill="url(#goldRelief)" opacity="0.9">
-        <use href="#sculptedPetal" transform="rotate(0)" />
-        <use href="#sculptedPetal" transform="rotate(60)" />
-        <use href="#sculptedPetal" transform="rotate(120)" />
-        <use href="#sculptedPetal" transform="rotate(180)" />
-        <use href="#sculptedPetal" transform="rotate(240)" />
-        <use href="#sculptedPetal" transform="rotate(300)" />
-      </g>
-      <circle cx="140" cy="140" r="14" fill="black" stroke="white" stroke-width="2.4" />
-      <circle cx="140" cy="140" r="18" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="6"/>
-    </svg>
-  `;
-
   return (
     <nav className="nav" role="navigation" aria-label="主导航">
       <div className="nav-container">
         <div className="nav-links">
-          {links.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`nav-link ${pathname === href ? 'active' : ''}`}
-              aria-current={pathname === href ? 'page' : undefined}
-              onClick={handleLinkClick}
-            >
-              {pathname === href ? (
-                <div
-                  className="nav-icon-wrapper"
-                  dangerouslySetInnerHTML={{ __html: svgIcon }}
-                />
-              ) : (
-                label
-              )}
-            </Link>
-          ))}
+          {links.map(({ href, label }) => {
+            const active = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`nav-link ${active ? 'active' : ''}`}
+                aria-current={active ? 'page' : undefined}
+                onClick={handleLinkClick}
+              >
+                {active ? (
+                  <>
+                    <Logo size={48} />
+                  </>
+                ) : (
+                  <span>{label}</span>
+                )}
+              </Link>
+            );
+          })}
         </div>
 
         <button
@@ -116,6 +95,9 @@ export default function NavBar() {
     </nav>
   );
 }
+
+
+
 
 
 

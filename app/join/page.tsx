@@ -23,12 +23,13 @@ export default function Talent() {
           background: #fff;
           color: #333;
           font-family: 'Playfair Display', serif;
-          overflow-x: hidden;
+          overflow-x: hidden; /* 防止横向滚动 */
         }
 
         main {
           position: relative;
           max-width: 720px;
+          width: 100%;
           margin: 80px auto 140px;
           padding: 40px 32px 64px;
           background: #fff;
@@ -36,6 +37,8 @@ export default function Talent() {
           box-sizing: border-box;
           border-radius: 16px;
           z-index: 0;
+          overflow-wrap: break-word;
+          word-break: break-word;
         }
 
         /* 两圈边框光晕效果 */
@@ -104,6 +107,8 @@ export default function Talent() {
           letter-spacing: 0.03em;
           margin-bottom: 40px;
           white-space: pre-line;
+          overflow-wrap: break-word;
+          word-break: break-word;
         }
 
         ul.requirements {
@@ -115,6 +120,8 @@ export default function Talent() {
           font-size: 1.1rem;
           letter-spacing: 0.04em;
           user-select: text;
+          overflow-wrap: break-word;
+          word-break: break-word;
         }
 
         ul.requirements li {
@@ -167,8 +174,8 @@ export default function Talent() {
         @media (max-width: 768px) {
           main {
             max-width: 100%;
-            margin: 40px 16px 80px;
-            padding: 24px 16px 40px;
+            margin: 40px 12px 80px;
+            padding: 20px 12px 40px;
             border-radius: 12px;
           }
 
@@ -228,14 +235,6 @@ export default function Talent() {
           </ul>
         </section>
 
-        <section className="content" aria-label="Invitation message">
-          {`如你共鸣，期待你点击这里前往 `}
-          <Link href="/contact" className="contact-link" aria-label="联系我们">
-            联系我们
-          </Link>
-          {`，携手开创未来。`}
-        </section>
-
         <div className="signature" aria-label="Signature">
           With Respect,<br />
           Gwen · Chief Creator of ROROSPHERE
@@ -246,6 +245,8 @@ export default function Talent() {
     </>
   );
 }
+
+
 
 
 
