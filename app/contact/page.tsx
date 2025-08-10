@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import LogoSpinner from '@/components/LogoSpinner'; // 请确认路径正确，或根据项目调整
+import LogoSpinner from '@/components/LogoSpinner'; // 请确认路径正确
 
 export default function ContactPage() {
   const [formState, setFormState] = useState({
@@ -25,7 +25,7 @@ export default function ContactPage() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = (e.target as HTMLInputElement).files;
+    const files = e.target.files;
     if (files && files.length > 0) {
       setFormState((prev) => ({ ...prev, file: files[0] }));
     }
@@ -89,12 +89,13 @@ export default function ContactPage() {
           background: var(--roro-bg);
           color: var(--roro-text);
           font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-          overflow-x: hidden;
+          overflow-x: hidden; /* 关键：防止横向滚动溢出 */
         }
 
         main {
           max-width: 720px;
-          margin: 80px auto 140px;
+          width: 100%; /* 关键：宽度自适应，不超屏 */
+          margin: 80px auto 140px; /* 左右auto居中 */
           padding: 40px 32px 64px;
           box-sizing: border-box;
           position: relative;
@@ -118,7 +119,6 @@ export default function ContactPage() {
           line-height: 1;
         }
 
-        /* 说明文本块 */
         .info-section {
           margin-bottom: 2.8rem;
           color: #5a4a4a;
@@ -137,6 +137,8 @@ export default function ContactPage() {
 
         form {
           width: 100%;
+          max-width: 100%; /* 关键：防止溢出 */
+          box-sizing: border-box;
           display: flex;
           flex-direction: column;
           gap: 1.4rem;
@@ -162,6 +164,8 @@ export default function ContactPage() {
           transition: border-color 0.3s ease;
           resize: vertical;
           user-select: text;
+          width: 100%; /* 关键：宽度撑满form */
+          box-sizing: border-box;
         }
 
         select:focus,
@@ -237,7 +241,6 @@ export default function ContactPage() {
             0 0 16px var(--roro-accent);
         }
 
-        /* 发送中Logo居中容器 */
         .sending-container {
           margin-top: 2rem;
           width: 100%;
@@ -248,8 +251,10 @@ export default function ContactPage() {
 
         @media (max-width: 768px) {
           main {
-            margin: 60px 16px 100px;
+            margin: 60px auto 100px; /* 居中 */
             padding: 24px 16px 40px;
+            max-width: 100%; /* 关键：移动端宽度自适应 */
+            box-sizing: border-box;
           }
           h1.page-title {
             font-size: 2.8rem;
@@ -373,6 +378,7 @@ export default function ContactPage() {
     </>
   );
 }
+
 
 
 
