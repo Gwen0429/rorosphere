@@ -1,10 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { projects } from '../../src/data/project.js';
 
-export default function CreativeProjects() {
-  // 复制数组，按日期倒序排序
+function ApplicationContent() {
+  const searchParams = useSearchParams();
+
+  // 举例：从 URL 获取 q 参数
+  const query = searchParams.get('q') || '';
+
   const sortedProjects = [...projects].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -138,7 +143,7 @@ export default function CreativeProjects() {
           color: var(--roro-accent);
           font-weight: 600;
           font-size: 1.3rem;
-          text-decoration: none !important; /* 绝不允许下划线 */
+          text-decoration: none !important;
           cursor: pointer;
           user-select: text;
           transition: color 0.3s ease;
@@ -160,7 +165,6 @@ export default function CreativeProjects() {
           margin-top: 0.25rem;
         }
 
-        /* 发布按钮 */
         .submit-creative-btn {
           margin-top: 48px;
           background-color: var(--roro-main);
@@ -234,7 +238,9 @@ export default function CreativeProjects() {
       `}</style>
 
       <main>
-        <h1 className="page-title" aria-label="创意项目">Creative Projects</h1>
+        <h1 className="page-title" aria-label="创意项目">
+          Creative Projects {query && `- 搜索: ${query}`}
+        </h1>
 
         <div className="timeline" aria-label="创意项目时间轴">
           {sortedProjects.map(({ id, date, title, summary }, i) => {
@@ -265,5 +271,14 @@ export default function CreativeProjects() {
     </>
   );
 }
+
+export default function CreativeProjectsPage() {
+  return (
+    <Suspense fallback={<div>加载中...</div>}>
+      <ApplicationContent />
+    </Suspense>
+  );
+}
+
 
 
