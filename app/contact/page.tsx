@@ -251,7 +251,7 @@ export default function ContactPage() {
 
         @media (max-width: 768px) {
           main {
-            margin: 60px auto 100px; /* 居中 */
+            margin: 40px 16px 80px; /* 居中 */
             padding: 24px 16px 40px;
             max-width: 100%; /* 关键：移动端宽度自适应 */
             box-sizing: border-box;

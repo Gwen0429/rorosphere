@@ -25,7 +25,7 @@ export default function NavBar() {
     toggleButtonRef.current?.focus();
   };
 
-  // 路由变化关闭移动菜单，避免残留
+  // 路由变化关闭移动菜单，避免残留/图标错乱
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
@@ -34,10 +34,10 @@ export default function NavBar() {
     <>
       <nav className="nav" role="navigation" aria-label="主导航">
         <div className="nav-container">
-          {/* 移动端左侧logo */}
+          {/* 移动端左侧logo（缩小为64） */}
           <div className="mobile-logo" style={{ display: 'flex', alignItems: 'center' }}>
             <Link href="/" onClick={handleLinkClick} aria-label="返回首页">
-              <Logo size={80} />
+              <Logo size={64} />
             </Link>
           </div>
 
@@ -106,11 +106,16 @@ export default function NavBar() {
       </nav>
 
       <style>{`
-        /* 移动端logo隐藏电脑端 */
+        /* 保持你原本的移动端隐藏规则 - 电脑端隐藏 mobile-logo */
         @media (min-width: 640px) {
           .mobile-logo {
             display: none !important;
           }
+        }
+
+        /* 给页面主体留出导航高度，避免被固定导航遮挡（若你有全局 main，请保留此项） */
+        main, .page-content {
+          padding-top: 64px;
         }
       `}</style>
     </>

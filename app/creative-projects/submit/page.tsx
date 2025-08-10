@@ -30,12 +30,15 @@ export default function VerifyRoroID() {
     <div
       style={{
         backgroundColor: '#FFFFFF',
-        height: '100vh',       // 100%视口高度，撑满屏幕
-        padding: '0 1rem',     // 只留左右padding
+        minHeight: '100vh',
+        paddingTop: '80px',
+        paddingBottom: '40px',
+        paddingLeft: '1rem',
+        paddingRight: '1rem',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center', // 完全垂直居中
+        justifyContent: 'flex-start',
         boxSizing: 'border-box',
         overflowX: 'hidden',
       }}
@@ -96,7 +99,12 @@ export default function VerifyRoroID() {
           user-select: none;
         }
 
-        .button:hover {
+        .button:disabled {
+          background-color: #d6b9bf;
+          cursor: not-allowed;
+        }
+
+        .button:hover:not(:disabled) {
           background-color: #8d5f7e;
         }
 
@@ -121,6 +129,10 @@ export default function VerifyRoroID() {
         }
 
         @media (max-width: 480px) {
+          div[style] {
+            padding-top: 40px !important;
+            padding-bottom: 24px !important;
+          }
           .title {
             font-size: 2.2rem;
           }
@@ -179,10 +191,3 @@ export default function VerifyRoroID() {
     </div>
   );
 }
-
-
-
-
-
-
-
