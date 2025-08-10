@@ -1,6 +1,6 @@
 :root {
-  --roro-main: #FACBAA;    /* 主品牌色 裸色 */
-  --roro-accent: #A17494;  /* 辅助紫褐 */
+  --roro-main: #FACBAA;
+  --roro-accent: #A17494;
   --roro-bg: rgba(255, 255, 255, 0.95);
   --roro-border: rgba(212, 175, 127, 0.25);
 }
@@ -52,15 +52,18 @@
   align-items: center;
   gap: 0.4rem;
   position: relative;
-  outline: none; /* 取消点击时轮廓 */
+  outline: none; /* 默认无outline */
 }
 
-.nav-link:hover,
+/* 只在键盘Tab时显示焦点 */
 .nav-link:focus-visible {
-  color: var(--roro-main);
-  text-shadow: 0 0 6px var(--roro-main);
   outline: 2px solid var(--roro-main);
   outline-offset: 3px;
+}
+
+.nav-link:hover {
+  color: var(--roro-main);
+  text-shadow: 0 0 6px var(--roro-main);
 }
 
 /* 去掉横线伪元素 */
@@ -91,7 +94,7 @@
   background: none;
   border: none;
   position: absolute;
-  right: 1rem; /* 距右边1rem */
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -104,7 +107,7 @@
 .menu-toggle:hover,
 .menu-toggle:focus {
   color: var(--roro-accent);
-  outline: none;
+  outline: none; /* 去除按钮focus轮廓 */
 }
 
 .menu-icon {
@@ -117,7 +120,7 @@
   border-top: 1px solid #eee;
   padding: 1rem 2rem;
   position: fixed;
-  top: 64px; /* 导航高度 */
+  top: 64px;
   left: 0;
   right: 0;
   z-index: 999;
@@ -132,7 +135,13 @@
   font-weight: 500;
   font-size: 1.1rem;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  outline: none; /* 取消点击时轮廓 */
+  outline: none;
+}
+
+/* 只在键盘Tab时显示焦点 */
+.mobile-link:focus-visible {
+  outline: 2px solid var(--roro-accent);
+  outline-offset: 3px;
 }
 
 .mobile-link.active {
@@ -141,12 +150,9 @@
   text-shadow: 0 0 6px var(--roro-main);
 }
 
-.mobile-link:hover,
-.mobile-link:focus-visible {
+.mobile-link:hover {
   color: var(--roro-accent);
   text-shadow: 0 0 8px var(--roro-accent);
-  outline: 2px solid var(--roro-accent);
-  outline-offset: 3px;
 }
 
 /* 大屏显示导航链接 */
@@ -164,7 +170,7 @@
   }
 }
 
-/* 移动端显示logo，左侧对齐，nav内容左右分散 */
+/* 移动端logo显示并放大 */
 @media (max-width: 639px) {
   .nav-container {
     justify-content: space-between;
@@ -175,8 +181,8 @@
     display: block;
     flex-shrink: 0;
     margin-right: 1rem;
-    width: 80px;
-    height: 80px;
+    width: 80px !important;
+    height: 80px !important;
   }
 
   .mobile-logo-wrapper svg {
@@ -188,10 +194,3 @@
     display: none;
   }
 }
-
-
-
-
-
-
-
