@@ -1,43 +1,41 @@
-import type { NextRequest } from 'next/server';
+// app/api/contact/route.ts
 import nodemailer from 'nodemailer';
+import { NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const formData = await request.formData();
-    const name = formData.get('name')?.toString() || '';
-    const email = formData.get('email')?.toString() || '';
-    const message = formData.get('message')?.toString() || '';
-    // 你也可以处理附件 ...
+    const data = await request.json();
 
-    // nodemailer transporter配置（示范）
+    const { name, email, subject, message } = data;
+
+    if (!name || !email || !subject || !message) {
+      return NextResponse.json({ error: '缺少必填字段' }, { status: 400 });
+    }
+
+    // 邮箱和app密码通过环境变量安全读取
     const transporter = nodemailer.createTransport({
-      service: 'icloud',
+      host: 'smtp.mail.me.com',
+      port: 587,
+      secure: false,
       auth: {
-        user: 'goodmanjingwenzhou@icloud.com',
-        pass: '你的app专用密码',
+        user: process.env.ICLOUD_EMAIL,
+        pass: process.env.ICLOUD_APP_PASS,
       },
     });
 
     const mailOptions = {
       from: `"${name}" <${email}>`,
-      to: 'goodmanjingwenzhou@icloud.com',
-      subject: `RORO 网站联系：${name}`,
+      to: process.env.ICLOUD_EMAIL,
+      subject: `[RORO联系] ${subject}`,
       text: message,
     };
 
     await transporter.sendMail(mailOptions);
 
-    return new Response(JSON.stringify({ message: '邮件发送成功' }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json({ message: '邮件发送成功' });
   } catch (error) {
-    return new Response(JSON.stringify({ message: '发送失败' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    console.error('邮件发送失败:', error);
+    return NextResponse.json({ error: '邮件发送失败' }, { status: 500 });
   }
 }
-
-
 

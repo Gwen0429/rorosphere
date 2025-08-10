@@ -1,39 +1,68 @@
 'use client';
 
-import React, { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
 
-export default function Contact() {
+export default function ContactPage() {
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+    option: 'creator', // 创作者 or 合作
+    file: null as File | null,
+  });
   const [sending, setSending] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = (e.target as HTMLInputElement).files;
+    if (files && files.length > 0) {
+      setFormState((prev) => ({ ...prev, file: files[0] }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSending(true);
     setError('');
-    setSuccess(false);
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+    setSending(true);
 
     try {
-      const res = await fetch('/api/send-email', {
+      const formData = new FormData();
+      formData.append('name', formState.name);
+      formData.append('email', formState.email);
+      formData.append('subject', formState.subject);
+      formData.append('message', formState.message);
+      formData.append('option', formState.option);
+      if (formState.file) formData.append('file', formState.file);
+
+      const res = await fetch('/api/contact', {
         method: 'POST',
         body: formData,
       });
-      if (res.ok) {
-        setSuccess(true);
-        form.reset();
-      } else {
-        const data = await res.json();
-        throw new Error(data.message || '提交失败');
-      }
+
+      if (!res.ok) throw new Error('发送失败，请稍后重试');
+
+      setSent(true);
+      setFormState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        option: 'creator',
+        file: null,
+      });
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('未知错误');
-      }
+      setError(err instanceof Error ? err.message : '未知错误');
     } finally {
       setSending(false);
     }
@@ -42,133 +71,290 @@ export default function Contact() {
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
+
         :root {
           --roro-main: #FACBAA;
           --roro-accent: #A17494;
+          --roro-bg: #FFFFFF;
+          --roro-text: #3B2E2E;
+          --roro-border: #d9c7bd;
+          --roro-error: #cc4b37;
         }
+
+        html, body {
+          margin: 0; 
+          padding: 0;
+          background: var(--roro-bg);
+          color: var(--roro-text);
+          font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+          overflow-x: hidden;
+        }
+
+        *, *::before, *::after {
+          box-sizing: border-box;
+          max-width: 100vw;
+          word-break: break-word;
+          overflow-wrap: break-word;
+        }
+
         main {
           max-width: 720px;
+          width: 100%;
           margin: 80px auto 140px;
           padding: 40px 32px 64px;
-          background: #fff;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-          font-family: 'Playfair Display', serif;
-          color: var(--roro-accent);
+          box-sizing: border-box;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background: var(--roro-bg);
           user-select: none;
+          overflow-x: hidden;
         }
-        h1 {
+
+        h1.page-title {
           font-family: 'Great Vibes', cursive;
           font-size: 3.6rem;
           text-align: center;
           margin-bottom: 3rem;
-          user-select: none;
+          color: var(--roro-accent);
           text-shadow:
             0 0 8px var(--roro-accent)aa,
             0 0 16px var(--roro-accent)88;
+          width: 100%;
+          user-select: none;
+          /* 横线已移除 */
         }
+
         form {
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 1.4rem;
+          width: 100%;
+          max-width: 600px;
         }
+
         label {
           font-weight: 600;
-          font-size: 1.1rem;
-          margin-bottom: 6px;
-          display: block;
-        }
-        input[type="text"],
-        input[type="email"],
-        textarea,
-        input[type="file"] {
-          width: 100%;
-          padding: 12px 16px;
-          border: 1.5px solid var(--roro-main);
-          border-radius: 8px;
-          font-family: 'Playfair Display', serif;
+          color: var(--roro-accent);
           font-size: 1rem;
-          color: #444;
-          resize: vertical;
-          box-sizing: border-box;
-        }
-        input[type="file"] {
-          padding: 6px 16px;
-        }
-        button {
-          align-self: center;
-          background-color: var(--roro-main);
-          color: white;
-          font-family: 'Great Vibes', cursive;
-          font-size: 2rem;
-          padding: 14px 36px;
-          border: none;
-          border-radius: 28px;
-          box-shadow: 0 0 15px var(--roro-main);
-          cursor: pointer;
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
           user-select: none;
         }
-        button:hover,
-        button:focus-visible {
-          background-color: #f9b89d;
-          box-shadow: 0 0 25px var(--roro-main);
-          outline: none;
+
+        select, input[type="text"], input[type="email"], textarea {
+          font-family: inherit;
+          font-size: 1rem;
+          padding: 12px 16px;
+          border: 1.5px solid var(--roro-border);
+          border-radius: 16px;
+          color: var(--roro-text);
+          transition: border-color 0.3s ease;
+          resize: vertical;
+          width: 100%;
+          max-width: 100%;
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
-        .status {
-          text-align: center;
-          font-weight: 500;
-          margin-top: 1rem;
+        select:focus,
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+          outline: none;
+          border-color: var(--roro-main);
+          box-shadow: 0 0 8px var(--roro-main);
+        }
+
+        textarea {
+          min-height: 130px;
+        }
+
+        input[type="file"] {
+          border: none;
+          padding: 0;
+          color: var(--roro-text);
+          width: 100%;
+        }
+
+        button {
+          margin-top: 1.6rem;
+          padding: 16px 0;
+          background-color: var(--roro-main);
+          border: none;
+          border-radius: 24px;
+          color: var(--roro-accent);
+          font-weight: 700;
+          font-size: 1.25rem;
+          cursor: pointer;
+          user-select: none;
+          box-shadow:
+            0 0 15px var(--roro-main),
+            0 0 30px var(--roro-accent);
+          transition: background-color 0.3s ease;
+        }
+        button:disabled {
+          background-color: #f9ded3;
+          cursor: not-allowed;
+          box-shadow: none;
           color: var(--roro-accent);
         }
-        .status.error {
-          color: #d9534f;
+        button:hover:not(:disabled),
+        button:focus-visible:not(:disabled) {
+          background-color: var(--roro-accent);
+          color: var(--roro-main);
+          outline: none;
+          box-shadow:
+            0 0 20px var(--roro-accent),
+            0 0 35px var(--roro-main);
         }
+
+        .error-msg {
+          color: var(--roro-error);
+          font-weight: 600;
+          font-size: 0.95rem;
+          user-select: text;
+          margin-top: -0.6rem;
+          margin-bottom: 0.8rem;
+        }
+
+        .success-msg {
+          text-align: center;
+          font-weight: 600;
+          color: var(--roro-main);
+          font-size: 1.2rem;
+          user-select: none;
+          margin-top: 2rem;
+          text-shadow:
+            0 0 8px var(--roro-main),
+            0 0 16px var(--roro-accent);
+        }
+
         @media (max-width: 768px) {
           main {
             margin: 40px 16px 80px;
             padding: 24px 16px 40px;
           }
-          h1 {
+          h1.page-title {
             font-size: 2.6rem;
             margin-bottom: 2rem;
+          }
+          form {
+            gap: 1.2rem;
+          }
+          button {
+            font-size: 1.1rem;
+            padding: 14px 0;
+            border-radius: 20px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          main {
+            margin: 30px 12px 60px;
+            padding: 16px 12px 32px;
+          }
+          h1.page-title {
+            font-size: 2.2rem;
+            margin-bottom: 1.8rem;
+          }
+          button {
+            font-size: 1rem;
+            padding: 12px 0;
           }
         }
       `}</style>
 
       <main>
-        <h1>Contact Us</h1>
-        <form onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
-          <div>
-            <label htmlFor="name">姓名 / Name</label>
-            <input id="name" name="name" type="text" required placeholder="你的名字" />
-          </div>
+        <h1 className="page-title">Contact Us</h1>
 
-          <div>
-            <label htmlFor="email">邮箱 / Email</label>
-            <input id="email" name="email" type="email" required placeholder="your@email.com" />
-          </div>
+        <form onSubmit={handleSubmit} noValidate>
+          <label htmlFor="option">您的需求</label>
+          <select
+            id="option"
+            name="option"
+            value={formState.option}
+            onChange={handleChange}
+            required
+            aria-required="true"
+            aria-describedby="optionHelp"
+          >
+            <option value="creator">我想成为Roro创作者</option>
+            <option value="collaboration">我想与Roro合作</option>
+          </select>
 
-          <div>
-            <label htmlFor="message">留言 / Message</label>
-            <textarea id="message" name="message" rows={5} required placeholder="告诉我们你的想法..." />
-          </div>
+          <label htmlFor="name">姓名</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value={formState.name}
+            onChange={handleChange}
+            required
+            aria-required="true"
+          />
 
-          <div>
-            <label htmlFor="attachment">附件（可选）/ Attachment (Optional)</label>
-            <input id="attachment" name="attachment" type="file" />
-          </div>
+          <label htmlFor="email">邮箱</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={formState.email}
+            onChange={handleChange}
+            required
+            aria-required="true"
+            aria-describedby="emailHelp"
+          />
+
+          <label htmlFor="subject">主题</label>
+          <input
+            id="subject"
+            name="subject"
+            type="text"
+            value={formState.subject}
+            onChange={handleChange}
+            required
+            aria-required="true"
+          />
+
+          <label htmlFor="message">详细信息</label>
+          <textarea
+            id="message"
+            name="message"
+            value={formState.message}
+            onChange={handleChange}
+            required
+            aria-required="true"
+          />
+
+          <label htmlFor="file">附件 (选填)</label>
+          <input
+            id="file"
+            name="file"
+            type="file"
+            onChange={handleFileChange}
+            accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt"
+          />
+
+          {error && (
+            <p className="error-msg" role="alert">
+              {error}
+            </p>
+          )}
 
           <button type="submit" disabled={sending}>
             {sending ? '发送中...' : '发送'}
           </button>
-
-          {success && <div className="status">感谢你的留言，我们会尽快联系你！</div>}
-          {error && <div className="status error">{error}</div>}
         </form>
+
+        {sent && (
+          <p className="success-msg" role="status" aria-live="polite">
+            感谢您的联系，我们会尽快回复！
+          </p>
+        )}
       </main>
     </>
   );
 }
+
 
 

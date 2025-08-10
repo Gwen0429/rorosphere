@@ -2,35 +2,14 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { newsMaterials } from '../../src/data/news-materials.js';
 
-const newsItems = [
-  {
-    id: 1,
-    date: '2025-06-10',
-    title: 'Roro中文名征集投票开启',
-    summary: '参与Roro中文名创意投票，助力品牌本土化。',
-    link: '/news/vote',
-  },
-  {
-    id: 2,
-    date: '2025-05-01',
-    title: '电子邀请函样式公布',
-    summary: '全新设计的电子邀请函现已上线，支持下载和分享。',
-    link: '/news/invitation',
-  },
-  {
-    id: 3,
-    date: '2025-04-20',
-    title: '夏季活动回顾',
-    summary: '精彩纷呈的夏季艺术活动全纪录，精彩不容错过。',
-    link: '/news/summer-event',
-  },
-];
+export default function NewsMaterials() {
+  // 按日期倒序排序
+  const sortedNews = [...newsMaterials].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
-// 时间倒序，最新日期排前
-newsItems.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-export default function NewsTimeline() {
   return (
     <>
       <style>{`
@@ -58,6 +37,9 @@ export default function NewsTimeline() {
           padding: 40px 32px 64px;
           box-sizing: border-box;
           position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         h1.page-title {
@@ -70,6 +52,7 @@ export default function NewsTimeline() {
           text-shadow:
             0 0 8px var(--roro-accent)aa,
             0 0 16px var(--roro-accent)88;
+          width: 100%;
         }
 
         .timeline {
@@ -77,6 +60,7 @@ export default function NewsTimeline() {
           padding-left: 40px;
           padding-right: 40px;
           margin: 0;
+          width: 100%;
         }
 
         .timeline::before {
@@ -84,7 +68,8 @@ export default function NewsTimeline() {
           position: absolute;
           top: 0;
           bottom: 0;
-          left: 20px; /* 左偏 */
+          left: 50%;
+          transform: translateX(-50%);
           width: 4px;
           background-color: var(--timeline-line);
           border-radius: 2px;
@@ -150,16 +135,19 @@ export default function NewsTimeline() {
           color: var(--roro-accent);
         }
 
-        /* 去除所有链接下划线，永远无下划线 */
-        a {
+        a.project-title {
           color: var(--roro-accent);
+          font-weight: 600;
+          font-size: 1.3rem;
           text-decoration: none !important;
           cursor: pointer;
           user-select: text;
           transition: color 0.3s ease;
+          display: inline-block;
         }
-        a:hover,
-        a:focus-visible {
+
+        a.project-title:hover,
+        a.project-title:focus-visible {
           color: var(--roro-main);
           outline: none;
           text-decoration: none !important;
@@ -172,6 +160,7 @@ export default function NewsTimeline() {
           color: #6b6b6bdd;
           letter-spacing: 0.03em;
           white-space: pre-line;
+          margin-top: 0.25rem;
         }
 
         @media (max-width: 768px) {
@@ -184,12 +173,11 @@ export default function NewsTimeline() {
             margin-bottom: 2rem;
           }
           .timeline {
-            padding-left: 0;
-            padding-right: 0;
-            position: relative;
+            padding-left: 30px;
+            padding-right: 20px;
           }
           .timeline::before {
-            left: 20px; /* 左偏 */
+            left: 20px;
             width: 3px;
           }
           .timeline-item {
@@ -221,8 +209,7 @@ export default function NewsTimeline() {
         <h1 className="page-title" aria-label="资讯">News</h1>
 
         <div className="timeline" aria-label="资讯时间轴">
-          {newsItems.map(({ id, date, title, summary }, i) => {
-            // 交替左右排列
+          {sortedNews.map(({ id, date, title, summary, link }, i) => {
             const side = i % 2 === 0 ? 'left' : 'right';
             return (
               <article key={id} className={`timeline-item ${side}`}>
@@ -230,7 +217,7 @@ export default function NewsTimeline() {
                 <time className="timeline-date" dateTime={date}>
                   {date}
                 </time>
-                <Link href={newsItems[i].link} aria-label={`查看详情: ${title}`}>
+                <Link href={link} className="project-title" aria-label={`查看详情: ${title}`}>
                   {title}
                 </Link>
                 <p className="timeline-content">{summary}</p>
@@ -242,6 +229,7 @@ export default function NewsTimeline() {
     </>
   );
 }
+
 
 
 

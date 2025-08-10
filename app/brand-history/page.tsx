@@ -1,8 +1,13 @@
 'use client';
 
 import React from 'react';
+import { brandHistory } from '../../src/data/brand-history.js';
 
 export default function BrandHistory() {
+  const sortedHistory = [...brandHistory].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
   return (
     <>
       <style>{`
@@ -30,6 +35,9 @@ export default function BrandHistory() {
           padding: 40px 32px 64px;
           box-sizing: border-box;
           position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         h1.page-title {
@@ -42,6 +50,7 @@ export default function BrandHistory() {
           text-shadow:
             0 0 8px var(--roro-accent)aa,
             0 0 16px var(--roro-accent)88;
+          width: 100%;
         }
 
         /* 时间轴容器 */
@@ -50,6 +59,7 @@ export default function BrandHistory() {
           padding-left: 40px;
           padding-right: 40px;
           margin: 0;
+          width: 100%;
         }
 
         /* 中心竖线 */
@@ -58,7 +68,8 @@ export default function BrandHistory() {
           position: absolute;
           top: 0;
           bottom: 0;
-          left: 20px; /* 调整为左偏 */
+          left: 50%;
+          transform: translateX(-50%);
           width: 4px;
           background-color: var(--timeline-line);
           border-radius: 2px;
@@ -74,12 +85,14 @@ export default function BrandHistory() {
           z-index: 1;
           user-select: text;
         }
+
         /* 左边 */
         .timeline-item.left {
           left: 0;
           text-align: right;
           padding-right: 3rem;
         }
+
         /* 右边 */
         .timeline-item.right {
           left: 50%;
@@ -104,12 +117,15 @@ export default function BrandHistory() {
           cursor: default;
           user-select: none;
         }
+
         .timeline-item.left .timeline-dot {
           right: -12px;
         }
+
         .timeline-item.right .timeline-dot {
           left: -12px;
         }
+
         .timeline-item:hover .timeline-dot {
           box-shadow:
             0 0 15px var(--roro-main),
@@ -132,6 +148,7 @@ export default function BrandHistory() {
           color: #6b6b6bdd;
           letter-spacing: 0.03em;
           white-space: pre-line;
+          margin-top: 0.25rem;
         }
 
         /* 移动端响应 */
@@ -145,12 +162,11 @@ export default function BrandHistory() {
             margin-bottom: 2rem;
           }
           .timeline {
-            padding-left: 0;
-            padding-right: 0;
-            position: relative;
+            padding-left: 30px;
+            padding-right: 20px;
           }
           .timeline::before {
-            left: 20px; /* 左偏 */
+            left: 20px;
             width: 3px;
           }
           .timeline-item {
@@ -182,45 +198,23 @@ export default function BrandHistory() {
         <h1 className="page-title" aria-label="品牌历程">Brand History</h1>
 
         <div className="timeline" aria-label="品牌历程时间轴">
-
-          <div className="timeline-item left">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2022年 - 创立</div>
-            <div className="timeline-content">
-              ROROSPHERE成立于2022年，诞生于对青少年创意跨界社区的热忱，致力于为年轻创作者打造独特的表达平台。
-            </div>
-          </div>
-
-          <div className="timeline-item right">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2023年 - 首次大型活动</div>
-            <div className="timeline-content">
-              举办首届“创意盛典”，汇聚来自全国各地的年轻创作者，推动多元跨界合作。
-            </div>
-          </div>
-
-          <div className="timeline-item left">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2024年 - 平台升级</div>
-            <div className="timeline-content">
-              平台功能全面升级，加入实时互动和创意激励机制，提升用户体验。
-            </div>
-          </div>
-
-          <div className="timeline-item right">
-            <div className="timeline-dot" aria-hidden="true" />
-            <div className="timeline-date">2025年 - 持续成长</div>
-            <div className="timeline-content">
-              ROROSPHERE不断扩大社群影响力，成为青少年创意跨界领域的重要力量。
-            </div>
-          </div>
-
+          {sortedHistory.map(({ id, date, content }, i) => {
+            const side = i % 2 === 0 ? 'left' : 'right';
+            return (
+              <article key={id} className={`timeline-item ${side}`}>
+                <div className="timeline-dot" aria-hidden="true" />
+                <time className="timeline-date">{date}</time>
+                <div className="timeline-content">{content}</div>
+              </article>
+            );
+          })}
         </div>
-
       </main>
     </>
   );
 }
+
+
 
 
 

@@ -1,33 +1,14 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
-
-const projects = [
-  {
-    id: 1,
-    date: '2025-07-15',
-    title: '星辰计划',
-    summary: '一个跨界艺术与科技结合的创意项目，打造沉浸式体验。',
-  },
-  {
-    id: 2,
-    date: '2025-06-30',
-    title: '绿色未来',
-    summary: '环保主题创意活动，鼓励年轻人参与环境保护。',
-  },
-  {
-    id: 3,
-    date: '2025-05-20',
-    title: '数字梦想',
-    summary: '数字艺术展览，展示新锐数字创作者的作品。',
-  },
-];
-
-// 按日期倒序排列
-projects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+import { projects } from '../../src/data/project.js';
 
 export default function CreativeProjects() {
+  // 复制数组，按日期倒序排序
+  const sortedProjects = [...projects].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
   return (
     <>
       <style>{`
@@ -256,7 +237,7 @@ export default function CreativeProjects() {
         <h1 className="page-title" aria-label="创意项目">Creative Projects</h1>
 
         <div className="timeline" aria-label="创意项目时间轴">
-          {projects.map(({ id, date, title, summary }, i) => {
+          {sortedProjects.map(({ id, date, title, summary }, i) => {
             const side = i % 2 === 0 ? 'left' : 'right';
             return (
               <article key={id} className={`timeline-item ${side}`}>
@@ -264,7 +245,11 @@ export default function CreativeProjects() {
                 <time className="timeline-date" dateTime={date}>
                   {date}
                 </time>
-                <a href={`/projects/${title.replace(/\s+/g, '-').toLowerCase()}`} className="project-title" aria-label={`查看项目详情: ${title}`}>
+                <a
+                  href={`/projects/${encodeURIComponent(title)}`}
+                  className="project-title"
+                  aria-label={`查看项目详情: ${title}`}
+                >
                   {title}
                 </a>
                 <p className="timeline-content">{summary}</p>
@@ -280,4 +265,5 @@ export default function CreativeProjects() {
     </>
   );
 }
+
 

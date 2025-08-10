@@ -2,23 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { newsMaterials } from '../src/data/news-materials.js';
+import { messages } from '../src/data/messages.js';
 
-const latestNews = [
-  {
-    id: 1,
-    title: 'ROROSPHERE开启新境界',
-    summary: '步入风格与革新的独家空间。',
-    date: '2025-08-01',
-    link: '/news/1',
-  },
-  {
-    id: 2,
-    title: '重磅合作揭晓',
-    summary: '跨界巨匠携手，共创非凡作品。',
-    date: '2025-08-01',
-    link: '/news/2',
-  },
-];
+// 最新一条新闻，用于特色引导卡片第一项
+const latestNewsItem = [...newsMaterials]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
 
 export default function Home() {
   return (
@@ -323,49 +312,70 @@ export default function Home() {
           Enter a realm where visionaries converge — ROROSPHERE isn’t just collaboration, it’s the genesis of tomorrow’s legends.
         </p>
 
+        {/* === 修改部分：特色引导模块内容 === */}
         <section className="sections" aria-label="特色引导">
           <div
             className="section-item"
             tabIndex={0}
             role="button"
-            onClick={() => (window.location.href = '/vision')}
-            aria-label="我们的愿景"
+            onClick={() => window.location.href = `/news-materials/${latestNewsItem.id}`}
+            aria-label={`最新资讯：${latestNewsItem.title}`}
           >
-            <h2>我们的愿景</h2>
-            <p>跨界融合，汇聚敢想敢为的创造者，共筑未来文化新高地。</p>
+            <h2>最新资讯</h2>
+            <p>{latestNewsItem.title}</p>
           </div>
+
           <div
             className="section-item"
             tabIndex={0}
             role="button"
-            onClick={() => (window.location.href = '/join')}
-            aria-label="加入我们"
+            onClick={() => window.location.href = '/creative-projects/submit'}
+            aria-label="发布我的创意项目"
           >
-            <h2>加入我们</h2>
-            <p>机会属于敢于突破的你，提交作品与理念，展现你的独特声音。</p>
+            <h2>发布我的创意项目</h2>
+            <p>限创作者，输入邮箱和专属邀请码完成申请，或申请成为创作者</p>
           </div>
+
           <div
             className="section-item"
             tabIndex={0}
             role="button"
-            onClick={() => (window.location.href = '/experience')}
-            aria-label="体验RORO"
+            onClick={() => window.location.href = '/invitation'}
+            aria-label="与Roro合作"
           >
-            <h2>体验RORO</h2>
-            <p>不仅是创作，更是一种态度，一场优雅且坚定的革新之旅。</p>
+            <h2>与Roro合作</h2>
+            <p>获取邀请函，开启合作之旅，联系我们</p>
           </div>
         </section>
 
-        <section className="news-section" aria-label="最新资讯">
-          <h2 className="news-title">最新资讯</h2>
+        {/* === 修改部分：替换最新资讯模块为RORO寄语模块 === */}
+        <section className="news-section" aria-label="RORO寄语">
+          <h2 className="news-title">RORO寄语</h2>
           <ul className="news-list">
-            {latestNews.map(({ id, title, summary, date, link }) => (
+            {messages.map(({ id, author, content }) => (
               <li key={id}>
-                <h3>
-                  <Link href={link}>{title}</Link>
+                <h3
+                  style={{
+                    fontFamily: "'Great Vibes', cursive",
+                    fontWeight: '400',
+                    fontSize: '1.8rem',
+                    color: 'var(--roro-main)',
+                    userSelect: 'none',
+                  }}
+                >
+                  {author}
                 </h3>
-                <p>{summary}</p>
-                <time>{date}</time>
+                <p
+                  style={{
+                    fontFamily: "'Great Vibes', cursive",
+                    fontSize: '1.4rem',
+                    fontWeight: '300',
+                    color: '#a4997fcc',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
+                  {content}
+                </p>
               </li>
             ))}
           </ul>
