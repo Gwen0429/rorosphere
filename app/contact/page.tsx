@@ -93,10 +93,10 @@ export default function ContactPage() {
         }
 
         main {
-          width: 100vw;
           max-width: 720px;
+          width: 100%;
           margin: 80px auto 140px;
-          padding: 40px 16px 64px;
+          padding: 40px 32px 64px;
           box-sizing: border-box;
           position: relative;
           display: flex;
@@ -246,9 +246,9 @@ export default function ContactPage() {
 
         @media (max-width: 768px) {
           main {
-            margin: 40px 12px 80px;
+            max-width: 95vw;
+            margin: 40px auto 80px;
             padding: 24px 12px 40px;
-            max-width: 100vw;
           }
           h1.page-title {
             font-size: 2.8rem;
