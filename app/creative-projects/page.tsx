@@ -1,13 +1,11 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { projects } from '../../src/data/project.js';
 
-function ApplicationContent() {
+export default function ApplicationPage() {
   const searchParams = useSearchParams();
-
-  // 举例：从 URL 获取 q 参数
   const query = searchParams.get('q') || '';
 
   const sortedProjects = [...projects].sort(
@@ -20,8 +18,8 @@ function ApplicationContent() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
 
         :root {
-          --roro-main: #FACBAA;    /* 裸色 */
-          --roro-accent: #A17494;  /* 紫褐色 */
+          --roro-main: #FACBAA;
+          --roro-accent: #A17494;
           --timeline-line: #A17494;
           --timeline-dot: #FACBAA;
         }
@@ -271,14 +269,3 @@ function ApplicationContent() {
     </>
   );
 }
-
-export default function CreativeProjectsPage() {
-  return (
-    <Suspense fallback={<div>加载中...</div>}>
-      <ApplicationContent />
-    </Suspense>
-  );
-}
-
-
-
