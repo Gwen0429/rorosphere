@@ -4,7 +4,7 @@ export const messages = [
   {
     id: 1,
     author: 'Gwen (Founder)',
-    content: 'I haven\'t quite figured out what to say yet.',
+    content: 'I haven\'t quite figured out what to say.',
   },
   {
     id: 2,
