@@ -1,6 +1,6 @@
 :root {
-  --roro-main: #FACBAA;
-  --roro-accent: #A17494;
+  --roro-main: #FACBAA;    /* 主品牌色 裸色 */
+  --roro-accent: #A17494;  /* 辅助紫褐 */
   --roro-bg: rgba(255, 255, 255, 0.95);
   --roro-border: rgba(212, 175, 127, 0.25);
 }
@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 64px;
+  height: 96px; /* 统一高度 */
   z-index: 1000;
   background: var(--roro-bg);
   backdrop-filter: saturate(180%) blur(14px);
@@ -24,19 +24,14 @@
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.2rem 2rem;
+  height: 100%;
+  padding: 0 24px; /* 移动端和电脑端都留24px */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between; /* 左logo右按钮 */
+  align-items: center; /* 垂直居中 */
   position: relative;
 }
 
-/* 移动端Logo容器，默认隐藏 */
-.mobile-logo-wrapper {
-  display: none;
-}
-
-/* 电脑端导航链接 */
 .nav-links {
   display: none;
 }
@@ -52,21 +47,16 @@
   align-items: center;
   gap: 0.4rem;
   position: relative;
-  outline: none; /* 默认无outline */
 }
 
-/* 只在键盘Tab时显示焦点 */
+.nav-link:hover,
 .nav-link:focus-visible {
-  outline: 2px solid var(--roro-main);
-  outline-offset: 3px;
-}
-
-.nav-link:hover {
   color: var(--roro-main);
   text-shadow: 0 0 6px var(--roro-main);
+  outline: none;
 }
 
-/* 去掉横线伪元素 */
+/* 彻底去掉横线伪元素 */
 .nav-link::after {
   content: none !important;
 }
@@ -93,21 +83,22 @@
 .menu-toggle {
   background: none;
   border: none;
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
   cursor: pointer;
-  display: block;
   padding: 0;
   color: var(--roro-main);
   transition: color 0.3s ease;
+  width: 40px; /* 扩大点，保证点击区域 */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .menu-toggle:hover,
 .menu-toggle:focus {
   color: var(--roro-accent);
-  outline: none; /* 去除按钮focus轮廓 */
+  outline: none;
 }
 
 .menu-icon {
@@ -115,12 +106,13 @@
   height: 24px;
 }
 
+/* 移动端菜单下拉 */
 .mobile-menu {
   background: #fff;
   border-top: 1px solid #eee;
-  padding: 1rem 2rem;
+  padding: 1rem 24px;
   position: fixed;
-  top: 64px;
+  top: 96px; /* 导航栏高度 */
   left: 0;
   right: 0;
   z-index: 999;
@@ -135,13 +127,6 @@
   font-weight: 500;
   font-size: 1.1rem;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  outline: none;
-}
-
-/* 只在键盘Tab时显示焦点 */
-.mobile-link:focus-visible {
-  outline: 2px solid var(--roro-accent);
-  outline-offset: 3px;
 }
 
 .mobile-link.active {
@@ -150,9 +135,11 @@
   text-shadow: 0 0 6px var(--roro-main);
 }
 
-.mobile-link:hover {
+.mobile-link:hover,
+.mobile-link:focus-visible {
   color: var(--roro-accent);
   text-shadow: 0 0 8px var(--roro-accent);
+  outline: none;
 }
 
 /* 大屏显示导航链接 */
@@ -166,31 +153,6 @@
   }
 
   .mobile-menu {
-    display: none;
-  }
-}
-
-/* 移动端logo显示并放大 */
-@media (max-width: 639px) {
-  .nav-container {
-    justify-content: space-between;
-    padding: 1.2rem 1rem;
-  }
-
-  .mobile-logo-wrapper {
-    display: block;
-    flex-shrink: 0;
-    margin-right: 1rem;
-    width: 80px !important;
-    height: 80px !important;
-  }
-
-  .mobile-logo-wrapper svg {
-    width: 80px !important;
-    height: 80px !important;
-  }
-
-  .nav-links {
     display: none;
   }
 }
