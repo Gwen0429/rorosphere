@@ -30,14 +30,14 @@ export default function VerifyRoroID() {
     <div
       style={{
         backgroundColor: '#FFFFFF',
-        minHeight: '100vh',
-        padding: '2rem 1rem',
+        height: '100vh',       // 100%视口高度，撑满屏幕
+        padding: '0 1rem',     // 只留左右padding
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center', // 垂直居中新增
+        justifyContent: 'center', // 完全垂直居中
         boxSizing: 'border-box',
-        overflowX: 'hidden', // 防止横向溢出
+        overflowX: 'hidden',
       }}
     >
       <style>{`
@@ -179,6 +179,7 @@ export default function VerifyRoroID() {
     </div>
   );
 }
+
 
 
 

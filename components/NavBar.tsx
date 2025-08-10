@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useRef } from 'react';
-import Logo from './Logo';  // 新简洁Logo组件
+import Logo from './Logo';
 import './NavBar.css';
 
 export default function NavBar() {
@@ -38,13 +38,8 @@ export default function NavBar() {
                 aria-current={active ? 'page' : undefined}
                 onClick={handleLinkClick}
               >
-                {active ? (
-                  <>
-                    <Logo size={48} />
-                  </>
-                ) : (
-                  <span>{label}</span>
-                )}
+                <span>{label}</span>
+                <Logo />
               </Link>
             );
           })}
@@ -77,24 +72,23 @@ export default function NavBar() {
         </button>
       </div>
 
-      {mobileOpen && (
-        <div className="mobile-menu" id="mobile-menu">
-          {links.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`mobile-link ${pathname === href ? 'active' : ''}`}
-              aria-current={pathname === href ? 'page' : undefined}
-              onClick={handleLinkClick}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`} id="mobile-menu">
+        {links.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className={`mobile-link ${pathname === href ? 'active' : ''}`}
+            aria-current={pathname === href ? 'page' : undefined}
+            onClick={handleLinkClick}
+          >
+            {label}
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }
+
 
 
 

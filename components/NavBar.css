@@ -1,9 +1,9 @@
 :root {
   --roro-main: #FACBAA;    /* 主品牌色 裸色 */
   --roro-accent: #A17494;  /* 辅助紫褐 */
-  --roro-glow: #B68E37;    /* 暗金色 */
+  --roro-glow: #7B5E73;    /* 柔和深紫褐，替代暗金色 */
   --roro-bg: rgba(255, 255, 255, 0.95);
-  --roro-border: rgba(212, 175, 127, 0.25);
+  --roro-border: rgba(161, 116, 148, 0.25);
 }
 
 .nav {
@@ -11,20 +11,22 @@
   top: 0;
   left: 0;
   width: 100%;
+  height: 64px;
   z-index: 1000;
   background: var(--roro-bg);
   backdrop-filter: saturate(180%) blur(14px);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid var(--roro-border);
   font-family: 'Playfair Display', serif;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.2rem 2rem;
+  padding: 1.2rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,11 +43,12 @@
   font-weight: 500;
   color: #2C3E50;
   text-decoration: none;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.3s ease, opacity 0.3s ease;
   display: flex;
   align-items: center;
   gap: 0.4rem;
   position: relative;
+  user-select: none;
 }
 
 .nav-link:hover,
@@ -55,41 +58,42 @@
   outline: none;
 }
 
-/* 彻底去掉横线伪元素 */
-.nav-link::after {
-  content: none !important;
-}
-
-.nav-link.active {
-  font-weight: 700;
-  color: var(--roro-main);
-  text-shadow: none;
-}
-
-/* 激活状态显示Logo，隐藏文字 */
 .nav-link.active span {
-  display: none;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
 }
 
 .nav-link.active svg {
   display: inline-block;
-  width: 72px;
-  height: 72px;
+  width: 48px;
+  height: 48px;
   vertical-align: middle;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
-/* 移动菜单 */
+.nav-link svg {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  vertical-align: middle;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 .menu-toggle {
   background: none;
   border: none;
   position: absolute;
-  right: 1.5rem;
-  top: 1.2rem;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
   display: block;
   padding: 0;
   color: var(--roro-main);
   transition: color 0.3s ease;
+  user-select: none;
 }
 
 .menu-toggle:hover,
@@ -106,13 +110,21 @@
 .mobile-menu {
   background: #fff;
   border-top: 1px solid #eee;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   position: fixed;
-  top: 64px; /* NavBar 高度 */
+  top: 64px;
   left: 0;
   right: 0;
   z-index: 999;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.mobile-menu.open {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .mobile-link {
@@ -123,6 +135,7 @@
   font-weight: 500;
   font-size: 1.1rem;
   transition: color 0.3s ease, text-shadow 0.3s ease;
+  user-select: none;
 }
 
 .mobile-link.active {
@@ -138,7 +151,6 @@
   outline: none;
 }
 
-/* 大屏显示导航链接 */
 @media (min-width: 640px) {
   .nav-links {
     display: flex;
@@ -149,9 +161,11 @@
   }
 
   .mobile-menu {
-    display: none;
+    display: none !important;
   }
 }
+
+
 
 
 
