@@ -330,7 +330,7 @@ export default function ApplicationPage() {
 
         {sent && (
           <p className="success-msg" role="status" aria-live="polite">
-            ROROSPHERE总部已收到 RORO ID "{formState.roroID}" 发送的创意申请。
+           ROROSPHERE总部已收到 RORO ID &quot;{formState.roroID}&quot; 发送的创意申请。
           </p>
         )}
       </main>

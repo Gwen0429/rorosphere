@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     }
 
     // 附件处理
-    let attachments = [];
+    const attachments = [];
     if (file && file instanceof File) {
       const arrayBuffer = await file.arrayBuffer();
       attachments.push({
