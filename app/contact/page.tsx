@@ -1,32 +1,39 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 
 export default function Contact() {
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
     setError('');
-    const formData = new FormData(e.target);
+    setSuccess(false);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
     try {
-      // 你换成实际action地址
-      const res = await fetch('https://formspree.io/f/yourformid', {
+      const res = await fetch('/api/send-email', {
         method: 'POST',
         body: formData,
       });
       if (res.ok) {
         setSuccess(true);
-        e.target.reset();
+        form.reset();
       } else {
-        throw new Error('提交失败');
+        const data = await res.json();
+        throw new Error(data.message || '提交失败');
       }
     } catch (err) {
-      setError(err.message || '提交错误');
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('未知错误');
+      }
     } finally {
       setSending(false);
     }
@@ -69,6 +76,7 @@ export default function Contact() {
           font-weight: 600;
           font-size: 1.1rem;
           margin-bottom: 6px;
+          display: block;
         }
         input[type="text"],
         input[type="email"],
@@ -82,6 +90,7 @@ export default function Contact() {
           font-size: 1rem;
           color: #444;
           resize: vertical;
+          box-sizing: border-box;
         }
         input[type="file"] {
           padding: 6px 16px;
@@ -112,6 +121,9 @@ export default function Contact() {
           margin-top: 1rem;
           color: var(--roro-accent);
         }
+        .status.error {
+          color: #d9534f;
+        }
         @media (max-width: 768px) {
           main {
             margin: 40px 16px 80px;
@@ -126,7 +138,7 @@ export default function Contact() {
 
       <main>
         <h1>Contact Us</h1>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
           <div>
             <label htmlFor="name">姓名 / Name</label>
             <input id="name" name="name" type="text" required placeholder="你的名字" />
@@ -139,7 +151,7 @@ export default function Contact() {
 
           <div>
             <label htmlFor="message">留言 / Message</label>
-            <textarea id="message" name="message" rows="5" required placeholder="告诉我们你的想法..." />
+            <textarea id="message" name="message" rows={5} required placeholder="告诉我们你的想法..." />
           </div>
 
           <div>
@@ -147,11 +159,16 @@ export default function Contact() {
             <input id="attachment" name="attachment" type="file" />
           </div>
 
-          <button type="submit" disabled={sending}>{sending ? '发送中...' : '发送'}</button>
+          <button type="submit" disabled={sending}>
+            {sending ? '发送中...' : '发送'}
+          </button>
+
           {success && <div className="status">感谢你的留言，我们会尽快联系你！</div>}
-          {error && <div className="status" style={{color: 'red'}}>{error}</div>}
+          {error && <div className="status error">{error}</div>}
         </form>
       </main>
     </>
   );
 }
+
+
