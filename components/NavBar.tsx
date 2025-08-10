@@ -1,3 +1,4 @@
+// components/NavBar.tsx
 'use client';
 
 import Link from 'next/link';
@@ -19,13 +20,12 @@ export default function NavBar() {
     { href: '/contact', label: '联系我们' },
   ];
 
-  // 关闭菜单时回焦按钮
   const handleLinkClick = () => {
     setMobileOpen(false);
     toggleButtonRef.current?.focus();
   };
 
-  // 点击其它页面关闭菜单（路由变化）
+  // 路由变化关闭移动菜单，避免残留
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
@@ -34,8 +34,8 @@ export default function NavBar() {
     <>
       <nav className="nav" role="navigation" aria-label="主导航">
         <div className="nav-container">
-          {/* 移动端左侧大logo */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          {/* 移动端左侧logo */}
+          <div className="mobile-logo" style={{ display: 'flex', alignItems: 'center' }}>
             <Link href="/" onClick={handleLinkClick} aria-label="返回首页">
               <Logo size={80} />
             </Link>
@@ -53,19 +53,13 @@ export default function NavBar() {
                   aria-current={active ? 'page' : undefined}
                   onClick={handleLinkClick}
                 >
-                  {active ? (
-                    <>
-                      <Logo size={48} />
-                    </>
-                  ) : (
-                    <span>{label}</span>
-                  )}
+                  {active ? <Logo size={48} /> : <span>{label}</span>}
                 </Link>
               );
             })}
           </div>
 
-          {/* 移动端汉堡按钮 */}
+          {/* 移动端汉堡菜单按钮 */}
           <button
             ref={toggleButtonRef}
             className="menu-toggle"
@@ -111,10 +105,12 @@ export default function NavBar() {
         )}
       </nav>
 
-      {/* 页面内容预留顶部空间，避免被固定导航遮挡 */}
       <style>{`
-        main, .page-content, body > :not(.nav) {
-          padding-top: 96px;
+        /* 移动端logo隐藏电脑端 */
+        @media (min-width: 640px) {
+          .mobile-logo {
+            display: none !important;
+          }
         }
       `}</style>
     </>
