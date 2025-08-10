@@ -29,7 +29,7 @@ export default function NavBar() {
       <div className="nav-container">
         {/* 移动端左侧Logo */}
         <div className="mobile-logo-wrapper" aria-hidden="true">
-          <Logo size={40} />
+          <Logo size={80} />
         </div>
 
         {/* 电脑端导航链接 */}
@@ -103,6 +103,7 @@ export default function NavBar() {
     </nav>
   );
 }
+
 
 
 

@@ -52,13 +52,15 @@
   align-items: center;
   gap: 0.4rem;
   position: relative;
+  outline: none; /* 取消点击时轮廓 */
 }
 
 .nav-link:hover,
 .nav-link:focus-visible {
   color: var(--roro-main);
   text-shadow: 0 0 6px var(--roro-main);
-  outline: none;
+  outline: 2px solid var(--roro-main);
+  outline-offset: 3px;
 }
 
 /* 去掉横线伪元素 */
@@ -130,6 +132,7 @@
   font-weight: 500;
   font-size: 1.1rem;
   transition: color 0.3s ease, text-shadow 0.3s ease;
+  outline: none; /* 取消点击时轮廓 */
 }
 
 .mobile-link.active {
@@ -142,7 +145,8 @@
 .mobile-link:focus-visible {
   color: var(--roro-accent);
   text-shadow: 0 0 8px var(--roro-accent);
-  outline: none;
+  outline: 2px solid var(--roro-accent);
+  outline-offset: 3px;
 }
 
 /* 大屏显示导航链接 */
@@ -171,12 +175,20 @@
     display: block;
     flex-shrink: 0;
     margin-right: 1rem;
+    width: 80px;
+    height: 80px;
+  }
+
+  .mobile-logo-wrapper svg {
+    width: 80px !important;
+    height: 80px !important;
   }
 
   .nav-links {
     display: none;
   }
 }
+
 
 
 
