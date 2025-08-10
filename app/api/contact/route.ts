@@ -28,7 +28,6 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
 
-    // 必填字段校验
     const option = formData.get('option')?.toString() || '';
     const name = formData.get('name')?.toString() || '';
     const email = formData.get('email')?.toString() || '';
@@ -42,16 +41,12 @@ export async function POST(request: Request) {
 
     const attachments: { filename: string; content: Buffer }[] = [];
 
-    // 类型保护：判断 file 是否是 Blob/File
-    if (file && typeof (file as Blob).arrayBuffer === 'function') {
-      const arrayBuffer = await (file as Blob).arrayBuffer();
-
-      // 进一步确保 filename 是 string，否则用默认名
-      const filename =
-        typeof (file as any).name === 'string' ? (file as any).name : 'attachment';
+    // 类型保护：判断 file 是 Blob 且是 File 类型（File继承自Blob）
+    if (file instanceof File) {
+      const arrayBuffer = await file.arrayBuffer();
 
       const attachment = {
-        filename,
+        filename: file.name,
         content: Buffer.from(arrayBuffer),
       };
 
