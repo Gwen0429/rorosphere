@@ -168,7 +168,6 @@ export default function ContactPage() {
           box-sizing: border-box;
         }
 
-        /* 这里是重点，去掉蓝色outline，换成Roro色阴影 */
         select:focus,
         input[type="text"]:focus,
         input[type="email"]:focus,
@@ -253,16 +252,14 @@ export default function ContactPage() {
         @media (max-width: 768px) {
           main {
             margin: 40px 16px 80px;
-            padding: 24px 16px 40px;
-            max-width: 100%;
+            padding: 24px 12px 40px;
+            max-width: 100vw;
             box-sizing: border-box;
+            overflow-x: hidden;
           }
           h1.page-title {
             font-size: 2.8rem;
             margin-bottom: 2rem;
-          }
-          textarea {
-            min-height: 120px;
           }
         }
       `}</style>
