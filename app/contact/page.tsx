@@ -93,16 +93,17 @@ export default function ContactPage() {
         }
 
         main {
+          width: 100vw;
           max-width: 720px;
-          width: 100%;
           margin: 80px auto 140px;
-          padding: 40px 32px 64px;
+          padding: 40px 16px 64px;
           box-sizing: border-box;
           position: relative;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           user-select: text;
+          overflow-wrap: break-word;
         }
 
         h1.page-title {
@@ -144,17 +145,13 @@ export default function ContactPage() {
           gap: 1.4rem;
         }
 
-        label {
-          font-weight: 600;
-          color: var(--roro-accent);
-          user-select: none;
-          font-size: 1rem;
-        }
-
         select,
         input[type="text"],
         input[type="email"],
         textarea {
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
           font-family: inherit;
           font-size: 1rem;
           padding: 10px 14px;
@@ -164,8 +161,6 @@ export default function ContactPage() {
           transition: border-color 0.3s ease;
           resize: vertical;
           user-select: text;
-          width: 100%;
-          box-sizing: border-box;
         }
 
         select:focus,
@@ -251,11 +246,9 @@ export default function ContactPage() {
 
         @media (max-width: 768px) {
           main {
-            margin: 40px 16px 80px;
+            margin: 40px 12px 80px;
             padding: 24px 12px 40px;
             max-width: 100vw;
-            box-sizing: border-box;
-            overflow-x: hidden;
           }
           h1.page-title {
             font-size: 2.8rem;
@@ -366,12 +359,7 @@ export default function ContactPage() {
         )}
 
         {sent && !sending && (
-          <p
-            className="success-msg"
-            role="status"
-            aria-live="polite"
-            tabIndex={-1}
-          >
+          <p className="success-msg" role="status" aria-live="polite" tabIndex={-1}>
             感谢您的联系，我们会尽快回复！
           </p>
         )}
