@@ -75,6 +75,11 @@ export default function ContactPage() {
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 
+        /* 全局盒模型 */
+        *, *::before, *::after {
+          box-sizing: border-box;
+        }
+
         :root {
           --roro-main: #FACBAA;
           --roro-accent: #A17494;
@@ -89,13 +94,13 @@ export default function ContactPage() {
           background: var(--roro-bg);
           color: var(--roro-text);
           font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-          overflow-x: hidden; /* 关键：防止横向滚动溢出 */
+          overflow-x: hidden;
         }
 
         main {
           max-width: 720px;
-          width: 100%; /* 关键：宽度自适应，不超屏 */
-          margin: 80px auto 140px; /* 左右auto居中 */
+          width: 100%;
+          margin: 80px auto 140px;
           padding: 40px 32px 64px;
           box-sizing: border-box;
           position: relative;
@@ -137,7 +142,7 @@ export default function ContactPage() {
 
         form {
           width: 100%;
-          max-width: 100%; /* 关键：防止溢出 */
+          max-width: 100%;
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
@@ -164,7 +169,7 @@ export default function ContactPage() {
           transition: border-color 0.3s ease;
           resize: vertical;
           user-select: text;
-          width: 100%; /* 关键：宽度撑满form */
+          width: 100%;
           box-sizing: border-box;
         }
 
@@ -186,6 +191,8 @@ export default function ContactPage() {
           padding: 0;
           color: var(--roro-text);
           cursor: pointer;
+          max-width: 100%;
+          box-sizing: border-box;
         }
 
         button {
@@ -203,6 +210,8 @@ export default function ContactPage() {
             0 0 15px var(--roro-main),
             0 0 30px var(--roro-accent);
           transition: background-color 0.3s ease;
+          width: 100%;
+          box-sizing: border-box;
         }
         button:disabled {
           background-color: #f9ded3;
@@ -249,16 +258,29 @@ export default function ContactPage() {
           user-select: none;
         }
 
+        /* 移动端适配 */
         @media (max-width: 768px) {
           main {
-            margin: 40px 16px 80px; /* 居中 */
+            margin: 40px 16px 80px;
             padding: 24px 16px 40px;
-            max-width: 100%; /* 关键：移动端宽度自适应 */
-            box-sizing: border-box;
+            max-width: 100%;
           }
           h1.page-title {
-            font-size: 2.8rem;
-            margin-bottom: 2rem;
+            font-size: 2.4rem;
+            margin-bottom: 1.8rem;
+          }
+          form {
+            gap: 1rem;
+          }
+          textarea {
+            min-height: 120px;
+          }
+          button {
+            padding: 14px 24px;
+            font-size: 1.1rem;
+          }
+          input[type="file"] {
+            max-width: 100%;
           }
         }
       `}</style>
@@ -378,7 +400,3 @@ export default function ContactPage() {
     </>
   );
 }
-
-
-
-
