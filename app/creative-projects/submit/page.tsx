@@ -35,6 +35,9 @@ export default function VerifyRoroID() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center', // 垂直居中新增
+        boxSizing: 'border-box',
+        overflowX: 'hidden', // 防止横向溢出
       }}
     >
       <style>{`
@@ -56,6 +59,7 @@ export default function VerifyRoroID() {
           padding: 2rem;
           border-radius: 12px;
           box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+          box-sizing: border-box;
         }
 
         .input-field {
@@ -68,6 +72,7 @@ export default function VerifyRoroID() {
           font-family: inherit;
           color: #3B2E2E;
           transition: border-color 0.3s ease;
+          box-sizing: border-box;
         }
 
         .input-field:focus {
@@ -174,6 +179,7 @@ export default function VerifyRoroID() {
     </div>
   );
 }
+
 
 
 
