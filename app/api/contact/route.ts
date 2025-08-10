@@ -1,52 +1,43 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextRequest } from 'next/server';
 import nodemailer from 'nodemailer';
 
-export const config = {
-  api: {
-    bodyParser: false, // 因为我们用 FormData
-  },
-};
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
-
+export async function POST(request: NextRequest) {
   try {
-    // 解析 FormData
-    const buffers: Buffer[] = [];
-    for await (const chunk of req) {
-      buffers.push(chunk);
-    }
-    const body = Buffer.concat(buffers).toString();
-    const params = new URLSearchParams(body);
-    const name = params.get('name');
-    const email = params.get('email');
-    const message = params.get('message');
+    const formData = await request.formData();
+    const name = formData.get('name')?.toString() || '';
+    const email = formData.get('email')?.toString() || '';
+    const message = formData.get('message')?.toString() || '';
+    // 你也可以处理附件 ...
 
-    // 创建 transporter
+    // nodemailer transporter配置（示范）
     const transporter = nodemailer.createTransport({
-      host: 'smtp.mail.me.com',
-      port: 587,
-      secure: false,
+      service: 'icloud',
       auth: {
         user: 'goodmanjingwenzhou@icloud.com',
-        pass: process.env.APPLE_APP_SPECIFIC_PASSWORD, // 你在 .env.local 里设置
+        pass: '你的app专用密码',
       },
     });
 
-    await transporter.sendMail({
+    const mailOptions = {
       from: `"${name}" <${email}>`,
       to: 'goodmanjingwenzhou@icloud.com',
-      subject: 'Rorosphere 联系表单',
-      text: message || '',
-    });
+      subject: `RORO 网站联系：${name}`,
+      text: message,
+    };
 
-    return res.status(200).json({ message: '邮件已发送' });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: '发送失败' });
+    await transporter.sendMail(mailOptions);
+
+    return new Response(JSON.stringify({ message: '邮件发送成功' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ message: '发送失败' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
+
 
 
