@@ -1,9 +1,8 @@
 :root {
   --roro-main: #FACBAA;    /* 主品牌色 裸色 */
   --roro-accent: #A17494;  /* 辅助紫褐 */
-  --roro-glow: #7B5E73;    /* 柔和深紫褐，替代暗金色 */
   --roro-bg: rgba(255, 255, 255, 0.95);
-  --roro-border: rgba(161, 116, 148, 0.25);
+  --roro-border: rgba(212, 175, 127, 0.25);
 }
 
 .nav {
@@ -18,21 +17,26 @@
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid var(--roro-border);
   font-family: 'Playfair Display', serif;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease;
   user-select: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.2rem 1rem;
+  padding: 1.2rem 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
 
+/* 移动端Logo容器，默认隐藏 */
+.mobile-logo-wrapper {
+  display: none;
+}
+
+/* 电脑端导航链接 */
 .nav-links {
   display: none;
 }
@@ -43,12 +47,11 @@
   font-weight: 500;
   color: #2C3E50;
   text-decoration: none;
-  transition: color 0.3s ease, text-shadow 0.3s ease, opacity 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
   display: flex;
   align-items: center;
   gap: 0.4rem;
   position: relative;
-  user-select: none;
 }
 
 .nav-link:hover,
@@ -58,34 +61,35 @@
   outline: none;
 }
 
+/* 去掉横线伪元素 */
+.nav-link::after {
+  content: none !important;
+}
+
+.nav-link.active {
+  font-weight: 700;
+  color: var(--roro-main);
+  text-shadow: none;
+}
+
+/* 激活状态显示Logo，隐藏文字 */
 .nav-link.active span {
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
+  display: none;
 }
 
 .nav-link.active svg {
   display: inline-block;
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  height: 72px;
   vertical-align: middle;
-  opacity: 1;
-  transition: opacity 0.3s ease;
 }
 
-.nav-link svg {
-  display: inline-block;
-  width: 48px;
-  height: 48px;
-  vertical-align: middle;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
+/* 移动菜单 */
 .menu-toggle {
   background: none;
   border: none;
   position: absolute;
-  right: 1rem;
+  right: 1rem; /* 距右边1rem */
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -93,12 +97,11 @@
   padding: 0;
   color: var(--roro-main);
   transition: color 0.3s ease;
-  user-select: none;
 }
 
 .menu-toggle:hover,
 .menu-toggle:focus {
-  color: var(--roro-glow);
+  color: var(--roro-accent);
   outline: none;
 }
 
@@ -110,21 +113,13 @@
 .mobile-menu {
   background: #fff;
   border-top: 1px solid #eee;
-  padding: 1rem 1.5rem;
+  padding: 1rem 2rem;
   position: fixed;
-  top: 64px;
+  top: 64px; /* 导航高度 */
   left: 0;
   right: 0;
   z-index: 999;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.mobile-menu.open {
-  max-height: 400px;
-  overflow-y: auto;
 }
 
 .mobile-link {
@@ -135,7 +130,6 @@
   font-weight: 500;
   font-size: 1.1rem;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-  user-select: none;
 }
 
 .mobile-link.active {
@@ -146,11 +140,12 @@
 
 .mobile-link:hover,
 .mobile-link:focus-visible {
-  color: var(--roro-glow);
-  text-shadow: 0 0 8px var(--roro-glow);
+  color: var(--roro-accent);
+  text-shadow: 0 0 8px var(--roro-accent);
   outline: none;
 }
 
+/* 大屏显示导航链接 */
 @media (min-width: 640px) {
   .nav-links {
     display: flex;
@@ -161,9 +156,28 @@
   }
 
   .mobile-menu {
-    display: none !important;
+    display: none;
   }
 }
+
+/* 移动端显示logo，左侧对齐，nav内容左右分散 */
+@media (max-width: 639px) {
+  .nav-container {
+    justify-content: space-between;
+    padding: 1.2rem 1rem;
+  }
+
+  .mobile-logo-wrapper {
+    display: block;
+    flex-shrink: 0;
+    margin-right: 1rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
+
 
 
 

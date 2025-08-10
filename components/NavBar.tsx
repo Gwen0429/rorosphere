@@ -27,6 +27,12 @@ export default function NavBar() {
   return (
     <nav className="nav" role="navigation" aria-label="主导航">
       <div className="nav-container">
+        {/* 移动端左侧Logo */}
+        <div className="mobile-logo-wrapper" aria-hidden="true">
+          <Logo size={40} />
+        </div>
+
+        {/* 电脑端导航链接 */}
         <div className="nav-links">
           {links.map(({ href, label }) => {
             const active = pathname === href;
@@ -38,13 +44,19 @@ export default function NavBar() {
                 aria-current={active ? 'page' : undefined}
                 onClick={handleLinkClick}
               >
-                <span>{label}</span>
-                <Logo />
+                {active ? (
+                  <>
+                    <Logo size={48} />
+                  </>
+                ) : (
+                  <span>{label}</span>
+                )}
               </Link>
             );
           })}
         </div>
 
+        {/* 移动端汉堡按钮 */}
         <button
           ref={toggleButtonRef}
           className="menu-toggle"
@@ -72,22 +84,26 @@ export default function NavBar() {
         </button>
       </div>
 
-      <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`} id="mobile-menu">
-        {links.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className={`mobile-link ${pathname === href ? 'active' : ''}`}
-            aria-current={pathname === href ? 'page' : undefined}
-            onClick={handleLinkClick}
-          >
-            {label}
-          </Link>
-        ))}
-      </div>
+      {/* 移动端展开菜单 */}
+      {mobileOpen && (
+        <div className="mobile-menu" id="mobile-menu">
+          {links.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`mobile-link ${pathname === href ? 'active' : ''}`}
+              aria-current={pathname === href ? 'page' : undefined}
+              onClick={handleLinkClick}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
+
 
 
 
