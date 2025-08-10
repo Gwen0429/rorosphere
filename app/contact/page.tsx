@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import LogoSpinner from '@/components/LogoSpinner'; // 请确认路径正确
+import LogoSpinner from '@/components/LogoSpinner'; // 确认路径
 
 export default function ContactPage() {
   const [formState, setFormState] = useState({
@@ -75,162 +75,147 @@ export default function ContactPage() {
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 
-        /* 全局盒模型 */
-        *, *::before, *::after {
+        /* 专属作用域，避免污染全局 */
+        .contact-page {
+          font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+          color: #3B2E2E;
+          background: #FFFFFF;
+          user-select: text;
+        }
+
+        .contact-page *,
+        .contact-page *::before,
+        .contact-page *::after {
           box-sizing: border-box;
         }
 
-        :root {
-          --roro-main: #FACBAA;
-          --roro-accent: #A17494;
-          --roro-bg: #FFFFFF;
-          --roro-text: #3B2E2E;
-          --roro-border: #d9c7bd;
-          --roro-error: #cc4b37;
-        }
-
-        html, body {
-          margin: 0; padding: 0;
-          background: var(--roro-bg);
-          color: var(--roro-text);
-          font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-          overflow-x: hidden;
-        }
-
-        main {
+        .contact-page main {
           max-width: 720px;
           width: 100%;
           margin: 80px auto 140px;
           padding: 40px 32px 64px;
-          box-sizing: border-box;
-          position: relative;
+          overflow-x: hidden; /* 仅限制这里 */
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          user-select: text;
         }
 
-        h1.page-title {
+        .contact-page h1.page-title {
           font-family: 'Great Vibes', cursive;
           font-size: 3.6rem;
-          color: var(--roro-accent);
+          color: #A17494;
           margin-bottom: 3rem;
           user-select: none;
           text-shadow:
-            0 0 8px var(--roro-accent)aa,
-            0 0 16px var(--roro-accent)88;
+            0 0 8px #A17494aa,
+            0 0 16px #A1749488;
           width: 100%;
           text-align: left;
           line-height: 1;
         }
 
-        .info-section {
+        .contact-page .info-section {
           margin-bottom: 2.8rem;
           color: #5a4a4a;
           font-weight: 300;
           font-size: 1.1rem;
           line-height: 1.6;
           letter-spacing: 0.02em;
-          user-select: text;
           width: 100%;
         }
 
-        .info-section strong {
-          color: var(--roro-accent);
+        .contact-page .info-section strong {
+          color: #A17494;
           font-weight: 600;
         }
 
-        form {
+        .contact-page form {
           width: 100%;
           max-width: 100%;
-          box-sizing: border-box;
           display: flex;
           flex-direction: column;
           gap: 1.4rem;
         }
 
-        label {
+        .contact-page label {
           font-weight: 600;
-          color: var(--roro-accent);
+          color: #A17494;
           user-select: none;
           font-size: 1rem;
         }
 
-        select,
-        input[type="text"],
-        input[type="email"],
-        textarea {
+        .contact-page select,
+        .contact-page input[type="text"],
+        .contact-page input[type="email"],
+        .contact-page textarea {
           font-family: inherit;
           font-size: 1rem;
           padding: 10px 14px;
-          border: 1.5px solid var(--roro-border);
+          border: 1.5px solid #d9c7bd;
           border-radius: 12px;
-          color: var(--roro-text);
+          color: #3B2E2E;
           transition: border-color 0.3s ease;
           resize: vertical;
           user-select: text;
           width: 100%;
-          box-sizing: border-box;
         }
 
-        select:focus,
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
+        .contact-page select:focus,
+        .contact-page input[type="text"]:focus,
+        .contact-page input[type="email"]:focus,
+        .contact-page textarea:focus {
           outline: none;
-          border-color: var(--roro-main);
-          box-shadow: 0 0 8px var(--roro-main);
+          border-color: #FACBAA;
+          box-shadow: 0 0 8px #FACBAA;
         }
 
-        textarea {
+        .contact-page textarea {
           min-height: 140px;
         }
 
-        input[type="file"] {
+        .contact-page input[type="file"] {
           border: none;
           padding: 0;
-          color: var(--roro-text);
+          color: #3B2E2E;
           cursor: pointer;
           max-width: 100%;
-          box-sizing: border-box;
         }
 
-        button {
+        .contact-page button {
           margin-top: 1rem;
           padding: 14px 0;
-          background-color: var(--roro-main);
+          background-color: #FACBAA;
           border: none;
           border-radius: 20px;
-          color: var(--roro-accent);
+          color: #A17494;
           font-weight: 700;
           font-size: 1.2rem;
           cursor: pointer;
           user-select: none;
           box-shadow:
-            0 0 15px var(--roro-main),
-            0 0 30px var(--roro-accent);
+            0 0 15px #FACBAA,
+            0 0 30px #A17494;
           transition: background-color 0.3s ease;
           width: 100%;
-          box-sizing: border-box;
         }
-        button:disabled {
+        .contact-page button:disabled {
           background-color: #f9ded3;
           cursor: not-allowed;
           box-shadow: none;
-          color: var(--roro-accent);
+          color: #A17494;
         }
-        button:hover:not(:disabled),
-        button:focus-visible:not(:disabled) {
-          background-color: var(--roro-accent);
-          color: var(--roro-main);
+        .contact-page button:hover:not(:disabled),
+        .contact-page button:focus-visible:not(:disabled) {
+          background-color: #A17494;
+          color: #FACBAA;
           outline: none;
           box-shadow:
-            0 0 20px var(--roro-accent),
-            0 0 35px var(--roro-main);
+            0 0 20px #A17494,
+            0 0 35px #FACBAA;
         }
 
-        .error-msg {
-          color: var(--roro-error);
+        .contact-page .error-msg {
+          color: #cc4b37;
           font-weight: 600;
           font-size: 0.95rem;
           user-select: text;
@@ -238,19 +223,19 @@ export default function ContactPage() {
           margin-bottom: 0.8rem;
         }
 
-        .success-msg {
+        .contact-page .success-msg {
           text-align: center;
           font-weight: 600;
-          color: var(--roro-main);
+          color: #FACBAA;
           font-size: 1.2rem;
           user-select: none;
           margin-top: 2rem;
           text-shadow:
-            0 0 8px var(--roro-main),
-            0 0 16px var(--roro-accent);
+            0 0 8px #FACBAA,
+            0 0 16px #A17494;
         }
 
-        .sending-container {
+        .contact-page .sending-container {
           margin-top: 2rem;
           width: 100%;
           display: flex;
@@ -260,45 +245,42 @@ export default function ContactPage() {
 
         /* 移动端适配 */
         @media (max-width: 768px) {
-          main {
+          .contact-page main {
             margin: 40px 16px 80px;
             padding: 24px 16px 40px;
             max-width: 100%;
           }
-          h1.page-title {
+          .contact-page h1.page-title {
             font-size: 2.4rem;
             margin-bottom: 1.8rem;
           }
-          form {
+          .contact-page form {
             gap: 1rem;
           }
-          textarea {
+          .contact-page textarea {
             min-height: 120px;
           }
-          button {
+          .contact-page button {
             padding: 14px 24px;
             font-size: 1.1rem;
           }
-          input[type="file"] {
+          .contact-page input[type="file"] {
             max-width: 100%;
           }
         }
       `}</style>
 
-      <main>
-        <h1 className="page-title" tabIndex={-1}>
+      <main className="contact-page" tabIndex={-1}>
+        <h1 className="page-title">
           Contact Us
         </h1>
 
         <section className="info-section" aria-label="联系我们说明">
           <p>
             感谢您对ROROSPHERE的关注！请通过以下表单与我们联系。<br />
-            <strong>邮件主题请务必注明来意。</strong><br />
-            <br />
-            <strong>如果您希望与RORO合作：</strong>请详细介绍您自己及合作内容，我们会认真评估并在一周内回复。<br />
-            <br />
-            <strong>如果您希望成为RORO创作者：</strong>请尽可能系统介绍自己、作品及理念。申请成功后，我们会发送电子邀请函，包含发布创意申请的专属邮箱和邀请码。<br />
-            <br />
+            <strong>邮件主题请务必注明来意。</strong><br /><br />
+            <strong>如果您希望与RORO合作：</strong>请详细介绍您自己及合作内容，我们会认真评估并在一周内回复。<br /><br />
+            <strong>如果您希望成为RORO创作者：</strong>请尽可能系统介绍自己、作品及理念。申请成功后，我们会发送电子邀请函，包含发布创意申请的专属邮箱和邀请码。<br /><br />
             我们珍视每一份联系，期待与您携手创造未来。
           </p>
         </section>
