@@ -1,33 +1,40 @@
 'use client';
 
-import React, { useState } from 'react';
-import LogoSpinner from '@/components/LogoSpinner'; // 请确认路径正确，或根据项目调整
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-export default function ContactPage() {
+export default function ApplicationPage() {
+  const searchParams = useSearchParams();
+  const roroIDFromUrl = searchParams.get('roroID') || '';
+
   const [formState, setFormState] = useState({
-    option: 'creator',
+    roroID: '',
     name: '',
     email: '',
     subject: '',
     message: '',
     file: null as File | null,
   });
-
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  // 页面加载后将URL参数的roroID写入formState
+  useEffect(() => {
+    if (roroIDFromUrl) {
+      setFormState(prev => ({ ...prev, roroID: roroIDFromUrl }));
+    }
+  }, [roroIDFromUrl]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormState((prev) => ({ ...prev, [name]: value }));
+    setFormState(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = (e.target as HTMLInputElement).files;
     if (files && files.length > 0) {
-      setFormState((prev) => ({ ...prev, file: files[0] }));
+      setFormState(prev => ({ ...prev, file: files[0] }));
     }
   };
 
@@ -35,27 +42,26 @@ export default function ContactPage() {
     e.preventDefault();
     setError('');
     setSending(true);
-    setSent(false);
 
     try {
       const formData = new FormData();
-      formData.append('option', formState.option);
-      formData.append('name', formState.name.trim());
-      formData.append('email', formState.email.trim());
-      formData.append('subject', formState.subject.trim());
-      formData.append('message', formState.message.trim());
+      formData.append('roroID', formState.roroID);
+      formData.append('name', formState.name);
+      formData.append('email', formState.email);
+      formData.append('subject', formState.subject);
+      formData.append('message', formState.message);
       if (formState.file) formData.append('file', formState.file);
 
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/api/application', {
         method: 'POST',
         body: formData,
       });
 
-      if (!res.ok) throw new Error('发送失败，请稍后重试');
+      if (!res.ok) throw new Error('提交失败，请稍后重试');
 
       setSent(true);
       setFormState({
-        option: 'creator',
+        roroID: formState.roroID, // 保留roroID方便再次提交
         name: '',
         email: '',
         subject: '',
@@ -73,7 +79,6 @@ export default function ContactPage() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 
         :root {
           --roro-main: #FACBAA;
@@ -81,65 +86,56 @@ export default function ContactPage() {
           --roro-bg: #FFFFFF;
           --roro-text: #3B2E2E;
           --roro-border: #d9c7bd;
-          --roro-error: #cc4b37;
+          --roro-error: #A17454;
+          --roro-success-bg: #FAE6DC;
+          --roro-success-color: #8B5E6B;
         }
 
         html, body {
-          margin: 0; padding: 0;
+          margin: 0;
+          padding: 0;
           background: var(--roro-bg);
           color: var(--roro-text);
           font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-          overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         main {
-          max-width: 720px;
-          margin: 80px auto 140px;
-          padding: 40px 32px 64px;
+          max-width: 600px;
+          margin: 80px auto 120px;
+          padding: 0 20px;
           box-sizing: border-box;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          user-select: text;
         }
 
         h1.page-title {
           font-family: 'Great Vibes', cursive;
           font-size: 3.6rem;
-          color: var(--roro-accent);
+          text-align: center;
           margin-bottom: 3rem;
+          color: var(--roro-accent);
           user-select: none;
           text-shadow:
             0 0 8px var(--roro-accent)aa,
             0 0 16px var(--roro-accent)88;
           width: 100%;
-          text-align: left;
-          line-height: 1;
         }
 
-        /* 说明文本块 */
-        .info-section {
-          margin-bottom: 2.8rem;
-          color: #5a4a4a;
+        p.description {
+          text-align: center;
           font-weight: 300;
-          font-size: 1.1rem;
+          font-size: 1.15rem;
+          color: #6b6b6bdd;
+          margin-bottom: 3rem;
           line-height: 1.6;
-          letter-spacing: 0.02em;
-          user-select: text;
-          width: 100%;
-        }
-
-        .info-section strong {
-          color: var(--roro-accent);
-          font-weight: 600;
+          letter-spacing: 0.03em;
+          user-select: none;
         }
 
         form {
-          width: 100%;
           display: flex;
           flex-direction: column;
-          gap: 1.4rem;
+          gap: 1.2rem;
         }
 
         label {
@@ -149,7 +145,6 @@ export default function ContactPage() {
           font-size: 1rem;
         }
 
-        select,
         input[type="text"],
         input[type="email"],
         textarea {
@@ -161,10 +156,8 @@ export default function ContactPage() {
           color: var(--roro-text);
           transition: border-color 0.3s ease;
           resize: vertical;
-          user-select: text;
         }
 
-        select:focus,
         input[type="text"]:focus,
         input[type="email"]:focus,
         textarea:focus {
@@ -174,14 +167,13 @@ export default function ContactPage() {
         }
 
         textarea {
-          min-height: 140px;
+          min-height: 120px;
         }
 
         input[type="file"] {
           border: none;
           padding: 0;
           color: var(--roro-text);
-          cursor: pointer;
         }
 
         button {
@@ -223,72 +215,59 @@ export default function ContactPage() {
           user-select: text;
           margin-top: -0.6rem;
           margin-bottom: 0.8rem;
+          text-align: center;
         }
 
         .success-msg {
+          background-color: var(--roro-success-bg);
+          color: var(--roro-success-color);
           text-align: center;
           font-weight: 600;
-          color: var(--roro-main);
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           user-select: none;
           margin-top: 2rem;
-          text-shadow:
+          padding: 0.8rem 1rem;
+          border-radius: 12px;
+          box-shadow:
             0 0 8px var(--roro-main),
             0 0 16px var(--roro-accent);
         }
 
-        /* 发送中Logo居中容器 */
-        .sending-container {
-          margin-top: 2rem;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          user-select: none;
-        }
-
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
           main {
-            margin: 60px 16px 100px;
-            padding: 24px 16px 40px;
+            margin: 60px 16px 80px;
+            padding: 0 12px;
           }
           h1.page-title {
-            font-size: 2.8rem;
-            margin-bottom: 2rem;
+            font-size: 3rem;
+            margin-bottom: 2.5rem;
+          }
+          button {
+            font-size: 1rem;
+            padding: 12px 0;
           }
         }
       `}</style>
 
       <main>
-        <h1 className="page-title" tabIndex={-1}>
-          Contact Us
-        </h1>
+        <h1 className="page-title">发布我的创意项目</h1>
 
-        <section className="info-section" aria-label="联系我们说明">
-          <p>
-            感谢您对ROROSPHERE的关注！请通过以下表单与我们联系。<br />
-            <strong>邮件主题请务必注明来意。</strong><br />
-            <br />
-            <strong>如果您希望与RORO合作：</strong>请详细介绍您自己及合作内容，我们会认真评估并在一周内回复。<br />
-            <br />
-            <strong>如果您希望成为RORO创作者：</strong>请尽可能系统介绍自己、作品及理念。申请成功后，我们会发送电子邀请函，包含发布创意申请的专属邮箱和邀请码。<br />
-            <br />
-            我们珍视每一份联系，期待与您携手创造未来。
-          </p>
-        </section>
+        <p className="description">
+          申请额外需要填写您的 RORO ID。请详细说明您的创意项目内容，我们会在一周内回复您。
+        </p>
 
-        <form onSubmit={handleSubmit} noValidate aria-live="polite" aria-busy={sending}>
-          <label htmlFor="option">您的需求</label>
-          <select
-            id="option"
-            name="option"
-            value={formState.option}
+        <form onSubmit={handleSubmit} noValidate>
+          <label htmlFor="roroID">专属 RORO ID</label>
+          <input
+            id="roroID"
+            name="roroID"
+            type="text"
+            value={formState.roroID}
             onChange={handleChange}
             required
             aria-required="true"
-          >
-            <option value="creator">我想成为RORO创作者</option>
-            <option value="collaboration">我想与RORO合作</option>
-          </select>
+            readOnly={Boolean(roroIDFromUrl)} // 如果URL带了id就不能修改
+          />
 
           <label htmlFor="name">姓名</label>
           <input
@@ -323,7 +302,7 @@ export default function ContactPage() {
             aria-required="true"
           />
 
-          <label htmlFor="message">详细信息</label>
+          <label htmlFor="message">详细描述</label>
           <textarea
             id="message"
             name="message"
@@ -333,7 +312,7 @@ export default function ContactPage() {
             aria-required="true"
           />
 
-          <label htmlFor="file">附件 (选填)</label>
+          <label htmlFor="file">附件（选填）</label>
           <input
             id="file"
             name="file"
@@ -342,37 +321,20 @@ export default function ContactPage() {
             accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt"
           />
 
-          {error && (
-            <p className="error-msg" role="alert" tabIndex={-1}>
-              {error}
-            </p>
-          )}
+          {error && <p className="error-msg" role="alert">{error}</p>}
 
           <button type="submit" disabled={sending}>
-            {sending ? '发送中...' : '发送'}
+            {sending ? '发送中...' : '提交申请'}
           </button>
         </form>
 
-        {sending && (
-          <div className="sending-container" aria-live="assertive" aria-label="发送中动画">
-            <LogoSpinner />
-          </div>
-        )}
-
-        {sent && !sending && (
-          <p
-            className="success-msg"
-            role="status"
-            aria-live="polite"
-            tabIndex={-1}
-          >
-            感谢您的联系，我们会尽快回复！
+        {sent && (
+          <p className="success-msg" role="status" aria-live="polite">
+            ROROSPHERE总部已收到 RORO ID "{formState.roroID}" 发送的创意申请。
           </p>
         )}
       </main>
     </>
   );
 }
-
-
 
