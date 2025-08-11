@@ -1,23 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import nodemailer, { SendMailOptions } from 'nodemailer';
 import multiparty from 'multiparty';
 import fs from 'fs';
 
-// 告诉 Next.js 使用 Node.js 运行时，因nodemailer和fs不能用edge runtime
 export const runtime = 'nodejs';
 
-// 关闭默认body解析，手动用multiparty处理文件上传
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// 用Promise封装multiparty解析表单
-function parseForm(req: NextRequest): Promise<{ fields: any; files: any }> {
+type Fields = { [key: string]: string[] };
+type Files = {
+  [key: string]: Array<{
+    fieldName: string;
+    originalFilename?: string;
+    path: string;
+    headers: Record<string, string>;
+    size: number;
+  }>;
+};
+
+function parseForm(req: NextRequest): Promise<{ fields: Fields; files: Files }> {
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form();
-    form.parse(req as any, (err, fields, files) => {
+    form.parse(req as any, (err, fields: Fields, files: Files) => {
       if (err) reject(err);
       else resolve({ fields, files });
     });
@@ -35,7 +43,6 @@ export async function POST(req: NextRequest) {
     const message = fields.message?.[0] ?? '';
     const file = files.file?.[0];
 
-    // 邮件正文内容
     const mailText = `
 来自ROROSPHERE网站的联系申请：
 
@@ -48,7 +55,6 @@ export async function POST(req: NextRequest) {
 ${message}
     `;
 
-    // nodemailer transporter，邮箱和密码用环境变量
     const transporter = nodemailer.createTransport({
       host: 'smtp.mail.me.com',
       port: 587,
@@ -62,15 +68,13 @@ ${message}
       },
     });
 
-    // 邮件选项
-    const mailOptions: any = {
+    const mailOptions: SendMailOptions = {
       from: `"ROROSPHERE网站" <${process.env.ICLOUD_EMAIL}>`,
-      to: process.env.ICLOUD_EMAIL, // 收件邮箱，通常和发件邮箱相同
+      to: process.env.ICLOUD_EMAIL,
       subject: `[RORO联系] ${subject || '无主题'}`,
       text: mailText,
     };
 
-    // 如果有附件，加入附件数组
     if (file) {
       mailOptions.attachments = [
         {
@@ -80,7 +84,6 @@ ${message}
       ];
     }
 
-    // 发送邮件
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ message: '发送成功' }, { status: 200 });
