@@ -10,7 +10,7 @@ export default function ContactPage() {
     email: '',
     subject: '',
     message: '',
-    file: null as File | null,
+    // 去掉附件上传，file字段不用了
   });
 
   const [sending, setSending] = useState(false);
@@ -22,13 +22,6 @@ export default function ContactPage() {
   ) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      setFormState((prev) => ({ ...prev, file: files[0] }));
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,7 +37,6 @@ export default function ContactPage() {
       formData.append('email', formState.email.trim());
       formData.append('subject', formState.subject.trim());
       formData.append('message', formState.message.trim());
-      if (formState.file) formData.append('file', formState.file);
 
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -60,7 +52,6 @@ export default function ContactPage() {
         email: '',
         subject: '',
         message: '',
-        file: null,
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : '未知错误');
@@ -176,13 +167,6 @@ export default function ContactPage() {
           min-height: 140px;
         }
 
-        input[type="file"] {
-          border: none;
-          padding: 0;
-          color: var(--roro-text);
-          cursor: pointer;
-        }
-
         button {
           margin-top: 1rem;
           padding: 14px 0;
@@ -267,6 +251,8 @@ export default function ContactPage() {
             感谢您对ROROSPHERE的关注！请通过以下表单与我们联系。<br />
             <strong>邮件主题请务必注明来意。</strong><br />
             <br />
+            <strong>申请门槛更高：</strong>请言简意赅介绍您自己和意图，Roro将根据兴趣决定是否进一步交流。<br />
+            <br />
             <strong>如果您希望与RORO合作：</strong>请详细介绍您自己及合作内容，我们会认真评估并在一周内回复。<br />
             <br />
             <strong>如果您希望成为RORO创作者：</strong>请尽可能系统介绍自己、作品及理念。申请成功后，我们会发送电子邀请函，包含发布创意申请的专属邮箱和邀请码。<br />
@@ -330,15 +316,6 @@ export default function ContactPage() {
             onChange={handleChange}
             required
             aria-required="true"
-          />
-
-          <label htmlFor="file">附件 (选填)</label>
-          <input
-            id="file"
-            name="file"
-            type="file"
-            onChange={handleFileChange}
-            accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt"
           />
 
           {error && (
