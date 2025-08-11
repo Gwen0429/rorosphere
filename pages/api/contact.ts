@@ -1,24 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import multiparty from 'multiparty';
-import nodemailer from 'nodemailer';
+import nodemailer, { SendMailOptions } from 'nodemailer';
 import fs from 'fs';
 
 export const config = {
   api: {
-    bodyParser: false, // 关闭默认body解析，自己解析文件上传
+    bodyParser: false,
   },
 };
 
-type Fields = { [key: string]: string[] };
-type Files = {
-  [key: string]: Array<{
-    fieldName: string;
-    originalFilename?: string;
-    path: string;
-    headers: Record<string, string>;
-    size: number;
-  }>;
+type Fields = Record<string, string[]>;
+type File = {
+  fieldName: string;
+  originalFilename?: string;
+  path: string;
+  headers: Record<string, string>;
+  size: number;
 };
+type Files = Record<string, File[]>;
 
 function parseForm(req: NextApiRequest): Promise<{ fields: Fields; files: Files }> {
   return new Promise((resolve, reject) => {
@@ -40,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { fields, files } = await parseForm(req);
 
+    // 严格类型断言并安全取值
     const option = fields.option?.[0] ?? '';
     const name = fields.name?.[0] ?? '';
     const email = fields.email?.[0] ?? '';
@@ -64,15 +64,15 @@ ${message}
       port: 587,
       secure: false,
       auth: {
-        user: process.env.ICLOUD_EMAIL,
-        pass: process.env.ICLOUD_APP_PASSWORD,
+        user: process.env.ICLOUD_EMAIL as string,
+        pass: process.env.ICLOUD_APP_PASSWORD as string,
       },
       tls: {
         rejectUnauthorized: false,
       },
     });
 
-    const mailOptions: any = {
+    const mailOptions: SendMailOptions = {
       from: `"ROROSPHERE网站" <${process.env.ICLOUD_EMAIL}>`,
       to: process.env.ICLOUD_EMAIL,
       subject: `[RORO联系] ${subject || '无主题'}`,
@@ -82,7 +82,7 @@ ${message}
     if (file) {
       mailOptions.attachments = [
         {
-          filename: file.originalFilename || 'attachment',
+          filename: file.originalFilename ?? 'attachment',
           content: fs.createReadStream(file.path),
         },
       ];
