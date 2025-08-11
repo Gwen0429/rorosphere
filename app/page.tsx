@@ -311,7 +311,7 @@ export default function Home() {
           Enter a realm where visionaries converge — ROROSPHERE isn’t just collaboration, it’s the genesis of tomorrow’s legends.
         </p>
 
-        {/* === 修改部分：特色引导模块内容 === */}
+        {/* === 特色引导模块内容 === */}
         <section className="sections" aria-label="特色引导">
           <div
             className="section-item"
@@ -328,18 +328,18 @@ export default function Home() {
             className="section-item"
             tabIndex={0}
             role="button"
-            onClick={() => window.location.href = '/creative-projects/submit'}
-            aria-label="发布我的创意项目"
+            onClick={() => window.location.href = '/contact'}
+            aria-label="RORO创作者入口"
           >
-            <h2>发布我的创意项目</h2>
-            <p>限创作者，输入邮箱和专属邀请码完成申请，或申请成为创作者</p>
+            <h2>RORO创作者入口</h2>
+            <p>先去联系我们页面申请成为创作者</p>
           </div>
 
           <div
             className="section-item"
             tabIndex={0}
             role="button"
-            onClick={() => window.location.href = '/invitation'}
+            onClick={() => window.location.href = '/contact'}
             aria-label="与Roro合作"
           >
             <h2>与Roro合作</h2>
@@ -347,7 +347,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* === 修改部分：替换最新资讯模块为RORO寄语模块 === */}
+        {/* === RORO寄语模块 === */}
         <section className="news-section" aria-label="RORO寄语">
           <h2 className="news-title">RORO寄语</h2>
           <ul className="news-list">
