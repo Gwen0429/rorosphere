@@ -1,13 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import nodemailer, { SendMailOptions } from 'nodemailer';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import multiparty from 'multiparty';
+import nodemailer from 'nodemailer';
 import fs from 'fs';
-
-export const runtime = 'nodejs';
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // 关闭默认body解析，自己解析文件上传
   },
 };
 
@@ -22,17 +20,23 @@ type Files = {
   }>;
 };
 
-function parseForm(req: NextRequest): Promise<{ fields: Fields; files: Files }> {
+function parseForm(req: NextApiRequest): Promise<{ fields: Fields; files: Files }> {
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form();
-    form.parse(req as any, (err, fields: Fields, files: Files) => {
+    form.parse(req, (err, fields, files) => {
       if (err) reject(err);
       else resolve({ fields, files });
     });
   });
 }
 
-export async function POST(req: NextRequest) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).json({ error: 'Method Not Allowed' });
+    return;
+  }
+
   try {
     const { fields, files } = await parseForm(req);
 
@@ -68,7 +72,7 @@ ${message}
       },
     });
 
-    const mailOptions: SendMailOptions = {
+    const mailOptions: any = {
       from: `"ROROSPHERE网站" <${process.env.ICLOUD_EMAIL}>`,
       to: process.env.ICLOUD_EMAIL,
       subject: `[RORO联系] ${subject || '无主题'}`,
@@ -86,9 +90,9 @@ ${message}
 
     await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ message: '发送成功' }, { status: 200 });
+    res.status(200).json({ message: '发送成功' });
   } catch (error) {
     console.error('邮件发送失败:', error);
-    return NextResponse.json({ error: '邮件发送失败' }, { status: 500 });
+    res.status(500).json({ error: '邮件发送失败' });
   }
 }
