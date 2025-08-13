@@ -98,7 +98,8 @@ export default function Q4Opening() {
           main {
             margin: 60px auto 80px;
             padding: 24px;
-            width: calc(100% - 48px);
+            width: 100%;
+            max-width: 720px;
             box-sizing: border-box
           }
 
