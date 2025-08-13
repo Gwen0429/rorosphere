@@ -84,29 +84,13 @@
 
 /* --- 关键：从左到右展开的渐变底线 --- */
 .nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: -6px; /* 在文字下方 */
-  left: 0;
-  height: 4px;
-  width: 0%;
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    var(--roro-main) 0%,
-    var(--roro-accent) 50%,
-    var(--roro-main) 100%
-  );
-  box-shadow:
-    0 0 12px var(--roro-main),
-    0 0 20px var(--roro-accent);
-  transition: width 0.35s ease;
-  pointer-events: none;
+  content: none;
 }
 
-.nav-link:hover::after,
-.nav-link:focus-visible::after {
-  width: 100%;
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--roro-accent);
+  text-shadow: none;
 }
 
 /* 激活态（保留你原来的行为：显示 logo） */

@@ -33,7 +33,7 @@ export default function NewsMaterials() {
 
         main {
           max-width: 720px;
-          margin: 80px auto 140px;
+          margin: 40px auto 140px;
           padding: 40px 32px 64px;
           box-sizing: border-box;
           position: relative;

@@ -317,7 +317,7 @@ export default function Home() {
             className="section-item"
             tabIndex={0}
             role="button"
-            onClick={() => window.location.href = `/news-materials/${latestNewsItem.id}`}
+            onClick={() => window.location.href = latestNewsItem.link || `/news-materials/${latestNewsItem.slug}`}
             aria-label={`最新资讯：${latestNewsItem.title}`}
           >
             <h2>最新资讯</h2>
