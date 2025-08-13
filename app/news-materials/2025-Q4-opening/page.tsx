@@ -1,10 +1,33 @@
 'use client';
 
 import React from 'react';
+import Head from 'next/head';
 
 export default function Q4Opening() {
+  const title = '2025年第四季度';
+  const subtitle = '开端预告 · 创意成长之旅';
+  const date = '2025年9月初';
+
   return (
     <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={`${subtitle} | 首场活动时间：${date}`} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={`${subtitle} | 首场活动时间：${date}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta property="og:image" content="/share-image-q4.png" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={`${subtitle} | 首场活动时间：${date}`} />
+        <meta name="twitter:image" content="/share-image-q4.png" />
+      </Head>
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap');
 
@@ -25,12 +48,15 @@ export default function Q4Opening() {
           box-sizing: border-box;
         }
 
+        *, *::before, *::after {
+          box-sizing: inherit;
+        }
+
         main {
           width: 100%;
           max-width: 720px;
-          margin: 40px auto 160px; /* 电脑端上下间距 */
+          margin: 40px auto 160px;
           padding: 40px 32px 64px;
-          box-sizing: border-box;
         }
 
         h1.title {
@@ -96,11 +122,9 @@ export default function Q4Opening() {
 
         @media (max-width: 768px) {
           main {
+            width: calc(100% - 32px); /* 保证不偏右也不太窄 */
             margin: 60px auto 80px;
             padding: 24px;
-            width: 100%;
-            max-width: 720px;
-            box-sizing: border-box
           }
 
           h1.title {
@@ -126,15 +150,15 @@ export default function Q4Opening() {
 
           .highlight-box {
             font-size: 1rem;
-            padding: 0.8rem 1rem;
+            padding: 1rem; /* 移动端适中 */
             margin-top: 1.5rem;
           }
         }
       `}</style>
 
       <main>
-        <h1 className="title">2025年第四季度</h1>
-        <p className="subtitle">开端预告 · 创意成长之旅</p>
+        <h1 className="title">{title}</h1>
+        <p className="subtitle">{subtitle}</p>
 
         <p>
           欢迎加入 Roro 的第四季度创意成长计划！本季度，我们将搭建跨界合作平台，助力你在表达、思维与执行上持续成长。
@@ -169,12 +193,13 @@ export default function Q4Opening() {
         </ul>
 
         <div className="highlight-box" role="region" aria-label="第一场活动时间">
-          第一场活动时间：2025年9月初，线上直播，敬请期待！
+          第一场活动时间：{date}，线上直播，敬请期待！
         </div>
       </main>
     </>
   );
 }
+
 
 
 
