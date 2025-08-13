@@ -96,8 +96,10 @@ export default function Q4Opening() {
 
         @media (max-width: 768px) {
           main {
-            margin: 60px 16px 80px;
-            padding: 24px 16px 40px;
+            margin: 60px auto 80px;
+            padding: 24px;
+            width: calc(100% - 48px);
+            box-sizing: border-box
           }
 
           h1.title {
