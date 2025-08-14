@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 import Logo from './Logo';
 import './NavBar.css';
+import { getHmrRefreshHash } from 'next/dist/server/app-render/work-unit-async-storage.external';
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -14,6 +15,7 @@ export default function NavBar() {
 
   const links = [
     { href: '/', label: '首页' },
+    { href: '/rp', label: 'RP' },
     { href: '/brand-history', label: '品牌历程' },
     { href: '/news-materials', label: '资讯物料' },
     { href: '/creative-projects', label: '创意项目' },
