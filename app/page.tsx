@@ -278,8 +278,8 @@ export default function Home() {
             onClick={() => window.location.href = '/rp'}
             aria-label="RORO RP"
           >
-            <h2>RORO RP</h2>
-            <p>预测你的RORO RP收益</p>
+            <h2>RP Ranking & Achievements</h2>
+            <p>RP排行榜及成就</p>
           </div>
 
           <div

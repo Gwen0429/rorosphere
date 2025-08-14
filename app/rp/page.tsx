@@ -1,17 +1,35 @@
 'use client';
 
 import React, { useState } from 'react';
+import { rpMembers } from '../../src/data/rp-members.js';
 
-export default function RoroRPPage() {
-  const [ICP, setICP] = useState(50);
-  const [ECP, setECP] = useState(40);
-  const [RRB, setRRB] = useState(30);
+type Member = {
+  id: number;
+  name: string;
+  rp: number;
+  cell: string;
+  contributions: string[];
+};
 
-  const totalRP = ICP + ECP + RRB;
+export default function RPBoard() {
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
 
-  const creativeShare = ((ICP + RRB) / totalRP) * 100;
-  const privilegeShare = (ECP / totalRP) * 100;
-  const ecosystemShare = ((RRB + ECP) / totalRP) * 100;
+  // 按 RP 值倒序排序
+  const sortedMembers = [...rpMembers].sort((a, b) => b.rp - a.rp);
+  const topMembers = sortedMembers.slice(0, 3);
+
+  // RP 等级映射
+  const rpLevels = [
+    { min: 500, title: 'Master Creator' },
+    { min: 200, title: 'Elite Collaborator' },
+    { min: 100, title: 'Advanced Contributor' },
+    { min: 50, title: 'Rising Star' },
+    { min: 0, title: 'New Member' },
+  ];
+
+  const getLevel = (rp: number) => {
+    return rpLevels.find(level => rp >= level.min)?.title || 'New Member';
+  };
 
   return (
     <>
@@ -23,160 +41,193 @@ export default function RoroRPPage() {
           --roro-accent: #A17494;
         }
 
-        body {
+        html, body {
           margin: 0;
           padding: 0;
-          font-family: 'Playfair Display', serif;
           background: #ffffff;
           color: var(--roro-accent);
+          font-family: 'Playfair Display', serif;
+          overflow-x: hidden;
         }
 
-        .page-title {
+        main {
+          max-width: 960px;
+          margin: 40px auto 140px;
+          padding: 40px 32px 64px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        h1.page-title {
           font-family: 'Great Vibes', cursive;
           font-size: 3.6rem;
           text-align: center;
-          margin: 3rem 0;
+          margin-bottom: 2rem;
           color: var(--roro-accent);
+          user-select: none;
           text-shadow: 0 0 8px var(--roro-accent)aa, 0 0 16px var(--roro-accent)88;
         }
 
-        .rp-container {
-          max-width: 720px;
-          margin: 0 auto 140px;
-          padding: 40px 32px;
-          display: flex;
-          flex-direction: column;
-          gap: 3rem;
-        }
-
-        .input-section, .output-section {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          background: linear-gradient(to bottom, #fff, #fff);
-          padding: 20px;
-          border-radius: 24px;
-          box-shadow: 0 5px 15px rgba(161,116,148,0.3);
-        }
-
-        .slider-container {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .slider-container input[type=range] {
-          -webkit-appearance: none;
+        /* 金字塔模块 */
+        .rp-pyramid {
           width: 100%;
-          height: 12px;
-          border-radius: 6px;
-          background: #FACBAA33;
-          outline: none;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 40px;
         }
 
-        .slider-container input[type=range]::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 24px;
-          height: 24px;
-          background: var(--roro-main);
-          border: 3px solid var(--roro-accent);
-          border-radius: 50%;
+        .rp-level-box {
+          width: 80%;
+          border-left: 6px solid var(--roro-accent);
+          padding: 12px 16px;
+          margin-bottom: 12px;
+          background: #fff4ee;
+          border-radius: 8px;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        /* 成员模块 */
+        .members {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 24px;
+          width: 100%;
+          margin-bottom: 24px;
+        }
+
+        .member-card {
+          background: #fffaf7;
+          border: 2px solid var(--roro-accent);
+          border-radius: 12px;
+          padding: 16px;
+          box-shadow: 0 0 8px rgba(161, 116, 148, 0.15);
+          text-align: center;
+          transition: transform 0.3s ease;
           cursor: pointer;
         }
 
-        .core-wheel {
-          position: relative;
-          width: 200px;
-          height: 200px;
-          margin: 0 auto;
-          border-radius: 50%;
-          background: radial-gradient(circle, #A17494 0%, #6E0FF5 100%);
+        .member-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .member-name {
+          font-weight: 700;
+          font-size: 1.3rem;
+          margin-bottom: 4px;
+        }
+
+        .rp-value {
+          font-size: 1.2rem;
+          color: var(--roro-main);
+          margin-bottom: 4px;
+        }
+
+        .rank-desc {
+          font-size: 1rem;
+          color: #6b6b6bdd;
+          margin-bottom: 4px;
+        }
+
+        /* 弹窗 */
+        .modal {
+          position: fixed;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          background: rgba(0,0,0,0.5);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: white;
-          font-weight: bold;
-          text-align: center;
-          box-shadow: 0 0 30px #FACBAA88;
-          animation: pulse 2s infinite;
+          z-index: 999;
         }
 
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-        }
-
-        .output-item {
-          display: flex;
-          justify-content: space-between;
-          padding: 12px 16px;
+        .modal-content {
+          background: #ffffff;
+          padding: 32px;
           border-radius: 16px;
-          background: #FFFFFF;
-          border-left: 4px solid var(--roro-accent);
-          box-shadow: 0 5px 15px rgba(161,116,148,0.2);
-          font-weight: 600;
+          max-width: 500px;
+          width: 90%;
+          text-align: left;
+        }
+
+        .close-btn {
+          background: var(--roro-accent);
+          color: #fff;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 8px;
+          cursor: pointer;
+          margin-top: 16px;
         }
 
         @media (max-width: 768px) {
-          .page-title { font-size: 2.6rem; }
-          .rp-container { padding: 24px 16px; }
+          main { margin: 40px 16px 80px; padding: 24px 16px 40px; }
+          h1.page-title { font-size: 2.6rem; margin-bottom: 1.5rem; }
+          .member-card { padding: 12px; }
         }
       `}</style>
 
-      <main className="rp-container">
-        <h1 className="page-title">⚡ RORO RP 系统</h1>
+      <main>
+        <h1 className="page-title">RP Ranking & Achievement</h1>
 
-        {/* 输入板块 */}
-        <div className="input-section">
-          <Slider label="ICP (创意贡献)" value={ICP} setValue={setICP} />
-          <Slider label="ECP (执行任务)" value={ECP} setValue={setECP} />
-          <Slider label="RRB (作品复用)" value={RRB} setValue={setRRB} />
+        {/* 金字塔模块 */}
+        <div className="rp-pyramid">
+          {rpLevels.map(level => (
+            <div key={level.min} className="rp-level-box">
+              <span>{level.title}</span>
+              <span>≥ {level.min} RP</span>
+            </div>
+          ))}
         </div>
 
-        {/* 核心飞轮 */}
-        <div className="core-wheel">
-          ⚡<br/>ENGINE
+        {/* 成员模块 */}
+        <div className="members">
+          {topMembers.map((m) => (
+            <div key={m.id} className="member-card" onClick={() => setSelectedMember(m)}>
+              <div className="member-name">{m.name}</div>
+              <div className="rp-value">{m.rp} RP</div>
+              <div className="rank-desc">{getLevel(m.rp)}</div>
+            </div>
+          ))}
         </div>
 
-        {/* 输出板块 */}
-        <div className="output-section">
-          <div className="output-item">
-            <span>创意收益比例</span>
-            <span>{creativeShare.toFixed(0)}%</span>
+        {/* 查看更多按钮 */}
+        {sortedMembers.length > 3 && (
+          <button className="close-btn" onClick={() => alert('可改为跳转完整列表或弹窗展示')}>
+            View More
+          </button>
+        )}
+
+        {/* 弹窗 */}
+        {selectedMember && (
+          <div className="modal" onClick={() => setSelectedMember(null)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h2>{selectedMember.name}</h2>
+              <p><strong>RP:</strong> {selectedMember.rp}</p>
+              <p><strong>Level:</strong> {getLevel(selectedMember.rp)}</p>
+              <p><strong>Cell:</strong> {selectedMember.cell}</p>
+              <p><strong>Contributions:</strong></p>
+              <ul>
+                {selectedMember.contributions.map((c: string, i: number) => (
+                  <li key={i}>{c}</li>
+                ))}
+              </ul>
+              <button className="close-btn" onClick={() => setSelectedMember(null)}>Close</button>
+            </div>
           </div>
-          <div className="output-item">
-            <span>特权占比</span>
-            <span>{privilegeShare.toFixed(0)}%</span>
-          </div>
-          <div className="output-item">
-            <span>生态分润</span>
-            <span>{ecosystemShare.toFixed(0)}%</span>
-          </div>
-          <div className="output-item">
-            <span>总 RP</span>
-            <span>{totalRP}</span>
-          </div>
-        </div>
+        )}
+
       </main>
     </>
   );
 }
 
-function Slider({ label, value, setValue }: { label: string; value: number; setValue: (v:number)=>void }) {
-  return (
-    <div className="slider-container">
-      <label>{label}: {value}</label>
-      <input
-        type="range"
-        min={0}
-        max={100}
-        value={value}
-        onChange={(e) => setValue(Number(e.target.value))}
-      />
-    </div>
-  );
-}
+
+
+
+
 
 
 
