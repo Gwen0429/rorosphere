@@ -3,8 +3,20 @@
 import React, { useState } from 'react';
 import { rpMembers } from '../../src/data/rp-members.js';
 
-export default function RpLeaderboardStatic() {
-  const [selectedMember, setSelectedMember] = useState(null);
+// 定义成员类型
+type Member = {
+  id: number;
+  name: string;
+  rp: number;
+  role: string;
+  details: {
+    reason: string;
+    value: number;
+  }[];
+};
+
+export default function RpLeaderboard() {
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
 
   // 根据 RP 从高到低排序
   const sortedMembers = [...rpMembers].sort((a, b) => b.rp - a.rp);
@@ -65,6 +77,11 @@ export default function RpLeaderboardStatic() {
           background: #fdf1eb;
           box-shadow: 0 0 8px #facbaa33;
           cursor: pointer;
+          transition: transform 0.2s ease;
+        }
+
+        .leaderboard-item:hover {
+          transform: scale(1.02);
         }
 
         .leaderboard-rank {
@@ -141,11 +158,14 @@ export default function RpLeaderboardStatic() {
           .leaderboard-rp {
             font-size: 1.1rem;
           }
+          .modal-content h2 {
+            font-size: 1.6rem;
+          }
         }
       `}</style>
 
       <main>
-        <h1 className="page-title" aria-label="RP Leaderboard">RP Leaderboard</h1>
+        <h1 className="page-title" aria-label="RP 榜单">RP 榜单</h1>
 
         <div className="leaderboard">
           {sortedMembers.map((member, index) => (
@@ -177,20 +197,3 @@ export default function RpLeaderboardStatic() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
