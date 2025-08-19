@@ -8,16 +8,21 @@ export const messages = [
   },
   {
     id: 2,
+    author: 'Julian (Creative Outreach Lead)',
+    content: '',
+  },
+  {
+    id: 3,
     author: 'Alex (Creative Director)',
     content: 'Creativity is the flower that blooms from collaboration.',
   },
   {
-    id: 3,
+    id: 4,
     author: 'Luna (Community Manager)',
     content: 'Every voice counts in building the ROROSPHERE.',
   },
   {
-    id: 4,
+    id: 5,
     author: 'Kai (Tech Lead)',
     content: 'Innovation is born where ideas intersect.',
   },
