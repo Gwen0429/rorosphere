@@ -7,11 +7,6 @@ export const messages = [
     content: 'I haven\'t quite figured out what to say.',
   },
   {
-    id: 2,
-    author: 'Julian (Creative Outreach Lead)',
-    content: '',
-  },
-  {
     id: 3,
     author: 'Alex (Creative Director)',
     content: 'Creativity is the flower that blooms from collaboration.',
