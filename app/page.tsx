@@ -1,31 +1,17 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
-const flowersData = [
-  { title: 'Rose', link: '/flowers/rose', description: 'The eternal emblem of love and passion.' },
-  { title: 'Lotus', link: '/flowers/lotus', description: 'Rising pure from the mud, a symbol of rebirth.' },
-  { title: 'Cherry Blossom', link: '/flowers/cherry-blossom', description: 'A fleeting beauty, celebrating life’s impermanence.' },
-  { title: 'Sunflower', link: '/flowers/sunflower', description: 'Turning toward the light, embodying hope and warmth.' },
-  { title: 'Iris', link: '/flowers/iris', description: 'Messenger of the rainbow, bearer of wisdom and faith.' },
-  { title: 'Daffodil', link: '/flowers/daffodil', description: 'A mirror of the self, reflecting renewal and awakening.' },
-  { title: 'Peony', link: '/flowers/peony', description: 'Luxurious bloom, a stage for prosperity and grace.' },
-  { title: 'More Flowers', link: '/flowers', description: 'Step deeper into Roro’s floral realm.' },
-];
-
-const familyData = [
-  { 
-    name: '寄语一', 
-    content: '玫瑰告诉我们，热烈也可以温柔；ROROSPHERE 将这种对立化为共生。' 
-  },
-  { 
-    name: '寄语二', 
-    content: '莲花教我们在泥泞中依然纯净；ROROSPHERE 亦在复杂中寻找澄明。' 
-  },
-  { 
-    name: '寄语三', 
-    content: '樱花短暂却璀璨；ROROSPHERE 相信刹那的美，也能留驻永恒。' 
-  },
+const sectionsData = [
+  { title: 'Rose', link: '/flower/rose', description: 'The eternal emblem of love and passion.' },
+  { title: 'Sakura', link: '/flower/sakura', description: 'A fleeting bloom, symbol of transience and renewal.' },
+  { title: 'Sunflower', link: '/flower/sunflower', description: 'Always turning toward the light, loyal and bright.' },
+  { title: 'Tulip', link: '/flower/tulip', description: 'Elegance and grace in every gentle curve.' },
+  { title: 'Lily', link: '/flower/lily', description: 'A pure bloom, a quiet symbol of devotion.' },
+  { title: 'Orchid', link: '/flower/orchid', description: 'Mystery, refinement, and delicate strength.' },
+  { title: 'Peony', link: '/flower/peony', description: 'Abundance, honor, and radiant beauty.' },
+  { title: 'See More', link: '/roro-flower', description: 'Explore the full garden of ROROSPHERE.' },
 ];
 
 export default function Home() {
@@ -53,6 +39,8 @@ export default function Home() {
           font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
           overflow-x: hidden;
         }
+
+        a { text-decoration: none; color: inherit; }
 
         main {
           min-height: 100vh;
@@ -104,6 +92,7 @@ export default function Home() {
           user-select: none;
         }
 
+        /* Sections Grid */
         .sections {
           max-width: 960px;
           display: grid;
@@ -144,6 +133,7 @@ export default function Home() {
           line-height: 1.4;
         }
 
+        /* Roro Letter */
         .news-section {
           max-width: 960px;
           width: 100%;
@@ -160,42 +150,26 @@ export default function Home() {
           text-shadow: 0 0 6px var(--roro-glow-alpha-heavy);
         }
 
-        ul.news-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 16px;
-        }
-
-        ul.news-list li {
-          background: #fff;
-          border-radius: 18px;
-          padding: 14px 12px;
-          box-shadow: 0 4px 12px var(--roro-glow-alpha);
-          transition: transform 0.35s ease, box-shadow 0.35s ease;
-        }
-
-        ul.news-list li:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 22px var(--roro-glow-alpha-heavy);
-        }
-
-        ul.news-list li h3 {
-          margin: 0 0 4px;
+        .letter {
+          max-width: 720px;
+          margin: 0 auto;
           font-size: 1rem;
-          color: var(--roro-accent);
+          line-height: 1.7;
+          color: #3B2E2E;
+          text-align: center;
+          background: #fff;
+          padding: 24px 20px;
+          border-radius: 16px;
+          box-shadow: 0 4px 12px var(--roro-glow-alpha);
+        }
+        .letter .signature {
+          margin-top: 1.5rem;
+          font-family: 'Great Vibes', cursive;
+          font-size: 1.5rem;
+          color: #A17494;
         }
 
-        ul.news-list li p {
-          margin: 0;
-          font-size: 0.85rem;
-          font-weight: 300;
-          line-height: 1.3;
-          color: #5a4a4a;
-        }
-
+        /* Mobile */
         @media (max-width: 768px) {
           main { padding: 40px 12px 60px; }
           h1.brand-title { font-size: 3.5rem; letter-spacing: 0.04em; }
@@ -211,13 +185,8 @@ export default function Home() {
           .section-item h2 { font-size: 1.4rem; }
           .section-item p { font-size: 0.85rem; }
 
-          ul.news-list {
-            grid-template-columns: 1fr;
-            gap: 12px;
-          }
-          ul.news-list li { padding: 10px 8px; }
-          ul.news-list li h3 { font-size: 0.9rem; }
-          ul.news-list li p { font-size: 0.8rem; }
+          .letter { font-size: 0.9rem; padding: 16px 12px; }
+          .letter .signature { font-size: 1.3rem; }
         }
       `}</style>
 
@@ -226,40 +195,40 @@ export default function Home() {
 
         <h1 className="brand-title">ROROSPHERE</h1>
         <p className="subtitle">
-          Enter a realm where visionaries converge — ROROSPHERE isn’t just collaboration, it’s the genesis of tomorrow’s legends.
+          Where every idea blooms, and every story finds its stage.
         </p>
 
-        <section className="sections" aria-label="Flowers">
-          {flowersData.slice(0, 8).map((item) => (
-            <div
-              key={item.title}
-              className="section-item"
-              tabIndex={0}
-              role="button"
-              onClick={() => window.location.href = item.link}
-              aria-label={item.title}
-            >
-              <h2>{item.title}</h2>
-              <p>{item.description}</p>
-            </div>
+        <section className="sections" aria-label="Featured Flowers">
+          {sectionsData.map((item) => (
+            <Link key={item.title} href={item.link}>
+              <div className="section-item">
+                <h2>{item.title}</h2>
+                <p>{item.description}</p>
+              </div>
+            </Link>
           ))}
         </section>
 
-        <section className="news-section" aria-label="Roro Messages">
-          <h2 className="news-title">Roro Family 寄语</h2>
-          <ul className="news-list">
-            {familyData.map(({ name, content }) => (
-              <li key={name}>
-                <h3>{name}</h3>
-                <p>{content}</p>
-              </li>
-            ))}
-          </ul>
+        <section className="news-section" aria-label="Roro Letter">
+          <h2 className="news-title">A Letter from Roro</h2>
+          <div className="letter">
+            <p>
+              In ROROSPHERE, every detail is a story, and every story blooms like a flower.  
+              This is not just a space to explore nature, but a place to feel wonder, hope, and quiet joy.  
+            </p>
+            <p>
+              May you always find light in small things, warmth in fleeting moments,  
+              and courage to bloom in your own season.  
+            </p>
+            <p className="signature">— Gwen</p>
+          </div>
         </section>
       </main>
     </>
   );
 }
+
+
 
 
 

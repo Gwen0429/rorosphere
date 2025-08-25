@@ -14,7 +14,7 @@ export default function NavBar() {
   // 更新后的导航链接
   const links = [
     { href: '/', label: 'Home' },
-    { href: '/magazine', label: 'Flower' },
+    { href: '/roro-flower', label: 'Roro Flower' },
     { href: '/brand-history', label: 'Brand Histroy' },
     { href: '/news-materials', label: 'News' },
     { href: '/contact', label: 'Contact Us' },
