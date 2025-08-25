@@ -4,7 +4,7 @@ export const messages = [
   {
     id: 1,
     author: 'Gwen (Founder)',
-    content: 'I haven\'t quite figured out what to say.',
+    content: 'At this very moment, the world dances with the decisions we command.',
   },
   {
     id: 3,

@@ -21,7 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           :root {
             --roro-main: #FACBAA;
             --roro-accent: #A17494;
-            --bg-color: #fffefb;
+            --bg-color: #ffffffff;
             --text-color: #2C3E50;
           }
           html, body {
@@ -114,7 +114,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <use href="#linePetal" transform="rotate(288)" />
             </g>
           </svg>
-          <div className="copyright">© 2025 ROROSPHERE | 致力于青少年创意跨界社群</div>
+          <div className="copyright">© 2025 ROROSPHERE </div>
         </footer>
       </body>
     </html>
