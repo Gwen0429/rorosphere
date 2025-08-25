@@ -13,11 +13,11 @@ export default function NavBar() {
 
   // 更新后的导航链接
   const links = [
-    { href: '/', label: '首页' },
-    { href: '/magazine', label: 'Roro的杂志页' },
-    { href: '/brand-history', label: '品牌历程' },
-    { href: '/news-materials', label: '资讯物料' },
-    { href: '/contact', label: '联系我们' },
+    { href: '/', label: 'Home' },
+    { href: '/magazine', label: 'Flower' },
+    { href: '/brand-history', label: 'Brand Histroy' },
+    { href: '/news-materials', label: 'News' },
+    { href: '/contact', label: 'Contact Us' },
   ];
 
   const handleLinkClick = () => {
