@@ -4,7 +4,6 @@ import React from 'react';
 import { newsMaterials } from '../src/data/news-materials.js';
 import { messages } from '../src/data/messages.js';
 
-// 最新一条新闻，用于特色引导卡片第一项
 const latestNewsItem = [...newsMaterials]
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
 
@@ -19,15 +18,11 @@ export default function Home() {
           --roro-accent: #A17494;
           --roro-bg: #FFFFFF;
           --roro-text: #3B2E2E;
-          --roro-glow-alpha: #FACBAA66;
-          --roro-glow-alpha-light: #FACBAA33;
+          --roro-glow-alpha: #FACBAA33;
+          --roro-glow-alpha-heavy: #FACBAA66;
         }
 
-        *, *::before, *::after {
-          max-width: 100vw;
-          box-sizing: border-box;
-          word-break: break-word;
-        }
+        *, *::before, *::after { box-sizing: border-box; max-width: 100vw; word-break: break-word; }
 
         html, body {
           margin: 0;
@@ -40,7 +35,7 @@ export default function Home() {
 
         main {
           min-height: 100vh;
-          padding: 80px 40px 140px;
+          padding: 100px 40px 140px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -49,183 +44,142 @@ export default function Home() {
           overflow-x: hidden;
         }
 
-        .flower-cluster {
+        /* ====== 背景漂浮光晕 ====== */
+        .hero-float {
           position: absolute;
-          top: 20px;
+          top: 15%;
           left: 50%;
-          transform: translateX(-50%);
-          pointer-events: none;
-          user-select: none;
-          width: 320px;
-          height: 180px;
+          width: 300px;
+          height: 300px;
+          border-radius: 50%;
+          background: radial-gradient(circle, var(--roro-main) 20%, transparent 80%);
           opacity: 0.15;
-          background: radial-gradient(circle at 40% 60%, var(--roro-main), transparent 70%);
-          filter: drop-shadow(0 0 10px var(--roro-glow-alpha));
-          border-radius: 50% / 40%;
-          animation: gentle-sway 10s ease-in-out infinite alternate;
+          animation: float-hero 25s ease-in-out infinite alternate;
           z-index: 0;
         }
 
-        @keyframes gentle-sway {
-          0% { transform: translateX(-50%) translateY(0) rotate(0deg);}
-          100% { transform: translateX(-50%) translateY(10px) rotate(3deg);}
+        @keyframes float-hero {
+          0% { transform: translateX(-50%) translateY(0) scale(1); }
+          100% { transform: translateX(-50%) translateY(25px) scale(1.05); }
         }
 
+        /* ====== 标题 ====== */
         h1.brand-title {
           font-family: 'Great Vibes', cursive;
           font-size: 7rem;
-          font-style: normal;
           color: var(--roro-main);
           letter-spacing: 0.1em;
           margin: 0;
-          user-select: none;
           text-align: center;
-          text-shadow: 0 0 10px var(--roro-main)aa;
+          text-shadow: 0 0 12px var(--roro-glow-alpha-heavy);
           position: relative;
           z-index: 1;
         }
 
         .subtitle {
           font-family: 'Great Vibes', cursive;
-          font-size: 1.4rem;
+          font-size: 1.5rem;
           color: var(--roro-accent);
           text-align: center;
-          max-width: 600px;
-          margin: 1rem auto 3rem;
+          max-width: 650px;
+          margin: 1rem auto 4rem;
+          line-height: 1.4;
           user-select: none;
-          line-height: 1.3;
-          letter-spacing: 0.05em;
         }
 
+        /* ====== Sections 不对称网格 ====== */
         .sections {
-          max-width: 900px;
-          margin: 0 auto 6rem;
-          display: flex;
+          max-width: 960px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
           gap: 40px;
-          justify-content: center;
-          flex-wrap: wrap;
+          margin-bottom: 80px;
+          position: relative;
           z-index: 1;
         }
 
         .section-item {
-          flex: 1 1 280px;
-          padding: 24px 20px 32px;
+          background: #fff;
+          border-radius: 24px;
+          padding: 28px 22px 36px;
+          box-shadow: 0 8px 20px var(--roro-glow-alpha);
           cursor: pointer;
-          transition: box-shadow 0.35s ease, transform 0.35s ease;
-          font-size: 1.05rem;
-          min-width: 0;
-          color: var(--roro-text);
-          user-select: none;
-          border-radius: 20px;
-          background: linear-gradient(145deg, #fbf8f6, #f2e9d8);
-          box-shadow: 0 8px 15px var(--roro-glow-alpha-light);
+          transition: transform 0.35s ease, box-shadow 0.35s ease;
           position: relative;
-        }
-
-        /* 底部光晕线条替代横线 */
-        .section-item::after {
-          content: "";
-          position: absolute;
-          bottom: 8px;
-          left: 30px;
-          right: 30px;
-          height: 4px;
-          border-radius: 10px;
-          background: linear-gradient(90deg, var(--roro-main) 0%, var(--roro-accent) 50%, var(--roro-main) 100%);
-          box-shadow: 0 0 12px var(--roro-main), 0 0 20px var(--roro-accent);
-          opacity: 0.85;
-          transition: opacity 0.3s ease;
-          pointer-events: none;
         }
 
         .section-item:hover,
         .section-item:focus-visible {
           transform: translateY(-6px);
-          box-shadow: 0 18px 40px var(--roro-glow-alpha), 0 0 25px var(--roro-main);
+          box-shadow: 0 18px 40px var(--roro-glow-alpha-heavy), 0 0 25px var(--roro-main);
           outline: none;
-        }
-
-        .section-item:hover::after,
-        .section-item:focus-visible::after {
-          opacity: 1;
         }
 
         .section-item h2 {
           font-family: 'Great Vibes', cursive;
-          font-size: 2.2rem;
-          font-weight: 400;
-          margin-bottom: 14px;
+          font-size: 2rem;
+          margin-bottom: 12px;
           color: var(--roro-accent);
-          user-select: none;
-          letter-spacing: 0.03em;
         }
 
         .section-item p {
+          font-size: 1rem;
           font-weight: 300;
           line-height: 1.6;
           color: #5a4a4a;
-          word-wrap: break-word;
-          user-select: text;
         }
 
+        /* ====== 新闻 / 寄语卡片 ====== */
         .news-section {
-          max-width: 900px;
+          max-width: 960px;
           width: 100%;
-          color: var(--roro-main);
-          font-family: '苹方', 'PingFang SC', 'Source Han Sans CN', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+          margin-bottom: 100px;
+          position: relative;
           z-index: 1;
         }
 
         .news-title {
           font-family: 'Great Vibes', cursive;
-          font-size: 2.8rem;
-          font-weight: 400;
-          margin-bottom: 30px;
-          user-select: none;
+          font-size: 2.6rem;
+          margin-bottom: 36px;
           text-align: center;
           color: var(--roro-main);
-          letter-spacing: 0.05em;
-          text-shadow: 0 0 8px var(--roro-main)aa;
+          text-shadow: 0 0 8px var(--roro-glow-alpha-heavy);
         }
 
         ul.news-list {
           list-style: none;
           padding: 0;
           margin: 0;
-          color: #7a6a6a;
+          display: grid;
+          gap: 24px;
         }
 
         ul.news-list li {
-          border-bottom: 1px solid #eee;
-          padding: 18px 0;
-          word-wrap: break-word;
+          background: #fff;
+          border-radius: 20px;
+          padding: 20px 18px;
+          box-shadow: 0 6px 16px var(--roro-glow-alpha);
+          transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        ul.news-list li:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 28px var(--roro-glow-alpha-heavy);
         }
 
         ul.news-list li h3 {
-          margin: 0 0 6px;
-          font-weight: 600;
-          font-size: 1.3rem;
+          margin: 0 0 8px;
+          font-size: 1.2rem;
           color: var(--roro-accent);
         }
 
-        ul.news-list li h3 a {
-          color: inherit;
-          text-decoration: none;
-          cursor: pointer;
-        }
-
-        ul.news-list li h3 a:hover,
-        ul.news-list li h3 a:focus {
-          text-decoration: underline;
-          outline: none;
-        }
-
         ul.news-list li p {
-          margin: 0 0 4px;
-          font-weight: 300;
+          margin: 0;
           font-size: 1rem;
-          color: #a4997fcc;
-          word-wrap: break-word;
+          font-weight: 300;
+          line-height: 1.5;
+          color: #5a4a4a;
         }
 
         ul.news-list li time {
@@ -233,32 +187,50 @@ export default function Home() {
           color: #b8a96caa;
         }
 
-        /* 移动端响应式 */
-        @media (max-width: 768px) {
-          main { padding: 40px 16px 80px !important; }
-          h1.brand-title { font-size: 4rem !important; letter-spacing: 0.05em !important; padding: 0 10px !important; }
-          .subtitle { font-size: 1.1rem !important; max-width: 90vw !important; margin-bottom: 2rem !important; line-height: 1.25 !important; }
-          .sections { flex-direction: column !important; gap: 30px !important; }
-          .section-item { text-align: center !important; border-bottom: none !important; padding-bottom: 30px !important; }
-          .section-item::after { left: 50% !important; right: 50% !important; width: 60px !important; margin-left: -30px !important; bottom: 12px !important; }
-          .section-item h2 { font-size: 1.8rem !important; }
-          .section-item p { font-size: 0.95rem !important; }
-          .news-title { font-size: 1.8rem !important; text-align: center !important; }
-          ul.news-list li h3 { font-size: 1rem !important; }
-          ul.news-list li p { font-size: 0.9rem !important; }
-        }
+        /* ====== 移动端响应 ====== */
+        /* ====== 移动端响应 ====== */
+@media (max-width: 768px) {
+  main { padding: 50px 16px 70px !important; }
+
+  h1.brand-title { font-size: 3.8rem !important; letter-spacing: 0.04em !important; }
+  .subtitle { font-size: 1rem !important; max-width: 90vw !important; margin-bottom: 2rem !important; }
+
+  /* Sections卡片自适应屏幕 */
+  .sections { 
+    gap: 20px !important; 
+    grid-template-columns: 1fr !important; /* 单列 */
+    width: 100%; /* 充满屏幕宽度 */
+  }
+  .section-item { 
+    padding: 18px 14px 26px !important; 
+    width: 100%; 
+    max-width: none !important; 
+  }
+  .section-item h2 { font-size: 1.55rem !important; }
+  .section-item p { font-size: 0.92rem !important; }
+
+  /* 新闻卡片自适应屏幕 */
+  .news-section { width: 100%; }
+  ul.news-list { gap: 16px; }
+  ul.news-list li { 
+    padding: 14px 12px !important; 
+    width: 100%; 
+    max-width: none !important; 
+  }
+  ul.news-list li h3 { font-size: 0.95rem !important; }
+  ul.news-list li p { font-size: 0.85rem !important; }
+}
+
       `}</style>
 
       <main>
-        <div className="flower-cluster" aria-hidden="true"></div>
+        <div className="hero-float" aria-hidden="true"></div>
 
         <h1 className="brand-title">ROROSPHERE</h1>
-
         <p className="subtitle">
           Enter a realm where visionaries converge — ROROSPHERE isn’t just collaboration, it’s the genesis of tomorrow’s legends.
         </p>
 
-        {/* === 特色引导模块内容 === */}
         <section className="sections" aria-label="特色引导">
           <div
             className="section-item"
@@ -294,7 +266,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* === RORO寄语模块 === */}
         <section className="news-section" aria-label="RORO寄语">
           <h2 className="news-title">RORO寄语</h2>
           <ul className="news-list">
@@ -310,6 +281,10 @@ export default function Home() {
     </>
   );
 }
+
+
+
+
 
 
 
