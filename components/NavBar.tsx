@@ -1,5 +1,5 @@
+// components/NavBar.tsx
 'use client';
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
@@ -11,9 +11,10 @@ export default function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
+  // 更新后的导航链接
   const links = [
     { href: '/', label: '首页' },
-    { href: '/magazine', label: 'Roro 杂志' },
+    { href: '/magazine', label: 'Roro的杂志页' },
     { href: '/brand-history', label: '品牌历程' },
     { href: '/news-materials', label: '资讯物料' },
     { href: '/contact', label: '联系我们' },
@@ -32,12 +33,14 @@ export default function NavBar() {
     <>
       <nav className="nav" role="navigation" aria-label="主导航">
         <div className="nav-container">
+          {/* 移动端左侧 Logo */}
           <div className="mobile-logo" style={{ display: 'flex', alignItems: 'center' }}>
             <Link href="/" onClick={handleLinkClick} aria-label="返回首页">
               <Logo size={64} />
             </Link>
           </div>
 
+          {/* 电脑端导航链接 */}
           <div className="nav-links">
             {links.map(({ href, label }) => {
               const active = pathname === href;
@@ -55,6 +58,7 @@ export default function NavBar() {
             })}
           </div>
 
+          {/* 移动端汉堡菜单 */}
           <button
             ref={toggleButtonRef}
             className="menu-toggle"
@@ -65,14 +69,7 @@ export default function NavBar() {
             aria-haspopup="true"
             type="button"
           >
-            <svg
-              className="menu-icon"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg className="menu-icon" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
               {mobileOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -82,6 +79,7 @@ export default function NavBar() {
           </button>
         </div>
 
+        {/* 移动端菜单 */}
         {mobileOpen && (
           <div className="mobile-menu" id="mobile-menu">
             {links.map(({ href, label }) => (
@@ -108,3 +106,4 @@ export default function NavBar() {
     </>
   );
 }
+
