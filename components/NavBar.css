@@ -1,12 +1,12 @@
-/* components/NavBar.css */
+/* components/Navbar.css */
 :root {
   --roro-main: #FACBAA;    /* 主品牌色 裸色 */
   --roro-accent: #A17494;  /* 辅助紫褐 */
-  --roro-bg: rgba(255, 255, 255, 0.95);
-  --roro-border: rgba(161, 116, 148, 0.12); /* 用紫褐做边界，不用暗金色 */
+  --roro-bg: #FFFFFF;       /* 背景白色 */
+  --roro-black: #000000;    /* 黑色图标/文字 */
 }
 
-/* 固定导航栏，统一高度64px（与 mobile-menu top 保持一致） */
+/* 固定导航栏 */
 .nav {
   position: fixed;
   top: 0;
@@ -15,174 +15,68 @@
   height: 64px;
   z-index: 1000;
   background: var(--roro-bg);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border-bottom: 1px solid var(--roro-border);
-  font-family: 'Playfair Display', serif;
-  transition: background-color 0.3s ease;
-  user-select: none;
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  gap: 1rem;
+  font-family: 'Playfair Display', serif;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* 移动端 logo 容器（左侧） */
-.mobile-logo {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1100;
-}
-
-/* 强制 svg 大小，保证按 size 显示 */
-.mobile-logo svg {
-  width: 64px !important;
-  height: 64px !important;
-}
-
-/* 电脑端导航链接（默认隐藏，媒体查询显示） */
-.nav-links {
-  display: none;
-}
-
-/* 基本链接样式 */
-.nav-link {
-  margin: 0 1.8rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #2C3E50;
-  text-decoration: none;
-  position: relative;
+/* 容器：左右两边 + 中间logo */
+.nav-container {
+  width: 100%;
+  max-width: 1200px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.4rem;
-  outline: none; /* 默认不显示 outline（鼠标点击不出现） */
+  padding: 0 2rem;
+  position: relative;
 }
 
-/* 只在键盘Tab时显示轮廓（无障碍） */
-.nav-link:focus-visible {
-  outline: 2px solid rgba(250,203,170,0.8);
-  outline-offset: 4px;
+/* 左右菜单组 */
+.nav-group {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
 }
 
-/* 去掉文字上的荧光笔效果（不使用 text-shadow） */
-.nav-link:hover,
-.nav-link:focus-visible {
-  color: var(--roro-accent);
-  text-shadow: none;
-}
-
-/* --- 关键：从左到右展开的渐变底线 --- */
-.nav-link::after {
-  content: none;
-}
-
-.nav-link:hover,
-.nav-link:focus-visible {
-  color: var(--roro-accent);
-  text-shadow: none;
-}
-
-/* 激活态（保留你原来的行为：显示 logo） */
-.nav-link::before { content: none; } /* 保证没有横线伪元素 */
-.nav-link.active {
-  font-weight: 700;
-  color: var(--roro-main);
-}
-.nav-link.active span {
-  display: none;
-}
-.nav-link.active svg {
-  display: inline-block;
-  width: 72px;
-  height: 72px;
-  vertical-align: middle;
-}
-
-/* 移动端汉堡按钮 */
-.menu-toggle {
-  background: none;
-  border: none;
+/* 中间logo */
+.nav-logo {
   position: absolute;
-  right: 1rem; /* 给一点内边距，不贴边 */
-  top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* 图标按钮样式 */
+.nav-icon {
+  width: 32px;
+  height: 32px;
+  fill: var(--roro-black);
   cursor: pointer;
-  display: block;
-  padding: 0;
-  color: var(--roro-accent);
-  transition: color 0.3s ease;
-  z-index: 1100;
+  transition: fill 0.3s;
+}
+.nav-icon:hover {
+  fill: var(--roro-accent);
 }
 
-/* 保持键盘焦点可见，但点击时不显示（:focus-visible） */
-.menu-toggle:focus {
-  outline: none;
-}
-.menu-toggle:focus-visible {
-  outline: 2px solid rgba(161,116,148,0.18);
-  outline-offset: 4px;
-}
-
-.menu-icon {
-  width: 24px;
-  height: 24px;
-}
-
-/* 移动端菜单（下拉） */
-.mobile-menu {
-  background: #fff;
-  border-top: 1px solid #eee;
-  padding: 1rem 2rem;
-  position: fixed;
-  top: 64px; /* 与 .nav height 保持一致 */
-  left: 0;
-  right: 0;
-  z-index: 999;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
-
-/* 移动链接样式 */
-.mobile-link {
-  display: block;
-  padding: 0.75rem 0;
-  color: #2C3E50;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.1rem;
-  transition: color 0.3s ease;
-  outline: none;
-}
-.mobile-link:focus-visible {
-  outline: 2px solid rgba(250,203,170,0.6);
-  outline-offset: 4px;
-}
-.mobile-link.active {
-  font-weight: 700;
-  color: var(--roro-main);
-}
-
-/* 大屏幕显示导航链接，隐藏移动控件 */
-@media (min-width: 640px) {
-  .nav-links {
-    display: flex;
+/* 移动端处理 */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem 1rem;
   }
-
-  .menu-toggle {
-    display: none;
+  .nav-group {
+    gap: 1rem;
+    margin: 0.5rem 0;
   }
-
-  .mobile-menu {
-    display: none;
+  .nav-logo {
+    position: relative;
+    left: auto;
+    transform: none;
+    margin: 0.5rem 0;
   }
 }
+
+

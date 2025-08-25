@@ -1,4 +1,3 @@
-// components/NavBar.tsx
 'use client';
 
 import Link from 'next/link';
@@ -6,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 import Logo from './Logo';
 import './NavBar.css';
-import { getHmrRefreshHash } from 'next/dist/server/app-render/work-unit-async-storage.external';
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -15,10 +13,9 @@ export default function NavBar() {
 
   const links = [
     { href: '/', label: '首页' },
-    { href: '/rp', label: 'RP' },
+    { href: '/magazine', label: 'Roro 杂志' },
     { href: '/brand-history', label: '品牌历程' },
     { href: '/news-materials', label: '资讯物料' },
-    { href: '/creative-projects', label: '创意项目' },
     { href: '/contact', label: '联系我们' },
   ];
 
@@ -27,7 +24,6 @@ export default function NavBar() {
     toggleButtonRef.current?.focus();
   };
 
-  // 路由变化关闭移动菜单，避免残留/图标错乱
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
@@ -36,14 +32,12 @@ export default function NavBar() {
     <>
       <nav className="nav" role="navigation" aria-label="主导航">
         <div className="nav-container">
-          {/* 移动端左侧logo（缩小为64） */}
           <div className="mobile-logo" style={{ display: 'flex', alignItems: 'center' }}>
             <Link href="/" onClick={handleLinkClick} aria-label="返回首页">
               <Logo size={64} />
             </Link>
           </div>
 
-          {/* 电脑端导航链接 */}
           <div className="nav-links">
             {links.map(({ href, label }) => {
               const active = pathname === href;
@@ -61,7 +55,6 @@ export default function NavBar() {
             })}
           </div>
 
-          {/* 移动端汉堡菜单按钮 */}
           <button
             ref={toggleButtonRef}
             className="menu-toggle"
@@ -89,7 +82,6 @@ export default function NavBar() {
           </button>
         </div>
 
-        {/* 移动端菜单 */}
         {mobileOpen && (
           <div className="mobile-menu" id="mobile-menu">
             {links.map(({ href, label }) => (
@@ -108,17 +100,10 @@ export default function NavBar() {
       </nav>
 
       <style>{`
-        /* 保持你原本的移动端隐藏规则 - 电脑端隐藏 mobile-logo */
         @media (min-width: 640px) {
-          .mobile-logo {
-            display: none !important;
-          }
+          .mobile-logo { display: none !important; }
         }
-
-        /* 给页面主体留出导航高度，避免被固定导航遮挡（若你有全局 main，请保留此项） */
-        main, .page-content {
-          padding-top: 64px;
-        }
+        main, .page-content { padding-top: 64px; }
       `}</style>
     </>
   );
